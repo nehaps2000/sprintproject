@@ -1,38 +1,83 @@
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  width: 100%;
+  height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+
+}
+.Navigation{
+  background-color: rgb(25, 72, 118);
+  padding: 25px;
+}
+
+.btn-div {
+  margin-left: 43%;
+}
+.btn {
+  width: 100px;
+  height: 50px;
+  background-color: rgb(255, 255, 255);
+  color: black;
+  margin-left: 30px;
+}
+table {
+  border: 2px solid rgb(0, 0, 0);
+  width: 800px;
+  height: 200px;
+}
+th {
+  border-bottom: 1px solid black;
+}
+  
+td {
+  text-align: left;
+  border:1px
+  
+}
+.btn-round{
+text-align: center;
+margin-top: auto;
+color:brown;
+background-color: white;
+border:transparent;
+
+
+}
+h1{
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.xx{
+  background-color: #060606;
+  border: none;
   color: white;
+  padding: 10px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 30px;
+  border-radius: 4px;
+  scroll-padding: 4;
+  margin-right: 25px;
+}
+.primary{
+  background-color: #060606;
+  text-align: center;
+  padding-bottom: 25px;
+  border-radius: 4px;
+  font-size: 20px;
+  margin-left: 350px;
+  color: rgb(255, 255, 255);
+
+}
+.secondary{
+  color: rgb(255, 255, 255);
+  background-color: #060606;
+  padding: 1px;
+  font-size: medium;
 }
 
-.App-link {
-  color: #61dafb;
-}
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+
+
+
