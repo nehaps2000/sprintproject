@@ -12,7 +12,7 @@ const Allocations = () => {
   const [show, setShow] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [alert, setAlert] = useState(false);
-
+console.log(allocationModal)
   useEffect(() => {
     axios.get(url).then((response) => {
       setAllocationList(response.data);
@@ -40,6 +40,53 @@ const Allocations = () => {
     setShow(false);
     setAllocationModal({});
   };
+
+  const project = [
+    {
+      label: "Delpheon",
+      value: "1",
+    },
+    {
+      label: "Delpheon cloud",
+      value: "2",
+    },
+    {
+      label: "Railway",
+      value: "3",
+    }
+  ];
+
+
+  const team = [
+    {
+      label: "frontend",
+      value: "1",
+    },
+    {
+      label: "backend",
+      value: "2",
+    },
+    {
+      label: "testing",
+      value: "3",
+    }
+  ];
+
+  const employee = [
+    {
+      label: "Neha",
+      value: "G123",
+    },
+    {
+      label: "Nasrulla",
+      value: "G212",
+    },
+    {
+      label: "Dathan",
+      value: "G323",
+    }
+  ];
+
 
   const deleteOneAllocation = (allocationModal) => {
     const index = allocationList.findIndex(
@@ -84,9 +131,9 @@ const Allocations = () => {
       <table className="table">
         <tr>
           <th>id</th>
-          <th>EmployeeID</th>
-          <th>TeamID</th>
-          <th>ProjectID</th>
+          <th>EmployeeId</th>
+          <th>TeamId</th>
+          <th>ProjectId</th>
           <th>Role</th>
           <th>Hours</th>
 
@@ -96,9 +143,9 @@ const Allocations = () => {
           return (
             <tr key={allocation.id}>
               <td>{allocation.id}</td>
-              <td> {allocation.employeeId}</td>
-              <td> {allocation.teamId}</td>
-              <td> {allocation.projectId}</td>
+              <td> {allocation.employee}</td>
+              <td> {allocation.team}</td>
+              <td> {allocation.project}</td>
               <td> {allocation.role}</td>
               <td> {allocation.hoursperday}</td>
 
@@ -150,7 +197,7 @@ const Allocations = () => {
                 onChange={handleChange}
               ></input>
               <br></br>
-              <Form.Label>Hours per day</Form.Label>
+              <Form.Label>Hoursperday</Form.Label>
               <input
                 name="hoursperday"
                 value={allocationModal.hoursperday || " "}
@@ -158,36 +205,75 @@ const Allocations = () => {
               ></input>
               <br></br>
 
-              <Form.Label>EmployeeID</Form.Label>
-              <input
-                name="employeeId"
-                value={allocationModal.employeeId || " "}
+              <Form.Label>employee</Form.Label>
+            
+    <select
+                class="custom-select"
+                id="inputGroupSelect04"
                 onChange={handleChange}
-              ></input>
+                value={allocationModal?.employee}
+                name="employee"
+              >
+                <option selected>Choose...</option>
+                {employee.map((employee) => (
+                  <option
+                    key={employee.label}
+                    id={employee.value}
+                    value={employee.value}
+                  >
+                    {employee.label}
+                  </option>
+                ))}
+              </select>
+
+
+
               <br></br>
 
               <Form.Label>Team</Form.Label>
-              {/* <input
-                name="teamId"
-                value={allocationModal.teamId || " "}
+              
+              <select
+                class="custom-select"
+                id="inputGroupSelect04"
                 onChange={handleChange}
-              ></input> */}
-
-              <select class="custom-select" id="teamId">
-                <option selected onChange={handleChange} value={allocationModal}>select...</option>
-                <option value="1">FrontEnd</option>
-                <option value="2">Backend</option>
-                <option value="3">Testing</option>
+                value={allocationModal?.team}
+                name="team"
+              >
+                <option selected>Choose...</option>
+                {team.map((team) => (
+                  <option
+                    key={team.label}
+                    id={team.value}
+                    value={team.value}
+                  >
+                    {team.label}
+                  </option>
+                ))}
               </select>
 
               <br></br>
 
               <Form.Label>Project</Form.Label>
-              {/* <input
-                name="projectId"
-                value={allocationModal.projectId || " "}
+              
+              <select
+                class="custom-select"
+                id="inputGroupSelect04"
                 onChange={handleChange}
-              ></input> */}
+                value={allocationModal?.project}
+                name="project"
+              >
+                <option selected>Choose...</option>
+                {project.map((project) => (
+                  <option
+                    key={project.label}
+                    id={project.value}
+                    value={project.value}
+                  >
+                    {project.label}
+                  </option>
+                ))}
+              </select>
+
               <br></br>
             </Form.Group>
           </Form>
