@@ -129,9 +129,9 @@ const Allocations = () => {
       <table className="table">
         <tr>
           <th>id</th>
-          <th>EmployeeId</th>
-          <th>TeamId</th>
-          <th>ProjectId</th>
+          <th>Employee</th>
+          <th>Team</th>
+          <th>Project</th>
           <th>Role</th>
           <th>Hours</th>
 
