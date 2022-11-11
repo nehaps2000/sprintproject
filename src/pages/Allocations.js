@@ -4,7 +4,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useState, useEffect } from "react";
-import { EditOutlined, DeleteOutlined, } from "@ant-design/icons";
+import Edit from "./Edit";
+import Delete from "./Delete";
+import Add from "./Add";
 const Allocations = () => {
   const url = "https://run.mocky.io/v3/36a41f98-356e-4182-aab1-775429653f4f";
   const [allocationList, setAllocationList] = useState([]);
@@ -126,7 +128,7 @@ const Allocations = () => {
 
   return (
     <div>
-      <table className="table">
+      <table className="main">
         <tr>
           <th>id</th>
           <th>Employee</th>
@@ -149,26 +151,11 @@ const Allocations = () => {
 
               <td>
                 <span>
-                  <button
-                    className="xx"
-                    onClick={() => {
-                      editview(allocation);
-                    }}
-                  >
-                    <EditOutlined />
-                  </button>
+                  <Edit onClick={() => editview(allocation)} />
                 </span>
                 {
                   <span>
-                    <button
-                      className="xx"
-                      onClick={() => {
-                        deleteAllocation(allocation);
-                      }}
-                    >
-                      {" "}
-                      <DeleteOutlined />
-                    </button>
+                    <Delete onClick={() => deleteAllocation(allocation)} />
                   </span>
                 }
               </td>
@@ -177,13 +164,10 @@ const Allocations = () => {
         })}
       </table>
 
-      <Button className="primary" onClick={() => showHideModal(true)}>
-        Add
-      </Button>
-
+      <Add onClick={() => showHideModal(true)} />
       <Modal show={show} onHide={() => showHideModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>{isEdit?"Edit":"Add new"} Allocations</Modal.Title>
+          <Modal.Title>{isEdit ? "Edit" : "Add new"} Allocations</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>

@@ -4,7 +4,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useState, useEffect } from "react";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import Edit from "./Edit";
+import Delete from "./Delete";
+import Add from "./Add";
 const Project = () => {
   const url = "https://run.mocky.io/v3/1c83774d-0906-4ea8-9368-49f78ae0f37a";
   const [projectList, setProjectList] = useState([]);
@@ -21,7 +23,7 @@ const Project = () => {
   const addOrEdit = () => {
     if (!isEdit) {
       setProjectList((prev) => {
-        return [...prev, { ...projectModal, id: Date.now()}];
+        return [...prev, { ...projectModal, id: Date.now() }];
       });
     } else {
       const index = projectList.findIndex(
@@ -35,34 +37,30 @@ const Project = () => {
         ];
       });
     }
-    
+
     setShow(false);
     setProjectModal({});
   };
 
   const deleteOneProject = (projectModal) => {
-
-    const index = projectList.findIndex((project) => project.id ===projectModal.id);
-    setProjectList((prev)=>
-    {
-      return[
-        ...prev.slice(0, index),
-        ...prev.slice(index + 1),
-      ]
-    })
-    setAlert(false)
-    setProjectModal({})
+    const index = projectList.findIndex(
+      (project) => project.id === projectModal.id
+    );
+    setProjectList((prev) => {
+      return [...prev.slice(0, index), ...prev.slice(index + 1)];
+    });
+    setAlert(false);
+    setProjectModal({});
   };
 
   const showHideModal = (status) => {
     setShow(status);
-    if (!status) 
-    setProjectModal({});
+    if (!status) setProjectModal({});
     setIsEdit(false);
   };
 
   const showConfirmModel = (status) => {
-   setAlert(status);
+    setAlert(status);
   };
 
   const editview = (currentProject) => {
@@ -71,11 +69,10 @@ const Project = () => {
     setIsEdit(true);
   };
 
-  const deleteProject = (currentProject) =>{
-    setProjectModal({...currentProject});
+  const deleteProject = (currentProject) => {
+    setProjectModal({ ...currentProject });
     showConfirmModel(true);
-
-  }
+  };
 
   const handleChange = ({ target: { name, value } }) => {
     setProjectModal((prev) => {
@@ -85,55 +82,38 @@ const Project = () => {
 
   return (
     <div>
-      
-        <table className="table">
-          <tr>
-            <th>Name</th>
-            <th>id</th>
-            <th>Actions</th>
-          </tr>
-          {projectList?.map((project) => {
-            return (
-              <tr key={project.id}>
-                <td> {project.name}</td>
-                <td> {project.id}</td>
-                <td>
-                  <span>
-                    <button
-                      className="xx"
-                      onClick={() => {
-                        editview(project);
-                      }}
-                    >
-                      <EditOutlined />
-                    </button>
-                  </span>
-                  <span>
-                    <button
-                      className="xx"
-                      onClick={() => {
-                        deleteProject(project);
-                      }
-                    }
-                    >
-                      {" "}
-                      <DeleteOutlined />
-                    </button>
-                  </span>
-                </td>
-              </tr>
-            );
-          })}
-        </table>
-      
+      <table className="main">
+        <tr>
+          <th>Name</th>
+          <th>id</th>
+          <th>Actions</th>
+        </tr>
+        {projectList?.map((project) => {
+          return (
+            <tr key={project.id}>
+              <td> {project.name}</td>
+              <td> {project.id}</td>
+              <td>
+                <span>
+                  <Edit onClick={() => editview(project)} />
+                </span>
 
-      <Button className="primary" onClick={() => showHideModal(true)}>
-      Add
-      </Button>
+                <span>
+                  <Delete onClick={() => deleteProject(project)} />
+                </span>
+              </td>
+            </tr>
+          );
+        })}
+      </table>
+      <span>
+        {" "}
+        <Add onClick={() => showHideModal(true)} />
+      </span>
 
       <Modal show={show} onHide={() => showHideModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>{isEdit?"Edit":"Add new"} Project</Modal.Title>
+          <Modal.Title>{isEdit ? "Edit" : "Add new"} Project</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -177,7 +157,6 @@ const Project = () => {
           <Button
             className="secondary"
             onClick={() => deleteOneProject(projectModal)}
-            
           >
             yes
           </Button>

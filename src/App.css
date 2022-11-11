@@ -8,7 +8,7 @@
 }
 .Navigation{
   background-color: rgb(25, 72, 118);
-  padding: 25px;
+  padding: 50px;
 }
 
 .btn-div {
@@ -21,29 +21,52 @@
   color: black;
   margin-left: 30px;
 }
-table {
-  border: 2px solid rgb(0, 0, 0);
-  width: 800px;
-  height: 200px;
+table{
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
+  width: 50%;
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+  align-self: center;
 }
-th {
-  border-bottom: 1px solid black;
+
+th{
+  border: 1px solid black;
+  border-right: 1px;
+  text-align: center;
 }
-  
-td {
-  text-align: left;
-  border:1px
-  
+
+td{
+  border: 1px solid black;
+  border-right: 1px;
+  text-align: center;
 }
+
+tr{
+  border: 1px solid black;
+  border-right: 1px;
+  text-align: center;
+}
+
 .btn-round{
 text-align: center;
 margin-top: auto;
 color:brown;
 background-color: white;
 border:transparent;
-
-
 }
+
+.main {
+  text-align: center;
+  background-color: rgb(255, 255, 255);
+  margin-left:auto;
+  margin-right:auto;
+  height:50%; 
+   width:50%;
+}
+
 h1{
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
@@ -76,6 +99,8 @@ h1{
   padding: 1px;
   font-size: medium;
 }
+
+
 
 
 
