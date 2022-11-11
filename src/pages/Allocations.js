@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useState, useEffect } from "react";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, } from "@ant-design/icons";
 const Allocations = () => {
   const url = "https://run.mocky.io/v3/36a41f98-356e-4182-aab1-775429653f4f";
   const [allocationList, setAllocationList] = useState([]);
@@ -12,7 +12,7 @@ const Allocations = () => {
   const [show, setShow] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [alert, setAlert] = useState(false);
-console.log(allocationModal)
+  console.log(allocationModal);
   useEffect(() => {
     axios.get(url).then((response) => {
       setAllocationList(response.data);
@@ -53,9 +53,8 @@ console.log(allocationModal)
     {
       label: "Railway",
       value: "3",
-    }
+    },
   ];
-
 
   const team = [
     {
@@ -69,7 +68,7 @@ console.log(allocationModal)
     {
       label: "testing",
       value: "3",
-    }
+    },
   ];
 
   const employee = [
@@ -84,9 +83,8 @@ console.log(allocationModal)
     {
       label: "Dathan",
       value: "G323",
-    }
+    },
   ];
-
 
   const deleteOneAllocation = (allocationModal) => {
     const index = allocationList.findIndex(
@@ -185,7 +183,7 @@ console.log(allocationModal)
 
       <Modal show={show} onHide={() => showHideModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Add new Allocations</Modal.Title>
+          <Modal.Title>{isEdit?"Edit":"Add new"} Allocations</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -206,8 +204,8 @@ console.log(allocationModal)
               <br></br>
 
               <Form.Label>employee</Form.Label>
-            
-    <select
+
+              <select
                 class="custom-select"
                 id="inputGroupSelect04"
                 onChange={handleChange}
@@ -226,12 +224,10 @@ console.log(allocationModal)
                 ))}
               </select>
 
-
-
               <br></br>
 
               <Form.Label>Team</Form.Label>
-              
+
               <select
                 class="custom-select"
                 id="inputGroupSelect04"
@@ -241,11 +237,7 @@ console.log(allocationModal)
               >
                 <option selected>Choose...</option>
                 {team.map((team) => (
-                  <option
-                    key={team.label}
-                    id={team.value}
-                    value={team.value}
-                  >
+                  <option key={team.label} id={team.value} value={team.value}>
                     {team.label}
                   </option>
                 ))}
@@ -254,7 +246,7 @@ console.log(allocationModal)
               <br></br>
 
               <Form.Label>Project</Form.Label>
-              
+
               <select
                 class="custom-select"
                 id="inputGroupSelect04"

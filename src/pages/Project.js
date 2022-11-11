@@ -128,12 +128,12 @@ const Project = () => {
       
 
       <Button className="primary" onClick={() => showHideModal(true)}>
-        Add
+      Add
       </Button>
 
       <Modal show={show} onHide={() => showHideModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Add new project</Modal.Title>
+          <Modal.Title>{isEdit?"Edit":"Add new"} Project</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>

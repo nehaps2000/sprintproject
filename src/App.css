@@ -48,9 +48,9 @@ h1{
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 .xx{
-  background-color: #060606;
+  background-color: #ffffff;
   border: none;
-  color: white;
+  color: rgb(0, 0, 0);
   padding: 10px 10px;
   text-align: center;
   text-decoration: none;
@@ -61,12 +61,12 @@ h1{
   margin-right: 25px;
 }
 .primary{
-  background-color: #060606;
+  background-color: #000000;
   text-align: center;
   padding-bottom: 25px;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 20px;
-  margin-left: 350px;
+  margin-left: 500px;
   color: rgb(255, 255, 255);
 
 }
