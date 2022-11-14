@@ -2,11 +2,12 @@ import * as React from "react";
 
 function Add(props) {
   return (
-    <svg
+    <svg 
       xmlns="http://www.w3.org/2000/svg"
       height="40"
       viewBox="0 0 48 48"
       width="40"
+      
       {...props}
     >
       <path d="M0 0h48v48H0z" fill="none" />

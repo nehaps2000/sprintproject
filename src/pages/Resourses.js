@@ -138,7 +138,7 @@ const Resource = () => {
         })}
       </table>
 
-      <div className="add">
+      <div className="add1">
         <Add
           onClick={() => {
             showHideModal(true);

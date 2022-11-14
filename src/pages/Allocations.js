@@ -130,7 +130,7 @@ const Allocations = () => {
     <div>
       <table className="main">
         <tr>
-          <th>id</th>
+          <th>SL.no</th>
           <th>Employee</th>
           <th>Team</th>
           <th>Project</th>
@@ -163,8 +163,13 @@ const Allocations = () => {
           );
         })}
       </table>
-
-      <Add onClick={() => showHideModal(true)} />
+      <div className="add">
+        <Add
+          onClick={() => {
+            showHideModal(true);
+          }}
+        />
+      </div>
       <Modal show={show} onHide={() => showHideModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>{isEdit ? "Edit" : "Add new"} Allocations</Modal.Title>
@@ -201,9 +206,11 @@ const Allocations = () => {
                   <option
                     key={employee.label}
                     id={employee.value}
-                    value={employee.value}
+                    value={employee.label}
+                    
                   >
                     {employee.label}
+                  
                   </option>
                 ))}
               </select>
@@ -221,7 +228,7 @@ const Allocations = () => {
               >
                 <option selected>Choose...</option>
                 {team.map((team) => (
-                  <option key={team.label} id={team.value} value={team.value}>
+                  <option key={team.label} id={team.value} value={team.label}>
                     {team.label}
                   </option>
                 ))}
@@ -243,7 +250,7 @@ const Allocations = () => {
                   <option
                     key={project.label}
                     id={project.value}
-                    value={project.value}
+                    value={project.label}
                   >
                     {project.label}
                   </option>

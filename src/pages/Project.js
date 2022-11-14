@@ -106,10 +106,13 @@ const Project = () => {
           );
         })}
       </table>
-      <span>
-        {" "}
-        <Add onClick={() => showHideModal(true)} />
-      </span>
+      <div className="add">
+        <Add
+          onClick={() => {
+            showHideModal(true);
+          }}
+        />
+      </div>
 
       <Modal show={show} onHide={() => showHideModal(false)}>
         <Modal.Header closeButton>
