@@ -7,14 +7,13 @@ function Navbar() {
     <nav className="Navigation">
       <div className="btn-div">
         <button className="btn">
-          <Link style={{textDecoration:'none',color:'#000080'}}to = "/project">Project</Link>
-     
+          <Link style={{textDecoration:'none',color:'#000080'}} to = "/project">Project</Link>
         </button>
         <button type="button" className="btn">
           <Link style={{textDecoration:'none',color:'#000080'}} to="/team">Team</Link>
         </button>
         <button type="button" className="btn">
-          <Link style={{textDecoration:'none',color:'#000080'}}to="/allocations">Allocations</Link>
+          <Link style={{textDecoration:'none',color:'#000080'}} to="/allocations">Allocations</Link>
         </button>
         <button type="button" className="btn">
           <Link style={{textDecoration:'none',color:'#000080'}} to="/resourses">Resourses</Link>
