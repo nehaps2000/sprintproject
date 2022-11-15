@@ -1,74 +1,89 @@
 .App {
   width: 100%;
-  height: 100vh;
-  display: flex;
+  height: 100%;
+  display:flex;
   justify-content: center;
   align-items: center;
 
 }
 .Navigation{
   background-color: rgb(25, 72, 118);
-  padding: 25px;
+  padding: 50px;
+  width: 100%;
 }
 
 .btn-div {
-  margin-left: 43%;
+  text-align: center;
+  width: 100%;
 }
 .btn {
   width: 100px;
   height: 50px;
   background-color: rgb(255, 255, 255);
   color: black;
-  margin-left: 30px;
+  margin-right: 10px;
 }
-table {
-  border: 2px solid rgb(0, 0, 0);
-  width: 800px;
-  height: 200px;
+table{
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
+  width: auto;
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+  align-self: center;
 }
-th {
-  border-bottom: 1px solid black;
+
+th{
+  border: 1px solid black;
+  border-right: 1px;
+  text-align: center;
 }
-  
-td {
-  text-align: left;
-  border:1px
-  
+
+td{
+  border: 1px solid black;
+  border-right: 1px;
+  text-align: center;
 }
+
+tr{
+  border: 1px solid black;
+  border-right: 1px;
+  text-align: center;
+}
+
 .btn-round{
 text-align: center;
 margin-top: auto;
 color:brown;
 background-color: white;
 border:transparent;
+}
 
+.main {
+  text-align: center;
+  background-color: rgb(255, 255, 255);
+  margin-left:auto;
+  margin-right:auto;
+  height:50%; 
+  width: 50%;
 
 }
+
 h1{
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
-.xx{
-  background-color: #060606;
-  border: none;
-  color: white;
-  padding: 10px 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 30px;
-  border-radius: 4px;
-  scroll-padding: 4;
-  margin-right: 25px;
-}
+
+
 .primary{
-  background-color: #060606;
+  background-color: #000000;
   text-align: center;
   padding-bottom: 25px;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 20px;
-  margin-left: 350px;
+  margin-left: 500px;
   color: rgb(255, 255, 255);
-
+  width: fit-content;
 }
 .secondary{
   color: rgb(255, 255, 255);
@@ -76,6 +91,26 @@ h1{
   padding: 1px;
   font-size: medium;
 }
+
+.add{
+  display: block;
+  margin-left: 50%;
+  margin-right: 50%;
+
+}
+
+
+label {
+  display: inline-block;
+  width: 250px;
+  color: #777777;
+  margin-bottom: 10px;
+}
+input {
+  padding: 5px 10px;
+  margin-bottom: 10px;
+}
+
 
 
 

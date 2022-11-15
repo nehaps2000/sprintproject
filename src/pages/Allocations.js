@@ -4,7 +4,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useState, useEffect } from "react";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import Edit from "./Edit";
+import Delete from "./Delete";
+import Add from "./Add";
 const Allocations = () => {
   const url = "https://run.mocky.io/v3/36a41f98-356e-4182-aab1-775429653f4f";
   const [allocationList, setAllocationList] = useState([]);
@@ -12,7 +14,7 @@ const Allocations = () => {
   const [show, setShow] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [alert, setAlert] = useState(false);
-console.log(allocationModal)
+  console.log(allocationModal);
   useEffect(() => {
     axios.get(url).then((response) => {
       setAllocationList(response.data);
@@ -53,9 +55,8 @@ console.log(allocationModal)
     {
       label: "Railway",
       value: "3",
-    }
+    },
   ];
-
 
   const team = [
     {
@@ -69,7 +70,7 @@ console.log(allocationModal)
     {
       label: "testing",
       value: "3",
-    }
+    },
   ];
 
   const employee = [
@@ -84,9 +85,8 @@ console.log(allocationModal)
     {
       label: "Dathan",
       value: "G323",
-    }
+    },
   ];
-
 
   const deleteOneAllocation = (allocationModal) => {
     const index = allocationList.findIndex(
@@ -128,12 +128,12 @@ console.log(allocationModal)
 
   return (
     <div>
-      <table className="table">
+      <table className="main">
         <tr>
-          <th>id</th>
-          <th>EmployeeId</th>
-          <th>TeamId</th>
-          <th>ProjectId</th>
+          <th>SL.no</th>
+          <th>Employee</th>
+          <th>Team</th>
+          <th>Project</th>
           <th>Role</th>
           <th>Hours</th>
 
@@ -151,26 +151,11 @@ console.log(allocationModal)
 
               <td>
                 <span>
-                  <button
-                    className="xx"
-                    onClick={() => {
-                      editview(allocation);
-                    }}
-                  >
-                    <EditOutlined />
-                  </button>
+                  <Edit onClick={() => editview(allocation)} />
                 </span>
                 {
                   <span>
-                    <button
-                      className="xx"
-                      onClick={() => {
-                        deleteAllocation(allocation);
-                      }}
-                    >
-                      {" "}
-                      <DeleteOutlined />
-                    </button>
+                    <Delete onClick={() => deleteAllocation(allocation)} />
                   </span>
                 }
               </td>
@@ -178,14 +163,16 @@ console.log(allocationModal)
           );
         })}
       </table>
-
-      <Button className="primary" onClick={() => showHideModal(true)}>
-        Add
-      </Button>
-
+      <div className="add">
+        <Add
+          onClick={() => {
+            showHideModal(true);
+          }}
+        />
+      </div>
       <Modal show={show} onHide={() => showHideModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Add new Allocations</Modal.Title>
+          <Modal.Title>{isEdit ? "Edit" : "Add new"} Allocations</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -206,8 +193,8 @@ console.log(allocationModal)
               <br></br>
 
               <Form.Label>employee</Form.Label>
-            
-    <select
+
+              <select
                 class="custom-select"
                 id="inputGroupSelect04"
                 onChange={handleChange}
@@ -219,19 +206,19 @@ console.log(allocationModal)
                   <option
                     key={employee.label}
                     id={employee.value}
-                    value={employee.value}
+                    value={employee.label}
+                    
                   >
                     {employee.label}
+                  
                   </option>
                 ))}
               </select>
 
-
-
               <br></br>
 
               <Form.Label>Team</Form.Label>
-              
+
               <select
                 class="custom-select"
                 id="inputGroupSelect04"
@@ -241,11 +228,7 @@ console.log(allocationModal)
               >
                 <option selected>Choose...</option>
                 {team.map((team) => (
-                  <option
-                    key={team.label}
-                    id={team.value}
-                    value={team.value}
-                  >
+                  <option key={team.label} id={team.value} value={team.label}>
                     {team.label}
                   </option>
                 ))}
@@ -254,7 +237,7 @@ console.log(allocationModal)
               <br></br>
 
               <Form.Label>Project</Form.Label>
-              
+
               <select
                 class="custom-select"
                 id="inputGroupSelect04"
@@ -267,7 +250,7 @@ console.log(allocationModal)
                   <option
                     key={project.label}
                     id={project.value}
-                    value={project.value}
+                    value={project.label}
                   >
                     {project.label}
                   </option>
