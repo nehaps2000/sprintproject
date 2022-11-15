@@ -160,7 +160,7 @@ const Resource = () => {
                 onChange={handleChange}
               ></input>
               <br></br>
-           
+
               <Form.Label>Name</Form.Label>
               <input
                 name="name"
@@ -170,7 +170,7 @@ const Resource = () => {
               <br></br>
               <Form.Label>Designation</Form.Label>
               <select
-                class="custom-select"
+                className="custom-select"
                 id="inputGroupSelect04"
                 onChange={handleChange}
                 value={resourceModal?.designation}
