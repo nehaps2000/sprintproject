@@ -82,7 +82,7 @@ const Project = () => {
 
   return (
     <div>
-      <table className="main">
+      <table>
         <tr>
           <th>Name</th>
           <th>id</th>

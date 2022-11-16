@@ -128,7 +128,7 @@ const Allocations = () => {
 
   return (
     <div>
-      <table className="main">
+      <table>
         <tr>
           <th>SL.no</th>
           <th>Employee</th>
