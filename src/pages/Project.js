@@ -7,6 +7,9 @@ import { useState, useEffect } from "react";
 import Edit from "./Edit";
 import Delete from "./Delete";
 import Add from "./Add";
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+
 const Project = () => {
   const url = "https://run.mocky.io/v3/1c83774d-0906-4ea8-9368-49f78ae0f37a";
   const [projectList, setProjectList] = useState([]);
@@ -82,30 +85,26 @@ const Project = () => {
 
   return (
     <div>
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>id</th>
-          <th>Actions</th>
-        </tr>
-        {projectList?.map((project) => {
-          return (
-            <tr key={project.id}>
-              <td> {project.name}</td>
-              <td> {project.id}</td>
-              <td>
-                <span>
-                  <Edit onClick={() => editview(project)} />
-                </span>
+     
+      {projectList?.map((project) => {
+        return(
+<Card style={{ width: '18rem' }}>
+      <Card.Body>
+        <Card.Title>{project.name}</Card.Title>
+        <Card.Text>
+          Project ID: {project.id}<br></br>
+        
+        <Edit onClick={() => editview(project)} />
+        <Delete onClick={() => deleteProject(project)} />
+        </Card.Text>
+      
+        <Card.Link href="team">Team</Card.Link>
+        <Card.Link href="resources">Resources</Card.Link>
+      </Card.Body>
+    </Card>
+        );
+      })}
 
-                <span>
-                  <Delete onClick={() => deleteProject(project)} />
-                </span>
-              </td>
-            </tr>
-          );
-        })}
-      </table>
       <div className="add">
         <Add
           onClick={() => {
