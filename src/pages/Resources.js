@@ -106,17 +106,22 @@ const Resource = () => {
         <tr>
           <th>ID</th>
           <th>Employee ID</th>
+          <th>Email</th>
           <th>Name</th>
           <th>Designation</th>
+      
           <th>Actions</th>
+          
         </tr>
         {resourceList?.map((resource) => {
           return (
             <tr key={resource.id}>
               <td>{resource.id}</td>
               <td>{resource.employeeId}</td>
+              <td>{resource.email}</td>
               <td>{resource.name}</td>
               <td>{resource.designation}</td>
+              
               <td>
                 <span>
                   <Edit
@@ -161,6 +166,16 @@ const Resource = () => {
               ></input>
               <br></br>
 
+              
+              <Form.Label>Email</Form.Label>
+              <input
+                name="email"
+                
+                value={resourceModal.email || " "}
+                onChange={handleChange}
+              ></input>
+              <br></br>
+
               <Form.Label>Name</Form.Label>
               <input
                 name="name"
@@ -188,6 +203,11 @@ const Resource = () => {
                 ))}
               </select>
               <br></br>
+
+
+
+
+              
             </Form.Group>
           </Form>
         </Modal.Body>
