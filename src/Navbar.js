@@ -16,7 +16,7 @@ function Navbar() {
           <Link style={{textDecoration:'none',color:'#000080'}} to="/allocations">Allocations</Link>
         </button>
         <button type="button" className="btn">
-          <Link style={{textDecoration:'none',color:'#000080'}} to="/resourses">Resourses</Link>
+          <Link style={{textDecoration:'none',color:'#000080'}} to="/resources">Resources</Link>
         </button>
       </div>
     </nav>
