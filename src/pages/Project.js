@@ -8,7 +8,6 @@ import Edit from "./Edit";
 import Delete from "./Delete";
 import Add from "./Add";
 import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
 
 const Project = () => {
   const url = "https://run.mocky.io/v3/1c83774d-0906-4ea8-9368-49f78ae0f37a";
@@ -102,6 +101,7 @@ const Project = () => {
         <Card.Link href="resources">Resources</Card.Link>
       </Card.Body>
     </Card>
+    
         );
       })}
 
