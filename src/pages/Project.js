@@ -10,6 +10,7 @@ import Add from "./Add";
 import Card from 'react-bootstrap/Card';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { useNavigate } from "react-router-dom";
 
 const Project = () => {
   const url = "https://run.mocky.io/v3/1c83774d-0906-4ea8-9368-49f78ae0f37a";
@@ -18,6 +19,7 @@ const Project = () => {
   const [show, setShow] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [alert, setAlert] = useState(false);
+  const Navigate= useNavigate();
   useEffect(() => {
     axios.get(url).then((response) => {
       setProjectList(response.data);
@@ -84,9 +86,9 @@ const Project = () => {
     });
   };
 
-  // const projectOpen = () => {
-  //   Navigate("/team")
-  //   };
+  const projectOpen = () => {
+    Navigate("/team")
+    };
 
   return (
     <div>
@@ -95,7 +97,7 @@ const Project = () => {
         return(
           
             <Col>
-<Card style={{ width: '18rem' }}>
+<Card style={{ width: '18rem' }} onClick={()=>projectOpen()}>
       <Card.Body>
         <Card.Title>{project.name}</Card.Title>
         <Card.Text>
