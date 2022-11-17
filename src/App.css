@@ -27,7 +27,7 @@ table{
   margin-left: auto;
   margin-right: auto;
   margin-top: 5%;
-  width: auto;
+  width: 50%;
   border: 1px solid black;
   border-collapse: collapse;
   text-align: center;
@@ -109,4 +109,47 @@ label {
 input {
   padding: 5px 10px;
   margin-bottom: 10px;
+}
+
+.container {
+  display: flex;
+  float:left;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;;
+}
+
+.form {
+  width: 420px;
+  box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.form-content {
+  padding-left: 12%;
+  padding-right: 12%;
+}
+
+.form-title {
+  text-align: center;
+  margin-bottom: 1em;
+  font-size: 24px;
+  color: rgb(34, 34, 34);
+  font-weight: 800;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(34, 34, 34);
+}
+
+.branding{
+  text-align: center;
+  justify-content: center;
+
+  align-items:center;
 }
