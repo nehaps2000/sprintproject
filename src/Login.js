@@ -53,9 +53,6 @@ const Login = () => {
               Submit
             </button>
           </div>
-          {/* <p className="forgot-password text-right mt-2">
-            Forgot <Link to ="#">password?</Link>
-          </p> */}
         </div>
       </form>
     </div>
