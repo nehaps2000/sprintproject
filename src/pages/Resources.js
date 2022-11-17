@@ -113,27 +113,27 @@ const Resource = () => {
           <th>Actions</th>
           
         </tr>
-        {resourceList?.map((resource) => {
+        {resourceList?.map((resources) => {
           return (
-            <tr key={resource.id}>
-              <td>{resource.id}</td>
-              <td>{resource.employeeId}</td>
-              <td>{resource.email}</td>
-              <td>{resource.name}</td>
-              <td>{resource.designation}</td>
+            <tr key={resources.id}>
+              <td>{resources.id}</td>
+              <td>{resources.employeeId}</td>
+              <td>{resources.email}</td>
+              <td>{resources.name}</td>
+              <td>{resources.designation}</td>
               
               <td>
                 <span>
                   <Edit
                     onClick={() => {
-                      editResource(resource);
+                      editResource(resources);
                     }}
                   />
                 </span>
                 <span>
                   <Delete
                     onClick={() => {
-                      deleteResource(resource);
+                      deleteResource(resources);
                     }}
                   />
                 </span>
@@ -153,7 +153,7 @@ const Resource = () => {
 
       <Modal show={show} onHide={() => showHideModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>{isEdit ? "Edit" : "Add"} resource</Modal.Title>
+          <Modal.Title>{isEdit ? "Edit" : "Add"} resources</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
