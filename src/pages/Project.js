@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import Edit from "./Edit";
 import Delete from "./Delete";
 import Add from "./Add";
+import Card from 'react-bootstrap/Card';
 
 const Project = () => {
   const url = "https://run.mocky.io/v3/1c83774d-0906-4ea8-9368-49f78ae0f37a";
@@ -81,34 +82,29 @@ const Project = () => {
     });
   };
 
-  return (<>
+  return (
     <div>
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>id</th>
-          <th>Actions</th>
-        </tr>
-        {projectList?.map((project) => {
-          return (
-            
-            <tr key={project.id}>
-              <td> {project.name}</td>
-              <td> {project.id}</td>
-              <td>
-                <span>
-                  <Edit onClick={() => editview(project)} />
-                </span>
-
-                <span>
-                  <Delete onClick={() => deleteProject(project)} />
-                </span>
-              </td>
-            </tr>
-          );
-        })}
-      </table>
+     
+      {projectList?.map((project) => {
+        return(
+<Card style={{ width: '18rem' }}>
+      <Card.Body>
+        <Card.Title>{project.name}</Card.Title>
+        <Card.Text>
+          Project ID: {project.id}<br></br>
+        
+        <Edit onClick={() => editview(project)} />
+        <Delete onClick={() => deleteProject(project)} />
+        </Card.Text>
       
+        <Card.Link href="team">Team</Card.Link>
+        <Card.Link href="resources">Resources</Card.Link>
+      </Card.Body>
+    </Card>
+    
+        );
+      })}
+
       <div className="add">
         <Add
           onClick={() => {
@@ -147,7 +143,6 @@ const Project = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-  
 
       <Modal show={alert} onHide={() => showConfirmModel(false)}>
         <Modal.Header closeButton>
@@ -173,12 +168,7 @@ const Project = () => {
         </Modal.Footer>
       </Modal>
     </div>
-
-</>
-
-
-
-     );
+  );
 };
 
 export default Project;
