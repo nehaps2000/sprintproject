@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import Edit from "./Edit";
 import Delete from "./Delete";
 import Add from "./Add";
-import Card from 'react-bootstrap/Card';
+import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +19,7 @@ const Project = () => {
   const [show, setShow] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [alert, setAlert] = useState(false);
-  const Navigate= useNavigate();
+  const Navigate = useNavigate();
   useEffect(() => {
     axios.get(url).then((response) => {
       setProjectList(response.data);
@@ -87,40 +87,36 @@ const Project = () => {
   };
 
   const projectOpen = () => {
-    Navigate("/team")
-    };
+    Navigate("/team");
+  };
 
   return (
     <div>
-     <Row xs={1} md={5} className="g-4">
-      {projectList?.map((project) => {
-        return(
-          
+      <Row xs={1} md={5} className="g-4">
+        {projectList?.map((project) => {
+          return (
             <Col>
-<Card style={{ width: '18rem' }} onClick={()=>projectOpen()}>
-      <Card.Body>
-        <Card.Title>{project.name}</Card.Title>
-        <Card.Text>
-          Project ID: {project.id}<br></br>
-        
-        <Edit onClick={() => editview(project)} />
-        <Delete onClick={() => deleteProject(project)} />
-        </Card.Text>
-      
-        {/* <Card.Link href="team">Team</Card.Link>
+              <Card style={{ width: "18rem" }} onClick={() => projectOpen()} className="card">
+                <Card.Body>
+                  <Card.Title>{project.name}</Card.Title>
+                  <Card.Text>
+                    Project ID: {project.id}
+                    <br></br>
+                    <Edit onClick={() => editview(project)} />
+                    <Delete onClick={() => deleteProject(project)} />
+                  </Card.Text>
+
+                  {/* <Card.Link href="team">Team</Card.Link>
         <Card.Link href="resources">Resources</Card.Link> */}
-      </Card.Body>
-    </Card>
-    </Col>
-    
-    
-    
-        );
-      })}
+                </Card.Body>
+              </Card>
+            </Col>
+          );
+        })}
       </Row>
 
       <div className="add">
-        <Add
+        <Add className="add"
           onClick={() => {
             showHideModal(true);
           }}
