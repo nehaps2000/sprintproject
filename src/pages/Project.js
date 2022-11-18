@@ -87,7 +87,7 @@ const Project = () => {
   };
 
   const projectOpen = () => {
-    Navigate("/team")
+    Navigate("/ProjectSettings")
     };
 
   return (

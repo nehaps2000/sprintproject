@@ -7,6 +7,7 @@ import Team from "./pages/Team";
 import Allocations from "./pages/Allocations";
 import Resources from "./pages/Resources";
 import Login from "./Login";
+import ProjectSettings from "./pages/ProjectSettings";
 function App() {
   return (<>
     <Router>
@@ -17,7 +18,7 @@ function App() {
         <Route path="/team" element={<Team />} />
         <Route path="/Allocations" element={<Allocations />} />
         <Route path="/Resources" element={<Resources />} />
-        
+        <Route path="/ProjectSettings" element={<ProjectSettings />} />
       </Routes>
     </Router>
    </>
