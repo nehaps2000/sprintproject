@@ -96,7 +96,7 @@ h1{
   display: block;
   margin-left: 50%;
   margin-right: 50%;
-
+  cursor: pointer;
 }
 
 
@@ -153,11 +153,7 @@ label {
 
   align-items:center;
 }
-.add1{
-  margin-left: auto;
-}
 
-.card-header{
-  padding-left: 40%;
- 
+.card{
+  cursor: pointer;
 }
