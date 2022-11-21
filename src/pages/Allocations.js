@@ -8,7 +8,7 @@ import Edit from "./Edit";
 import Delete from "./Delete";
 import Add from "./Add";
 const Allocations = () => {
-  const url = "https://run.mocky.io/v3/36a41f98-356e-4182-aab1-775429653f4f";
+  const url = "http://192.168.20.124/api/Allocation/Allocations";
   const [allocationList, setAllocationList] = useState([]);
   const [allocationModal, setAllocationModal] = useState({});
   const [show, setShow] = useState(false);
