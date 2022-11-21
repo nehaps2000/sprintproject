@@ -96,7 +96,7 @@ h1{
   display: block;
   margin-left: 50%;
   margin-right: 50%;
-  cursor: pointer;
+
 }
 
 
@@ -153,7 +153,23 @@ label {
 
   align-items:center;
 }
+.add1{
+  margin-left: auto;
+}
 
-.card{
-  cursor: pointer;
+.card-header{
+  padding-left: 40%;
+  background-color: rgb(3, 3, 61);
+ 
+}
+.nav-item{
+  
+  border-radius: 6px;
+  margin: 4px;
+  color: aliceblue;
+  font-size: larger;
+  font-family:'Times New Roman', Times, serif;
+  
+  
+  
 }
