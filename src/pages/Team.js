@@ -110,7 +110,7 @@ const Team = () => {
             );
           })}
         </table>
-        <Add
+        <Add className="add"
           onClick={() => {
             showHideModal(true);
           }}

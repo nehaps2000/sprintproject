@@ -165,6 +165,7 @@ const Allocations = () => {
       </table>
       <div className="add">
         <Add
+          className="add"
           onClick={() => {
             showHideModal(true);
           }}
@@ -207,10 +208,8 @@ const Allocations = () => {
                     key={employee.label}
                     id={employee.value}
                     value={employee.label}
-                    
                   >
                     {employee.label}
-                  
                   </option>
                 ))}
               </select>
