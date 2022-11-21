@@ -11,20 +11,22 @@ import Card from 'react-bootstrap/Card';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useNavigate } from "react-router-dom";
-
+// export{CallApi}from "./CallApi";
 const Project = () => {
-  const url = "https://run.mocky.io/v3/1c83774d-0906-4ea8-9368-49f78ae0f37a";
+  const url = "http://192.168.20.124/api/Project/Projects";
   const [projectList, setProjectList] = useState([]);
   const [projectModal, setProjectModal] = useState({});
   const [show, setShow] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [alert, setAlert] = useState(false);
   const Navigate= useNavigate();
+
   useEffect(() => {
     axios.get(url).then((response) => {
       setProjectList(response.data);
     });
   }, [url]);
+
 
   const addOrEdit = () => {
     if (!isEdit) {
@@ -86,8 +88,9 @@ const Project = () => {
     });
   };
 
-  const projectOpen = () => {
-    Navigate("/ProjectSettings")
+
+  const projectOpen = (id) => {
+    Navigate(`/projectSettings/${id}`)
     };
 
   return (
@@ -97,7 +100,7 @@ const Project = () => {
         return(
           
             <Col>
-<Card style={{ width: '18rem' }} onClick={()=>projectOpen()}>
+<Card style={{ width: '18rem' }} onClick={()=>projectOpen(project.id)}>
       <Card.Body>
         <Card.Title>{project.name}</Card.Title>
         <Card.Text>

@@ -14,11 +14,11 @@ function App() {
    
       <Routes>
         <Route path="/" element={<Login/>}/>
-        <Route path="/project" element={<Project />} />
+        <Route path="/project" element={<Project/>} />
         <Route path="/team" element={<Team />} />
         <Route path="/Allocations" element={<Allocations />} />
         <Route path="/Resources" element={<Resources />} />
-        <Route path="/ProjectSettings" element={<ProjectSettings />} />
+        <Route path="/ProjectSettings/:Id" element={<ProjectSettings />} />
       </Routes>
     </Router>
    </>

@@ -10,7 +10,7 @@ import Add from "./Add";
 import { useState, useEffect } from "react";
 
 const Resource = () => {
-  const url = "https://run.mocky.io/v3/93f4c336-68ce-4950-8119-d9afb0e78e23";
+  const url = "http://192.168.20.124/api/Resource/Resources";
   const [resourceList, setResourceList] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [show, setShow] = useState(false);

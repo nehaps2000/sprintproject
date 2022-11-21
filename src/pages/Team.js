@@ -9,7 +9,7 @@ import Add from "./Add";
 
 import { useState, useEffect } from "react";
 const Team = () => {
-  const url = "https://run.mocky.io/v3/f5d2ff60-0936-484a-868f-bf8df64ed630";
+  const url = "http://192.168.20.124/api/Team/Teams";
   const [teamList, setTeamList] = useState([]);
   const [teamModal, setTeamModal] = useState({});
   const [show, setShow] = useState(false);
