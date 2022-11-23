@@ -7,10 +7,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const Navigate = useNavigate();
-  // useEffect(() =>{
-  //   if(localStorage.getItem('https://run.mocky.io/v3/36a41f98-356e-4182-aab1-775429653f4f')){
-  //     history.push("/Welcome")
-  //   }},[])
 
   const Submit = () => {
     Navigate("/Project");

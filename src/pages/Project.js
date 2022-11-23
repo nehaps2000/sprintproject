@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -7,26 +6,28 @@ import { useState, useEffect } from "react";
 import Edit from "./Edit";
 import Delete from "./Delete";
 import Add from "./Add";
-import Card from 'react-bootstrap/Card';
+import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useNavigate } from "react-router-dom";
-// export{CallApi}from "./CallApi";
+import api from "../utility/api";
+
 const Project = () => {
-  const url = "http://192.168.20.124/api/Project/Projects";
+  const url = "/api/Project/Projects";
   const [projectList, setProjectList] = useState([]);
   const [projectModal, setProjectModal] = useState({});
   const [show, setShow] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [alert, setAlert] = useState(false);
-  const Navigate= useNavigate();
+  const Navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(url).then((response) => {
-      setProjectList(response.data);
-    });
+    const apiCall = async () => {
+      let response = await api("get", url);
+      setProjectList(response);
+    };
+    apiCall();
   }, [url]);
-
 
   const addOrEdit = () => {
     if (!isEdit) {
@@ -88,38 +89,33 @@ const Project = () => {
     });
   };
 
-
   const projectOpen = (id) => {
-    Navigate(`/projectSettings/${id}`)
-    };
+    Navigate(`/projectSettings/${id}`);
+  };
 
   return (
     <div>
-     <Row xs={1} md={5} className="g-4">
-      {projectList?.map((project) => {
-        return(
-          
+      <Row xs={1} md={5} className="g-4">
+        {projectList?.map((project) => {
+          return (
             <Col>
-<Card style={{ width: '18rem' }} onClick={()=>projectOpen(project.id)}>
-      <Card.Body>
-        <Card.Title>{project.name}</Card.Title>
-        <Card.Text>
-          Project ID: {project.id}<br></br>
-        
-        <Edit onClick={() => editview(project)} />
-        <Delete onClick={() => deleteProject(project)} />
-        </Card.Text>
-      
-        {/* <Card.Link href="team">Team</Card.Link>
-        <Card.Link href="resources">Resources</Card.Link> */}
-      </Card.Body>
-    </Card>
-    </Col>
-    
-    
-    
-        );
-      })}
+              <Card
+                style={{ width: "18rem" }}
+                onClick={() => projectOpen(project.id)}
+              >
+                <Card.Body>
+                  <Card.Title>{project.name}</Card.Title>
+                  <Card.Text>
+                    Project ID: {project.id}
+                    <br></br>
+                    <Edit onClick={() => editview(project)} />
+                    <Delete onClick={() => deleteProject(project)} />
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          );
+        })}
       </Row>
 
       <div className="add">
