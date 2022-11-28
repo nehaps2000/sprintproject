@@ -40,22 +40,10 @@ const Project = () => {
           let response1 = await api("get", url);
           setProjectList(response1);
         }
-      
       };
       apiCall();
     } else {
       const updateurl = `/api/Project/UpdateProject/${projectModal.id}`;
-      // const index = projectList.findIndex(
-      //   (project) => project.id === projectModal.id
-      // );
-
-      // setProjectList((prev) => {
-      //   return [
-      //     ...prev.slice(0, index),
-      //     { ...projectModal },
-      //     ...prev.slice(index + 1),
-      //   ];
-      // });
       const apiCall = async () => {
         let response = await api("patch", updateurl, projectModal);
         response = await api("get", url);
@@ -70,12 +58,6 @@ const Project = () => {
 
   const deleteOneProject = (projectModal) => {
     const deleteurl = `/api/project/DeleteProject/{projectModal.id}`;
-    // const index = projectList.findIndex(
-    //   (project) => project.id === projectModal.id
-    // );
-    // setProjectList((prev) => {
-    //   return [...prev.slice(0, index), ...prev.slice(index + 1)];
-    // });
     const apiCall = async () => {
       let response = await api("delete", deleteurl);
       setProjectList(response);
@@ -122,19 +104,23 @@ const Project = () => {
         {projectList?.map((project) => {
           return (
             <Col>
-              <Card
-                style={{ width: "18rem" }}
-              
-              >
+              <Card style={{ width: "18rem" }}>
                 <Card.Body>
                   <Card.Title>{project.name}</Card.Title>
-                  <Card.Text style={{width:"max content",height:"max content",border:"solid 1px red"}}  onClick={() => projectOpen(project.id)}>
+                  <Card.Text
+                    style={{
+                      width: "max content",
+                      height: "max content",
+                      border: "solid 1px red",
+                    }}
+                    onClick={() => projectOpen(project.id)}
+                  >
                     Project ID: {project.id}
                     <br></br>
-                 <br></br>
-        </Card.Text>
+                    <br></br>
+                  </Card.Text>
                   <Edit onClick={() => editview(project)} />
-                    <Delete onClick={() => deleteProject(project)} />
+                  <Delete onClick={() => deleteProject(project)} />
                 </Card.Body>
               </Card>
             </Col>
