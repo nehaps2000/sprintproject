@@ -1,16 +1,16 @@
 import React from "react";
-import axios from "axios";
+
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Delete from "./Delete";
 import Edit from "./Edit";
 import Add from "./Add";
-
+import api from "../utility/api";
 import { useState, useEffect } from "react";
 
 const Resource = () => {
-  const url = "http://192.168.20.124/api/Resource/Resources";
+  const url = "/api/Resource/Resources";
   const [resourceList, setResourceList] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [show, setShow] = useState(false);
@@ -18,9 +18,11 @@ const Resource = () => {
   const [del, setDel] = useState(false);
 
   useEffect(() => {
-    axios.get(url).then((response) => {
-      setResourceList(response.data);
-    });
+    const apiCall = async () => {
+      let response = await api("get", url);
+      setResourceList(response);
+    };
+    apiCall();
   }, [url]);
 
   const editResource = (currentResource) => {
@@ -34,34 +36,52 @@ const Resource = () => {
     showDeleteModal(true);
   };
 
-  const addOrEdit = () => {
+  const addOrEdit = (resourceModal) => {
+    const addurl=`/api/Resource/AddResource`
     if (!isEdit) {
-      setResourceList((prev) => {
-        return [...prev, { ...resourceModal, id: Date.now() }];
-      });
+      const apiCall = async () => {
+        let response = await api("post", addurl,resourceModal);
+        if (response) {
+          let response1 = await api("get", url);
+          setResourceList(response1);
+        }
+        // setResourceList((prev) => {
+        //   return [...prev, { ...resourceModal, response }];
+        // });
+        
+
+      };
+      apiCall();
     } else {
-      const index = resourceList.findIndex(
-        (resource) => resource.id === resourceModal.id
-      );
-      setResourceList((prev) => {
-        return [
-          ...prev.slice(0, index),
-          { ...resourceModal },
-          ...prev.slice(index + 1),
-        ];
-      });
+      const apiCall = async () => {
+      const url = `/api/Resource/updateResource/${resourceModal.id}`;
+      let response = await api("patch", url, resourceModal);
+      response = await api("get",url)
+      setResourceList(response);
+    };
+    apiCall();
     }
     setResourceModal({});
     setShow(false);
   };
 
   const deleteOneResource = (resourceModal) => {
-    const index = resourceList.findIndex(
-      (resource) => resource.id === resourceModal.id
-    );
-    setResourceList((prev) => {
-      return [...prev.slice(0, index), ...prev.slice(index + 1)];
-    });
+    const url=`/api/Resource/DeleteResource/${resourceModal.id}`
+    // const index = resourceList.findIndex(
+    //   (resource) => resource.id === resourceModal.id
+    // );
+    // setResourceList((prev) => {
+    //   return [...prev.slice(0, index), ...prev.slice(index + 1)];
+    // });
+    const apiCall = async () => {
+      let response = await api("delete", url);
+      if (response) {
+        let response1 = await api("get", url);
+        setResourceList(response1);
+      }
+    };
+    apiCall();
+
     setDel(false);
     setResourceModal({});
   };
@@ -109,9 +129,8 @@ const Resource = () => {
           <th>Email</th>
           <th>Name</th>
           <th>Designation</th>
-      
+
           <th>Actions</th>
-          
         </tr>
         {resourceList?.map((resources) => {
           return (
@@ -121,7 +140,7 @@ const Resource = () => {
               <td>{resources.email}</td>
               <td>{resources.name}</td>
               <td>{resources.designation}</td>
-              
+
               <td>
                 <span>
                   <Edit
@@ -144,7 +163,8 @@ const Resource = () => {
       </table>
 
       <div>
-        <Add className="add"
+        <Add
+          className="add"
           onClick={() => {
             showHideModal(true);
           }}
@@ -166,11 +186,9 @@ const Resource = () => {
               ></input>
               <br></br>
 
-              
               <Form.Label>Email</Form.Label>
               <input
                 name="email"
-                
                 value={resourceModal.email || " "}
                 onChange={handleChange}
               ></input>
@@ -203,11 +221,6 @@ const Resource = () => {
                 ))}
               </select>
               <br></br>
-
-
-
-
-              
             </Form.Group>
           </Form>
         </Modal.Body>

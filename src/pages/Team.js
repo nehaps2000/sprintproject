@@ -1,15 +1,16 @@
 import React from "react";
-import axios from "axios";
+
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Edit from "./Edit";
 import Delete from "./Delete";
 import Add from "./Add";
-
+import api from "../utility/api";
 import { useState, useEffect } from "react";
+
 const Team = () => {
-  const url = "http://192.168.20.124/api/Team/Teams";
+  const url = "/api/Team/Teams";
   const [teamList, setTeamList] = useState([]);
   const [teamModal, setTeamModal] = useState({});
   const [show, setShow] = useState(false);
@@ -17,35 +18,65 @@ const Team = () => {
   const [del, setDel] = useState(false);
 
   useEffect(() => {
-    axios.get(url).then((response) => {
-      setTeamList(response.data);
-    });
+    const apiCall = async () => {
+      let response = await api("get", url);
+      setTeamList(response);
+    };
+    apiCall();
   }, [url]);
 
-  const addOrEdit = () => {
+  const addOrEdit = (teamModal) => {
+    const addurl = `/api/Team/AddTeam`;
     if (!isEdit) {
-      setTeamList((prev) => {
-        return [...prev, { ...teamModal, id: Date.now() }];
-      });
+      const apiCall = async () => {
+        let response = await api("post", addurl,teamModal);
+        if (response) {
+          let response1 = await api("get", url);
+          setTeamList(response1);
+        }
+        // setTeamList((prev) => {
+        //   return [...prev, { ...teamModal, response }];
+        // });
+        // setTeamList(response);
+
+      };
+      apiCall();
+   
     } else {
-      const index = teamList.findIndex((team) => team.id === teamModal.id);
-      setTeamList((prev) => {
-        return [
-          ...prev.slice(0, index),
-          { ...teamModal },
-          ...prev.slice(index + 1),
-        ];
-      });
+      const updateurl=`/api/Team/UpdateTeam/${teamModal.id}`
+      // const index = teamList.findIndex((team) => team.id === teamModal.id);
+      // setTeamList((prev) => {
+      //   return [
+      //     ...prev.slice(0, index),
+      //     { ...teamModal },
+      //     ...prev.slice(index + 1),
+      //   ];
+      // });
+      const apiCall = async () => {
+        let response = await api("patch", updateurl,teamModal);
+        if (response) {
+          let response1 = await api("get", url);
+          setTeamList(response1);
+        }
+      }
+      apiCall()
+
     }
     setTeamModal({});
     setShow(false);
   };
 
   const deleteOneTeam = (teamModal) => {
-    const index = teamList.findIndex((team) => team.id === teamModal.id);
-    setTeamList((prev) => {
-      return [...prev.slice(0, index), ...prev.slice(index + 1)];
-    });
+    // const index = teamList.findIndex((team) => team.id === teamModal.id);
+    // setTeamList((prev) => {
+    //   return [...prev.slice(0, index), ...prev.slice(index + 1)];
+    // });
+    const deleteurl=`/api/Team/DeleteTeam/${teamModal.id}`
+    const apiCall = async () => {
+      let response = await api("delete", deleteurl);
+      
+    };
+    apiCall();
     setDel(false);
     setTeamModal({});
   };
@@ -110,7 +141,8 @@ const Team = () => {
             );
           })}
         </table>
-        <Add className="add"
+        <Add
+          className="add"
           onClick={() => {
             showHideModal(true);
           }}
@@ -141,6 +173,7 @@ const Team = () => {
             variant="primary"
             onClick={() => {
               addOrEdit(teamModal);
+             
             }}
           >
             Submit
