@@ -1,15 +1,14 @@
 import React from "react";
-import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Edit from "./Edit";
 import Delete from "./Delete";
 import Add from "./Add";
-
+import api from "../utility/api";
 import { useState, useEffect } from "react";
 const Team = () => {
-  const url = "http://192.168.20.124/api/Team/Teams";
+  const url = "/api/Team/Teams";
   const [teamList, setTeamList] = useState([]);
   const [teamModal, setTeamModal] = useState({});
   const [show, setShow] = useState(false);
@@ -17,16 +16,20 @@ const Team = () => {
   const [del, setDel] = useState(false);
 
   useEffect(() => {
-    axios.get(url).then((response) => {
-      setTeamList(response.data);
-    });
+    const apiCall = async () => {
+      let response = await api("get", url);
+      setTeamList(response);
+    };
+    apiCall();
   }, [url]);
 
-  const addOrEdit = () => {
+  const addOrEdit = (teamModal) => {
     if (!isEdit) {
-      setTeamList((prev) => {
-        return [...prev, { ...teamModal, id: Date.now() }];
-      });
+      const apiCall = async () => {
+        let response = await api("post", url, teamModal);
+        setTeamList(response);
+      };
+      apiCall();
     } else {
       const index = teamList.findIndex((team) => team.id === teamModal.id);
       setTeamList((prev) => {
@@ -110,7 +113,8 @@ const Team = () => {
             );
           })}
         </table>
-        <Add className="add"
+        <Add
+          className="add"
           onClick={() => {
             showHideModal(true);
           }}

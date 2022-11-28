@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -7,8 +6,9 @@ import { useState, useEffect } from "react";
 import Edit from "./Edit";
 import Delete from "./Delete";
 import Add from "./Add";
+import api from "../utility/api";
 const Allocations = () => {
-  const url = "http://192.168.20.124/api/Allocation/Allocations";
+  const url = "/api/Allocation/Allocations";
   const [allocationList, setAllocationList] = useState([]);
   const [allocationModal, setAllocationModal] = useState({});
   const [show, setShow] = useState(false);
@@ -16,16 +16,21 @@ const Allocations = () => {
   const [alert, setAlert] = useState(false);
   console.log(allocationModal);
   useEffect(() => {
-    axios.get(url).then((response) => {
-      setAllocationList(response.data);
-    });
+    const apiCall = async () => {
+      let response = await api("get", url);
+      setAllocationList(response);
+    };
+    apiCall();
   }, [url]);
 
   const addOrEdit = () => {
     if (!isEdit) {
-      setAllocationList((prev) => {
-        return [...prev, { ...allocationModal, id: Date.now() }];
-      });
+      const apiCall = async () => {
+        let response = await api("post", url, allocationModal);
+        setAllocationList(response);
+        console.log(response, "project");
+      };
+      apiCall();
     } else {
       const index = allocationList.findIndex(
         (allocation) => allocation.id === allocationModal.id
@@ -89,12 +94,11 @@ const Allocations = () => {
   ];
 
   const deleteOneAllocation = (allocationModal) => {
-    const index = allocationList.findIndex(
-      (allocation) => allocation.id === allocationModal.id
-    );
-    setAllocationList((prev) => {
-      return [...prev.slice(0, index), ...prev.slice(index + 1)];
-    });
+    const apiCall = async () => {
+      let response = await api("delete", url);
+      setAllocationList(response);
+    };
+    apiCall();
     setAlert(false);
     setAllocationModal({});
   };

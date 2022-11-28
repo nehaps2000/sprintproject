@@ -29,11 +29,13 @@ const Project = () => {
     apiCall();
   }, [url]);
 
-  const addOrEdit = () => {
+  const addOrEdit = (projectModal) => {
     if (!isEdit) {
-      setProjectList((prev) => {
-        return [...prev, { ...projectModal, id: Date.now() }];
-      });
+      const apiCall = async () => {
+        let response = await api("post", url, projectModal);
+        setProjectList(response);
+      };
+      apiCall();
     } else {
       const index = projectList.findIndex(
         (project) => project.id === projectModal.id
@@ -52,12 +54,11 @@ const Project = () => {
   };
 
   const deleteOneProject = (projectModal) => {
-    const index = projectList.findIndex(
-      (project) => project.id === projectModal.id
-    );
-    setProjectList((prev) => {
-      return [...prev.slice(0, index), ...prev.slice(index + 1)];
-    });
+    const apiCall = async () => {
+      let response = await api("delete", url);
+      setProjectList(response);
+    };
+    apiCall();
     setAlert(false);
     setProjectModal({});
   };
@@ -98,7 +99,7 @@ const Project = () => {
       <Row xs={1} md={5} className="g-4">
         {projectList?.map((project) => {
           return (
-            <Col>
+            <Col key={project.id}>
               <Card
                 style={{ width: "18rem" }}
                 onClick={() => projectOpen(project.id)}
