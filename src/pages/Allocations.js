@@ -1,4 +1,5 @@
 import React from "react";
+
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -15,6 +16,7 @@ const Allocations = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [alert, setAlert] = useState(false);
   console.log(allocationModal);
+
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
@@ -23,25 +25,35 @@ const Allocations = () => {
     apiCall();
   }, [url]);
 
-  const addOrEdit = () => {
+  const addOrEdit = (allocationModal) => {
     if (!isEdit) {
+      const addurl = `/api/Allocation/AddAllocation`
       const apiCall = async () => {
-        let response = await api("post", url, allocationModal);
-        setAllocationList(response);
-        console.log(response, "project");
+        let response = await api("post", addurl, allocationModal);
+        if (response) {
+          let response1 = await api("get", url);
+          setAllocationList(response1);
+        }
       };
       apiCall();
     } else {
-      const index = allocationList.findIndex(
-        (allocation) => allocation.id === allocationModal.id
-      );
-      setAllocationList((prev) => {
-        return [
-          ...prev.slice(0, index),
-          { ...allocationModal },
-          ...prev.slice(index + 1),
-        ];
-      });
+      const url =`/api/Allocation/UpdateAllocation/${allocationModal.id}`
+      const apiCall = async () => {
+        let response = await api("patch", url, allocationModal);
+        response= await api("get", url)
+      // const index = allocationList.findIndex(
+      //   (allocation) => allocation.id === allocationModal.id
+      // );
+      // setAllocationList((prev) => {
+      //   return [
+      //     ...prev.slice(0, index),
+      //     { ...allocationModal },
+      //     ...prev.slice(index + 1),
+      //   ];
+      // });
+      setAllocationList(response);
+    };
+    apiCall();
     }
 
     setShow(false);
@@ -94,6 +106,13 @@ const Allocations = () => {
   ];
 
   const deleteOneAllocation = (allocationModal) => {
+    // const index = allocationList.findIndex(
+    //   (allocation) => allocation.id === allocationModal.id
+    // );
+    // setAllocationList((prev) => {
+    //   return [...prev.slice(0, index), ...prev.slice(index + 1)];
+    // });
+    const url=`/api/Allocation/DeleteAllocation/${allocationModal.id}`
     const apiCall = async () => {
       let response = await api("delete", url);
       setAllocationList(response);

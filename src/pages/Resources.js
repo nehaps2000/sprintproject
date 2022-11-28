@@ -1,4 +1,5 @@
 import React from "react";
+
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -6,7 +7,6 @@ import Delete from "./Delete";
 import Edit from "./Edit";
 import Add from "./Add";
 import api from "../utility/api";
-
 import { useState, useEffect } from "react";
 
 const Resource = () => {
@@ -36,36 +36,52 @@ const Resource = () => {
     showDeleteModal(true);
   };
 
-  const addOrEdit = () => {
+  const addOrEdit = (resourceModal) => {
+    const addurl=`/api/Resource/AddResource`
     if (!isEdit) {
       const apiCall = async () => {
-        let response = await api("post", url, resourceModal);
-        setResourceList(response);
-        console.log(response, "project");
+        let response = await api("post", addurl,resourceModal);
+        if (response) {
+          let response1 = await api("get", url);
+          setResourceList(response1);
+        }
+        // setResourceList((prev) => {
+        //   return [...prev, { ...resourceModal, response }];
+        // });
+        
+
       };
       apiCall();
     } else {
-      const index = resourceList.findIndex(
-        (resource) => resource.id === resourceModal.id
-      );
-      setResourceList((prev) => {
-        return [
-          ...prev.slice(0, index),
-          { ...resourceModal },
-          ...prev.slice(index + 1),
-        ];
-      });
+      const apiCall = async () => {
+      const url = `/api/Resource/updateResource/${resourceModal.id}`;
+      let response = await api("patch", url, resourceModal);
+      response = await api("get",url)
+      setResourceList(response);
+    };
+    apiCall();
     }
     setResourceModal({});
     setShow(false);
   };
 
   const deleteOneResource = (resourceModal) => {
+    const url=`/api/Resource/DeleteResource/${resourceModal.id}`
+    // const index = resourceList.findIndex(
+    //   (resource) => resource.id === resourceModal.id
+    // );
+    // setResourceList((prev) => {
+    //   return [...prev.slice(0, index), ...prev.slice(index + 1)];
+    // });
     const apiCall = async () => {
       let response = await api("delete", url);
-      setResourceList(response);
+      if (response) {
+        let response1 = await api("get", url);
+        setResourceList(response1);
+      }
     };
     apiCall();
+
     setDel(false);
     setResourceModal({});
   };

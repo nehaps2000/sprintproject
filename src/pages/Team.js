@@ -1,4 +1,5 @@
 import React from "react";
+
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -7,6 +8,7 @@ import Delete from "./Delete";
 import Add from "./Add";
 import api from "../utility/api";
 import { useState, useEffect } from "react";
+
 const Team = () => {
   const url = "/api/Team/Teams";
   const [teamList, setTeamList] = useState([]);
@@ -24,31 +26,57 @@ const Team = () => {
   }, [url]);
 
   const addOrEdit = (teamModal) => {
+    const addurl = `/api/Team/AddTeam`;
     if (!isEdit) {
       const apiCall = async () => {
-        let response = await api("post", url, teamModal);
-        setTeamList(response);
+        let response = await api("post", addurl,teamModal);
+        if (response) {
+          let response1 = await api("get", url);
+          setTeamList(response1);
+        }
+        // setTeamList((prev) => {
+        //   return [...prev, { ...teamModal, response }];
+        // });
+        // setTeamList(response);
+
       };
       apiCall();
+   
     } else {
-      const index = teamList.findIndex((team) => team.id === teamModal.id);
-      setTeamList((prev) => {
-        return [
-          ...prev.slice(0, index),
-          { ...teamModal },
-          ...prev.slice(index + 1),
-        ];
-      });
+      const updateurl=`/api/Team/UpdateTeam/${teamModal.id}`
+      // const index = teamList.findIndex((team) => team.id === teamModal.id);
+      // setTeamList((prev) => {
+      //   return [
+      //     ...prev.slice(0, index),
+      //     { ...teamModal },
+      //     ...prev.slice(index + 1),
+      //   ];
+      // });
+      const apiCall = async () => {
+        let response = await api("patch", updateurl,teamModal);
+        if (response) {
+          let response1 = await api("get", url);
+          setTeamList(response1);
+        }
+      }
+      apiCall()
+
     }
     setTeamModal({});
     setShow(false);
   };
 
   const deleteOneTeam = (teamModal) => {
-    const index = teamList.findIndex((team) => team.id === teamModal.id);
-    setTeamList((prev) => {
-      return [...prev.slice(0, index), ...prev.slice(index + 1)];
-    });
+    // const index = teamList.findIndex((team) => team.id === teamModal.id);
+    // setTeamList((prev) => {
+    //   return [...prev.slice(0, index), ...prev.slice(index + 1)];
+    // });
+    const deleteurl=`/api/Team/DeleteTeam/${teamModal.id}`
+    const apiCall = async () => {
+      let response = await api("delete", deleteurl);
+      
+    };
+    apiCall();
     setDel(false);
     setTeamModal({});
   };
@@ -145,6 +173,7 @@ const Team = () => {
             variant="primary"
             onClick={() => {
               addOrEdit(teamModal);
+             
             }}
           >
             Submit
