@@ -37,8 +37,8 @@ const Project = () => {
       const apiCall = async () => {
         let response = await api("post", addurl, projectModal);
         if (response) {
-          let response1 = await api("get", url);
-          setProjectList(response1);
+          let res = await api("get", url);
+          setProjectList(res);
         }
       };
       apiCall();
@@ -57,10 +57,13 @@ const Project = () => {
   };
 
   const deleteOneProject = (projectModal) => {
-    const deleteurl = `/api/project/DeleteProject/{projectModal.id}`;
+    const deleteurl = `/api/project/DeleteProject/${projectModal.id}`;
     const apiCall = async () => {
       let response = await api("delete", deleteurl);
-      setProjectList(response);
+      if(response){
+        let res= await api("get",url);
+        setProjectList(res);
+      }
     };
     apiCall();
     setAlert(false);
@@ -103,7 +106,7 @@ const Project = () => {
       <Row xs={1} md={5} className="g-4">
         {projectList?.map((project) => {
           return (
-            <Col>
+            <Col key={project.id}>
               <Card style={{ width: "18rem" }}>
                 <Card.Body>
                   <Card.Title>{project.name}</Card.Title>
@@ -111,7 +114,7 @@ const Project = () => {
                     style={{
                       width: "max content",
                       height: "max content",
-                      border: "solid 1px red",
+                      border: "solid 1px black",
                     }}
                     onClick={() => projectOpen(project.id)}
                   >

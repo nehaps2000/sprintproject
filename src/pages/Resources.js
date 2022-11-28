@@ -48,10 +48,12 @@ const Resource = () => {
       apiCall();
     } else {
       const apiCall = async () => {
-        const url = `/api/Resource/updateResource/${resourceModal.id}`;
-        let response = await api("patch", url, resourceModal);
-        response = await api("get", url);
-        setResourceList(response);
+        const editUrl = `/api/Resource/updateResource/${resourceModal.id}`;
+        let response = await api("patch", editUrl, resourceModal);
+        if(response){
+        let res = await api("get", url);
+        setResourceList(res);
+      }
       };
       apiCall();
     }
@@ -60,12 +62,12 @@ const Resource = () => {
   };
 
   const deleteOneResource = (resourceModal) => {
-    const url = `/api/Resource/DeleteResource/${resourceModal.id}`;
+    const delUrl = `/api/Resource/DeleteResource/${resourceModal.id}`;
     const apiCall = async () => {
-      let response = await api("delete", url);
+      let response = await api("delete", delUrl);
       if (response) {
-        let response1 = await api("get", url);
-        setResourceList(response1);
+        let res = await api("get", url);
+        setResourceList(res);
       }
     };
     apiCall();

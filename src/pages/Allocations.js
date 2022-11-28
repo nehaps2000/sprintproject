@@ -26,12 +26,12 @@ const Allocations = () => {
 
   const addOrEdit = (allocationModal) => {
     if (!isEdit) {
-      const addurl = `/api/Allocation/AddAllocation`;
+      const addUrl = `/api/Allocation/AddAllocation`;
       const apiCall = async () => {
-        let response = await api("post", addurl, allocationModal);
+        let response = await api("post", addUrl, allocationModal);
         if (response) {
-          let response1 = await api("get", url);
-          setAllocationList(response1);
+          let res = await api("get", url);
+          setAllocationList(res);
         }
       };
       apiCall();
