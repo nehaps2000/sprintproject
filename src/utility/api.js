@@ -12,6 +12,9 @@ const api = async (method, url, body) => {
   }else if (method === "delete") {
     const response = await axios.delete(newUrl);
     return response.data;
+  }else if (method === "patch") {
+    const response = await axios.patch(newUrl);
+    return response.data;
   }
 };
 
