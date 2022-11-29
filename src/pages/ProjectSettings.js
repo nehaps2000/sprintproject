@@ -19,13 +19,13 @@ const ProjectSettings = () => {
       <div class="card text-center">
         <div class="card-header">
           <ul class="nav nav-tabs card-header-tabs">
-            <li 
+            <li
               class="nav-item"
               onClick={() => {
                 setSelectedTab("Allocations");
               }}
             >
-           Allocations 
+              Allocations
             </li>
             <li
               class="nav-item"
@@ -46,11 +46,9 @@ const ProjectSettings = () => {
           </ul>
         </div>
         <div class="card-body">
-          {/* <h5 class="card-title">..........................</h5>
-          <p class="card-text">.............................</p> */}
-          {selectedTab === "Allocations" ? (
+          {selectedTab === "Team" ? (
             <div>
-              <Allocations></Allocations>
+              <Team></Team>
             </div>
           ) : selectedTab === "Resources" ? (
             <div>
@@ -58,7 +56,7 @@ const ProjectSettings = () => {
             </div>
           ) : (
             <div>
-              <Team></Team>
+              <Allocations></Allocations>
             </div>
           )}
         </div>

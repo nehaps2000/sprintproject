@@ -1,5 +1,4 @@
 import React from "react";
-
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -37,47 +36,38 @@ const Resource = () => {
   };
 
   const addOrEdit = (resourceModal) => {
-    const addurl=`/api/Resource/AddResource`
+    const addurl = `/api/Resource/AddResource`;
     if (!isEdit) {
       const apiCall = async () => {
-        let response = await api("post", addurl,resourceModal);
+        let response = await api("post", addurl, resourceModal);
         if (response) {
           let response1 = await api("get", url);
           setResourceList(response1);
         }
-        // setResourceList((prev) => {
-        //   return [...prev, { ...resourceModal, response }];
-        // });
-        
-
       };
       apiCall();
     } else {
       const apiCall = async () => {
-      const url = `/api/Resource/updateResource/${resourceModal.id}`;
-      let response = await api("patch", url, resourceModal);
-      response = await api("get",url)
-      setResourceList(response);
-    };
-    apiCall();
+        const editUrl = `/api/Resource/updateResource/${resourceModal.id}`;
+        let response = await api("patch", editUrl, resourceModal);
+        if(response){
+        let res = await api("get", url);
+        setResourceList(res);
+      }
+      };
+      apiCall();
     }
     setResourceModal({});
     setShow(false);
   };
 
   const deleteOneResource = (resourceModal) => {
-    const url=`/api/Resource/DeleteResource/${resourceModal.id}`
-    // const index = resourceList.findIndex(
-    //   (resource) => resource.id === resourceModal.id
-    // );
-    // setResourceList((prev) => {
-    //   return [...prev.slice(0, index), ...prev.slice(index + 1)];
-    // });
+    const delUrl = `/api/Resource/DeleteResource/${resourceModal.id}`;
     const apiCall = async () => {
-      let response = await api("delete", url);
+      let response = await api("delete", delUrl);
       if (response) {
-        let response1 = await api("get", url);
-        setResourceList(response1);
+        let res = await api("get", url);
+        setResourceList(res);
       }
     };
     apiCall();

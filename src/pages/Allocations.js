@@ -1,5 +1,4 @@
 import React from "react";
-
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -27,33 +26,23 @@ const Allocations = () => {
 
   const addOrEdit = (allocationModal) => {
     if (!isEdit) {
-      const addurl = `/api/Allocation/AddAllocation`
+      const addUrl = `/api/Allocation/AddAllocation`;
       const apiCall = async () => {
-        let response = await api("post", addurl, allocationModal);
+        let response = await api("post", addUrl, allocationModal);
         if (response) {
-          let response1 = await api("get", url);
-          setAllocationList(response1);
+          let res = await api("get", url);
+          setAllocationList(res);
         }
       };
       apiCall();
     } else {
-      const url =`/api/Allocation/UpdateAllocation/${allocationModal.id}`
+      const url = `/api/Allocation/UpdateAllocation/${allocationModal.id}`;
       const apiCall = async () => {
         let response = await api("patch", url, allocationModal);
-        response= await api("get", url)
-      // const index = allocationList.findIndex(
-      //   (allocation) => allocation.id === allocationModal.id
-      // );
-      // setAllocationList((prev) => {
-      //   return [
-      //     ...prev.slice(0, index),
-      //     { ...allocationModal },
-      //     ...prev.slice(index + 1),
-      //   ];
-      // });
-      setAllocationList(response);
-    };
-    apiCall();
+        response = await api("get", url);
+        setAllocationList(response);
+      };
+      apiCall();
     }
 
     setShow(false);
@@ -106,16 +95,13 @@ const Allocations = () => {
   ];
 
   const deleteOneAllocation = (allocationModal) => {
-    // const index = allocationList.findIndex(
-    //   (allocation) => allocation.id === allocationModal.id
-    // );
-    // setAllocationList((prev) => {
-    //   return [...prev.slice(0, index), ...prev.slice(index + 1)];
-    // });
-    const url=`/api/Allocation/DeleteAllocation/${allocationModal.id}`
+    const url = `/api/Allocation/DeleteAllocation/${allocationModal.id}`;
     const apiCall = async () => {
       let response = await api("delete", url);
-      setAllocationList(response);
+      if (response) {
+        let res = await api("get", url);
+        setAllocationList(res);
+      }
     };
     apiCall();
     setAlert(false);
@@ -145,7 +131,7 @@ const Allocations = () => {
 
   const handleChange = ({ target: { name, value } }) => {
     setAllocationModal((prev) => {
-      return { ...prev, [name]: value };
+      return { ...prev, [name]: name==="employeeId"?value:parseInt(value) };
     });
   };
 
@@ -164,7 +150,7 @@ const Allocations = () => {
         </tr>
         {allocationList?.map((allocation) => {
           return (
-            <tr key={allocation.id}>
+            <tr key={allocation.value}>
               <td>{allocation.id}</td>
               <td> {allocation.employee}</td>
               <td> {allocation.team}</td>
@@ -219,18 +205,18 @@ const Allocations = () => {
               <Form.Label>employee</Form.Label>
 
               <select
-                class="custom-select"
+                className="custom-select"
                 id="inputGroupSelect04"
                 onChange={handleChange}
-                value={allocationModal?.employee}
-                name="employee"
+                value={allocationModal?.employeeId}
+                name="employeeId"
               >
                 <option selected>Choose...</option>
                 {employee.map((employee) => (
                   <option
-                    key={employee.label}
+                    key={employee.value}
                     id={employee.value}
-                    value={employee.label}
+                    value={employee.value}
                   >
                     {employee.label}
                   </option>
@@ -242,15 +228,15 @@ const Allocations = () => {
               <Form.Label>Team</Form.Label>
 
               <select
-                class="custom-select"
+                className="custom-select"
                 id="inputGroupSelect04"
                 onChange={handleChange}
-                value={allocationModal?.team}
-                name="team"
+                value={allocationModal?.teamId}
+                name="teamId"
               >
                 <option selected>Choose...</option>
                 {team.map((team) => (
-                  <option key={team.label} id={team.value} value={team.label}>
+                  <option key={team.label} id={team.value} value={team.value}>
                     {team.label}
                   </option>
                 ))}
@@ -261,18 +247,18 @@ const Allocations = () => {
               <Form.Label>Project</Form.Label>
 
               <select
-                class="custom-select"
+                className="custom-select"
                 id="inputGroupSelect04"
                 onChange={handleChange}
-                value={allocationModal?.project}
-                name="project"
+                value={allocationModal?.projectId}
+                name="projectId"
               >
                 <option selected>Choose...</option>
                 {project.map((project) => (
                   <option
-                    key={project.label}
+                    key={project.value}
                     id={project.value}
-                    value={project.label}
+                    value={project.value}
                   >
                     {project.label}
                   </option>
