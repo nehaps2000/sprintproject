@@ -46,9 +46,9 @@ const ProjectSettings = () => {
           </ul>
         </div>
         <div class="card-body">
-          {selectedTab === "Allocations" ? (
+          {selectedTab === "Team" ? (
             <div>
-              <Allocations></Allocations>
+              <Team></Team>
             </div>
           ) : selectedTab === "Resources" ? (
             <div>
@@ -56,7 +56,7 @@ const ProjectSettings = () => {
             </div>
           ) : (
             <div>
-              <Team></Team>
+              <Allocations></Allocations>
             </div>
           )}
         </div>

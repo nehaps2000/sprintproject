@@ -54,6 +54,10 @@ const Team = () => {
     const deleteurl = `/api/Team/DeleteTeam/${teamModal.id}`;
     const apiCall = async () => {
       let response = await api("delete", deleteurl);
+      if (response) {
+        let res =  await api("get",url);
+        setTeamList(res);
+      }
     };
     apiCall();
     setDel(false);
