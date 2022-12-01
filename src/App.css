@@ -99,6 +99,15 @@ h1{
 
 }
 
+.card{
+  text-align: center;
+  background-color: rgb(255, 255, 255);
+  margin-left:auto;
+  margin-right:auto;
+  height: 100%;
+
+}
+
 
 label {
   display: inline-block;
@@ -244,3 +253,4 @@ label {
 .bm-overlay {
   background:rgb(3, 3, 61);;
 }
+

@@ -1,14 +1,11 @@
-
 import { useState } from "react";
 import Allocations from "./Allocations";
 import Resources from "./Resources";
 import Team from "./Team";
-// import Hamburger from "hamburger-react";
-import { slide as Menu } from 'react-burger-menu'
+import { slide as Menu } from "react-burger-menu";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 const ProjectSettings = () => {
-  
   const [selectedTab, setSelectedTab] = useState(null);
 
   const params = useParams();
@@ -17,26 +14,22 @@ const ProjectSettings = () => {
   return (
     <>
       <div class="card text-center">
-      <div className="Hamburger">
-          {/* <Hamburger toggled={isOpen} toggle={setOpen} >
-            
-          </Hamburger> */}
-      <Menu>
-       <Link  id="projectsettings" className="menu-item" to="/projectsettings">Project Settings</Link>
-      <Link  id="about" className="menu-item" to="/sprintsettings">Sprint Settings</Link>
-       
-
-      </Menu>
-      
-
-
-
-          </div>
+        <div className="Hamburger">
+          <Menu>
+            <Link
+              id="projectsettings"
+              className="menu-item"
+              to="/projectsettings"
+            >
+              Project Settings
+            </Link>
+            <Link id="about" className="menu-item" to="/sprintsettings">
+              Sprint Settings
+            </Link>
+          </Menu>
+        </div>
         <div class="card-header">
-          
-    
           <ul class="nav nav-tabs card-header-tabs">
-        
             <li
               class="nav-item"
               onClick={() => {
@@ -64,7 +57,6 @@ const ProjectSettings = () => {
           </ul>
         </div>
         <div class="card-body">
-     
           {selectedTab === "Team" ? (
             <div>
               <Team></Team>
