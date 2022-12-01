@@ -11,7 +11,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useNavigate } from "react-router-dom";
 import api from "../utility/api";
-
+import { Calendar } from "react-calendar";
 const Project = () => {
   const url = "/api/Project/Projects";
   const [projectList, setProjectList] = useState([]);
@@ -20,6 +20,7 @@ const Project = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [alert, setAlert] = useState(false);
   const Navigate = useNavigate();
+  const [selectedTab, setSelectedTab] = useState(null);
 
   useEffect(() => {
     const apiCall = async () => {
@@ -60,8 +61,8 @@ const Project = () => {
     const deleteurl = `/api/project/DeleteProject/${projectModal.id}`;
     const apiCall = async () => {
       let response = await api("delete", deleteurl);
-      if(response){
-        let res= await api("get",url);
+      if (response) {
+        let res = await api("get", url);
         setProjectList(res);
       }
     };
@@ -102,99 +103,145 @@ const Project = () => {
   };
 
   return (
-    <div>
-      <Row xs={1} md={5} className="g-4">
-        {projectList?.map((project) => {
-          return (
-            <Col key={project.id}>
-              <Card style={{ width: "18rem" }}>
-                <Card.Body>
-                  <Card.Title>{project.name}</Card.Title>
-                  <Card.Text
-                    style={{
-                      width: "max content",
-                      height: "max content",
-                      border: "solid 1px black",
-                    }}
-                    onClick={() => projectOpen(project.id)}
-                  >
-                    Project ID: {project.id}
-                    <br></br>
-                    <br></br>
-                  </Card.Text>
-                  <Edit onClick={() => editview(project)} />
-                  <Delete onClick={() => deleteProject(project)} />
-                </Card.Body>
-              </Card>
-            </Col>
-          );
-        })}
-      </Row>
-
-      <div className="add">
-        <Add
-          onClick={() => {
-            showHideModal(true);
-          }}
-        />
+    <>
+    <div class="card text-center">
+        <div class="card-header">
+          <ul class="nav nav-tabs card-header-tabs">
+            <li
+              class="nav-item"
+              onClick={() => {
+                setSelectedTab("Project");
+              }}
+            >
+              Projects
+            </li>
+            <li
+              class="nav-item"
+              onClick={() => {
+                setSelectedTab("Calendar");
+              }}
+            >
+              Holiday Calendar
+            </li>
+          </ul>
+        </div>
+        <div class="card-body">
+          {selectedTab === "Calendar" ? (
+            <div>
+              <Calendar></Calendar>
+            </div>
+          ) : (
+            <div>
+               <div>
+          <Row xs={1} md={5} className="g-4">
+            {projectList?.map((project) => {
+              return (
+                <Col key={project.id}>
+                  <Card style={{ width: "auto" }}>
+                    <Card.Body>
+                      <Card.Title>{project.name}</Card.Title>
+                      <Card.Text
+                        style={{
+                          width: "max content",
+                          height: "max content",
+                          border: "solid 1px black",
+                        }}
+                        onClick={() => projectOpen(project.id)}
+                      >
+                        Project ID: {project.id}
+                        <br></br>
+                        <br></br>
+                      </Card.Text>
+                      <Edit onClick={() => editview(project)} />
+                      <Delete onClick={() => deleteProject(project)} />
+                    </Card.Body>
+                  </Card>
+                </Col>
+              );
+            })}
+          </Row>
+        </div>
+            </div>
+          )}
+        </div>
       </div>
+      <div>
+       
 
-      <Modal show={show} onHide={() => showHideModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>{isEdit ? "Edit" : "Add new"} Project</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Name</Form.Label>
-              <input
-                name="name"
-                value={projectModal.name || " "}
-                onChange={handleChange}
-              ></input>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => showHideModal(false)}>
-            Cancel
-          </Button>
-          <Button
-            variant="primary"
+        <div className="add">
+          <Add
             onClick={() => {
-              console.log("calling");
-              addOrEdit(projectModal);
+              showHideModal(true);
             }}
-          >
-            Submit
-          </Button>
-        </Modal.Footer>
-      </Modal>
+          />
+        </div>
 
-      <Modal show={alert} onHide={() => showConfirmModel(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Delete Project?</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <h1>Do you really want to delete?</h1>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            className="secondary"
-            onClick={() => deleteOneProject(projectModal)}
-          >
-            yes
-          </Button>
-          <Button className="secondary" onClick={() => showConfirmModel(false)}>
-            Cancel
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
+        <Modal show={show} onHide={() => showHideModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>{isEdit ? "Edit" : "Add new"} Project</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label>Name</Form.Label>
+                <input
+                  name="name"
+                  value={projectModal.name || " "}
+                  onChange={handleChange}
+                ></input>
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => showHideModal(false)}>
+              Cancel
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                console.log("calling");
+                addOrEdit(projectModal);
+              }}
+            >
+              Submit
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={alert} onHide={() => showConfirmModel(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Delete Project?</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <h1>Do you really want to delete?</h1>
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              className="secondary"
+              onClick={() => deleteOneProject(projectModal)}
+            >
+              yes
+            </Button>
+            <Button
+              className="secondary"
+              onClick={() => showConfirmModel(false)}
+            >
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    </>
   );
 };
 
