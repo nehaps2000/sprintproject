@@ -1,10 +1,13 @@
 import axios from "axios";
-let baseUrl = "http://192.168.20.124";
+const token=localStorage.getItem("token")
 
-const api = async (method, url, body) => {
+let baseUrl = "http://192.168.20.124";
+let headers = {headers:{"authorization":`Bearer ${token}`}}
+const api = async (method, url, body,headers) => {
   let newUrl = baseUrl + url;
+
   if (method === "get") {
-    const response = await axios.get(newUrl);
+    const response = await axios.get(newUrl,headers);
     return response.data;
   } else if (method === "post") {
     const response = await axios.post(newUrl,body);
