@@ -18,7 +18,7 @@ const Team = () => {
 
   useEffect(() => {
     const apiCall = async () => {
-      let response = await api("get", url);
+      let response = await api("get", url,);
       setTeamList(response);
     };
     apiCall();
@@ -28,7 +28,7 @@ const Team = () => {
     const addurl = `/api/Team/AddTeam`;
     if (!isEdit) {
       const apiCall = async () => {
-        let response = await api("post", addurl, teamModal);
+        let response = await api("post", addurl, teamModal,);
         if (response) {
           let response1 = await api("get", url);
           setTeamList(response1);
