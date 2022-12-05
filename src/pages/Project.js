@@ -28,7 +28,7 @@ const Project = () => {
 
   useEffect(() => {
     const apiCall = async () => {
-      let response = await api("get", url,null,{headers:{"authorization":`Bearer ${token}`}});
+      let response = await api("get", url);
       let response2 = await api("get", url2);
       setProjectList(response);
       setHolidayList(response2);
@@ -44,7 +44,7 @@ const Project = () => {
       const apiCall = async () => {
         let response = await api("post", addurl, projectModal);
         if (response) {
-          let res = await api("get", url,{headers:{"authorization":`Bearer ${token}`}});
+          let res = await api("get", url);
           setProjectList(res);
         }
       };

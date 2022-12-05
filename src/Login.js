@@ -9,11 +9,11 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const Navigate = useNavigate();
 
-   useEffect(()=>{
-    if(!localStorage.getItem('token')){
-      Navigate("/project");
-    }
-   })
+  //  useEffect(()=>{
+  //   if(!localStorage.getItem('token')){
+  //     Navigate("/project");
+  //   }
+  //  })
   const handleEmail = (e) => {
     setEmail(e.target.value);
   };
