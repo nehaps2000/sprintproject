@@ -178,7 +178,7 @@ label {
   color: aliceblue;
   font-size: larger;
   font-family:'Times New Roman', Times, serif;
-  
+  cursor: pointer;
   
   
 }
@@ -276,4 +276,21 @@ label {
   position: absolute;
   right: 1vw;
   width: 40vw;
+ }
+ .dropdown-item{
+  color:rgb(13, 11, 11);
+
+ }
+ .logout{
+  margin-left: 90%;
+  margin-top: 20px;
+  
+ }
+ .menu-item1{
+  background-color: transparent;
+  width: fit-content;
+  margin-left: 60px;
+  border-radius: 2px;
+  color: #ffffff;
+
  }
