@@ -134,7 +134,7 @@ const Team = () => {
 
       <Modal show={show} onHide={() => showHideModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Add/Edit team</Modal.Title>
+          <Modal.Title>{isEdit ? "Edit" : "Add new"} Team</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
