@@ -9,18 +9,26 @@ import Add from "./Add";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../utility/api";
-import Calendar from "react-calendar";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionItemHeading,
+  AccordionItemButton,
+  AccordionItemPanel,
+} from "react-accessible-accordion";
+import "react-accessible-accordion/dist/fancy-example.css";
 
 const Project = () => {
   const url = "/api/Project/Projects";
   const url2 = "/api/Calendar/GetHoliday";
   const [projectList, setProjectList] = useState([]);
   const [projectModal, setProjectModal] = useState({});
-  const [show, setShow] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [alert, setAlert] = useState(false);
+  const [addProjectModal, setAddProjectModal] = useState(false);
+  const [deleteProjectModal, setDeleteProjectModal] = useState(false);
+  const [addHolidayModal, setaddHolidayModal] = useState(false);
   const Navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState(null);
   const [holidayList, setHolidayList] = useState([]);
@@ -35,7 +43,7 @@ const Project = () => {
     };
     apiCall();
   }, [url]);
-  const token=localStorage.getItem("token");
+
   const addOrEdit = (projectModal) => {
     console.log("projectModal" + projectModal);
     const addurl = `/api/Project/addProject`;
@@ -59,7 +67,7 @@ const Project = () => {
       apiCall();
     }
 
-    setShow(false);
+    setAddProjectModal(false);
     setProjectModal({});
   };
 
@@ -73,18 +81,18 @@ const Project = () => {
       }
     };
     apiCall();
-    setAlert(false);
+    setDeleteProjectModal(false);
     setProjectModal({});
   };
 
   const showHideModal = (status) => {
-    setShow(status);
+    setAddProjectModal(status);
     if (!status) setProjectModal({});
     setIsEdit(false);
   };
 
-  const showConfirmModel = (status) => {
-    setAlert(status);
+  const showConfirmModal = (status) => {
+    setDeleteProjectModal(status);
   };
 
   const editview = (currentProject) => {
@@ -95,7 +103,7 @@ const Project = () => {
 
   const deleteProject = (currentProject) => {
     setProjectModal({ ...currentProject });
-    showConfirmModel(true);
+    showConfirmModal(true);
   };
 
   const handleChange = ({ target: { name, value } }) => {
@@ -115,7 +123,7 @@ const Project = () => {
   };
 
   const showHolidayModal = (status) => {
-    setShow(status);
+    setaddHolidayModal(status);
     if (!status) setHolidayModal({});
   };
 
@@ -130,11 +138,26 @@ const Project = () => {
     };
     apiCall();
   };
-console.log(holidayModal)
+
+  const logout = (e) => {
+    e.preventDefault();
+    console.log("Logout");
+
+    localStorage.clear();
+    Navigate("/");
+  };
+
   return (
     <>
       <div class="card text-center">
         <div class="card-header">
+          <div>
+            <button className="logout">
+              <Link className="dropdown-item" to="#" onClick={logout}>
+                Logout
+              </Link>
+            </button>
+          </div>
           <ul class="nav nav-tabs card-header-tabs">
             <li
               class="nav-item"
@@ -150,52 +173,36 @@ console.log(holidayModal)
                 setSelectedTab("Calendar");
               }}
             >
-              Holiday Calendar
+              Holidays
             </li>
           </ul>
         </div>
         <div class="card-body">
           {selectedTab === "Calendar" ? (
             <div>
-              <Calendar
-                onClickDay={() => {
+              <Accordion allowMultipleExpanded={true} allowZeroExpanded={true}>
+                {holidayList?.map((holiday) => {
+                  return (
+                    <>
+                      <AccordionItem>
+                        <AccordionItemHeading>
+                          <AccordionItemButton>
+                            {holiday.date}
+                          </AccordionItemButton>
+                        </AccordionItemHeading>
+                        <AccordionItemPanel>
+                          <h2>{holiday.name}</h2>
+                        </AccordionItemPanel>
+                      </AccordionItem>
+                    </>
+                  );
+                })}
+              </Accordion>
+              <Add
+                onClick={() => {
                   showHolidayModal(true);
                 }}
-              ></Calendar>
-              {holidayList?.map((holiday) => {
-                return (
-                  <div class="accordion" id="accordionPanelsStayOpenExample">
-                    <div class="accordion-item">
-                      <h2
-                        class="accordion-header"
-                        id="panelsStayOpen-headingOne"
-                      >
-                        <button
-                          class="accordion-button"
-                          type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#panelsStayOpen-collapseOne"
-                          aria-expanded="true"
-                          aria-controls="panelsStayOpen-collapseOne"
-                        >
-                          hjmfhmh
-                        </button>
-                      </h2>
-                      <div
-                        id="panelsStayOpen-collapseOne"
-                        class="accordion-collapse collapse show"
-                        aria-labelledby="panelsStayOpen-headingOne"
-                      >
-                        <div class="accordion-body">
-                          <strong>
-                            This is the first item's accordion body.
-                          </strong>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+              ></Add>
             </div>
           ) : (
             <div>
@@ -241,7 +248,7 @@ console.log(holidayModal)
       </div>
 
       <div>
-        <Modal show={show} onHide={() => showHideModal(false)}>
+        <Modal show={addProjectModal} onHide={() => showHideModal(false)}>
           <Modal.Header closeButton>
             <Modal.Title>{isEdit ? "Edit" : "Add new"} Project</Modal.Title>
           </Modal.Header>
@@ -275,7 +282,7 @@ console.log(holidayModal)
           </Modal.Footer>
         </Modal>
 
-        <Modal show={alert} onHide={() => showConfirmModel(false)}>
+        <Modal show={deleteProjectModal} onHide={() => showConfirmModal(false)}>
           <Modal.Header closeButton>
             <Modal.Title>Delete Project?</Modal.Title>
           </Modal.Header>
@@ -294,18 +301,18 @@ console.log(holidayModal)
               className="secondary"
               onClick={() => deleteOneProject(projectModal)}
             >
-              yes
+              Yes
             </Button>
             <Button
               className="secondary"
-              onClick={() => showConfirmModel(false)}
+              onClick={() => showConfirmModal(false)}
             >
               Cancel
             </Button>
           </Modal.Footer>
         </Modal>
 
-        <Modal show={show} onHide={() => showHolidayModal(false)}>
+        <Modal show={addHolidayModal} onHide={() => showHolidayModal(false)}>
           <Modal.Header closeButton>
             <Modal.Title>Add new holiday</Modal.Title>
           </Modal.Header>
@@ -316,7 +323,13 @@ console.log(holidayModal)
                 controlId="exampleForm.ControlInput1"
               >
                 <Form.Label>Date</Form.Label>
-                <input name="holidayDate" value={Date}></input>
+                <input
+                  name="holidayDate"
+                  class="form-label"
+                  for="formControlDisabled"
+                  type="date"
+                  onChange={handleHolidayChange}
+                ></input>
                 <Form.Label>Name</Form.Label>
                 <input
                   name="holidayName"
