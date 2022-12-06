@@ -1,12 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
 import api from "./utility/api";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // const [isLoggedIn, setIsLoggedIn] = useState("false");
   const Navigate = useNavigate();
 
   //  useEffect(()=>{
@@ -14,6 +17,11 @@ const Login = () => {
   //     Navigate("/project");
   //   }
   //  })
+  // const showToastMessage = () => {
+  //   toast.error("Wrong Creditentials !", {
+  //     position: toast.POSITION.TOP_RIGHT,
+  //   });
+  // };
   const handleEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -25,24 +33,24 @@ const Login = () => {
     let response = await api("post", "/api/Auth/Login", {
       username: email,
       password: password,
-      
     });
-   
-      if (response!=="Wrong Credentials!")
-      {
 
-      console.log(response);
+    if (response !== "Wrong Credentials!") {
+      
 
-        localStorage.setItem("token", response);
+      localStorage.setItem("token", response);
 
-        Navigate("/project");
-      }
-      // })
-      // .catch((error) => {
-      //   alert("service error");
-      //   console.log(error);
-      // });
-    
+      Navigate("/project");
+    } else {
+      toast.error("wrong credentials !", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+    // })
+    // .catch((error) => {
+    //   alert("service error");
+    //   console.log(error);
+    // });
   };
   return (
     <>
@@ -83,6 +91,8 @@ const Login = () => {
         </form>
       </div>
       <div className="branding">
+        <ToastContainer />
+
         <h1 className="brandName">GadgEon</h1>
         <h3>Sprint planner</h3>
       </div>

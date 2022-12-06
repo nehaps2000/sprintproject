@@ -18,8 +18,8 @@ const ProjectSettings = () => {
           <Menu>
             <Link
               id="projectsettings"
-              className="menu-item"
-              to="/projectsettings"
+              className="menu-item1"
+              to="#"
             >
               Project Settings
             </Link>
