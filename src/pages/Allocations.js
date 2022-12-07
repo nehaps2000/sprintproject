@@ -190,14 +190,14 @@ const Allocations = () => {
               <Form.Label>Role</Form.Label>
               <input
                 name="role"
-                value={allocationModal.role || " "}
+                value={allocationModal.role ||""}
                 onChange={handleChange}
               ></input>
               <br></br>
               <Form.Label>Hoursperday</Form.Label>
               <input
                 name="hoursperday"
-                value={allocationModal.hoursperday || " "}
+                value={allocationModal.hoursperday || ""}
                 onChange={handleChange}
               ></input>
               <br></br>
