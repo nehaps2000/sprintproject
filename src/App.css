@@ -6,7 +6,6 @@
   align-items: center;
 
 }
-
 .Navigation{
   background-color: rgb(25, 72, 118);
   padding: 50px;
@@ -17,7 +16,6 @@
   text-align: center;
   width: 100%;
 }
-
 .btn {
   width: 100px;
   height: 50px;
@@ -25,7 +23,6 @@
   color: black;
   margin-right: 10px;
 }
-
 table{
   margin-left: auto;
   margin-right: auto;
@@ -70,11 +67,13 @@ border:transparent;
   margin-right:auto;
   height:50%; 
   width: 50%;
+
 }
 
 h1{
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
+
 
 .primary{
   background-color: #000000;
@@ -86,7 +85,6 @@ h1{
   color: rgb(255, 255, 255);
   width: fit-content;
 }
-
 .secondary{
   color: rgb(255, 255, 255);
   background-color: #060606;
@@ -98,6 +96,7 @@ h1{
   display: block;
   margin-left: 50%;
   margin-right: 50%;
+
 }
 
 .card{
@@ -106,7 +105,9 @@ h1{
   margin-left:auto;
   margin-right:auto;
   height: 100%;
+
 }
+
 
 label {
   display: inline-block;
@@ -114,7 +115,6 @@ label {
   color: #777777;
   margin-bottom: 10px;
 }
-
 input {
   padding: 5px 10px;
   margin-bottom: 10px;
@@ -162,7 +162,6 @@ label {
 
   align-items:center;
 }
-
 .add1{
   margin-left: auto;
 }
@@ -172,41 +171,46 @@ label {
   background-color: rgb(3, 3, 61);
  
 }
-
 .nav-item{
+  
   border-radius: 6px;
   margin: 4px;
-  color: #fff;
+  color: rgb(0, 0, 0);
   font-size: larger;
   font-family:'Times New Roman', Times, serif;
   cursor: pointer;
+  background-color: #fdfdfd;
+  width:100px;
+
+  
+  
+}
+.nav-item:hover{
+  color :rgb(255, 0, 8)
 }
 
-li.nav-item:active{
-  background-color: #000;
-}
 
 .Hamburger{
-  color: #fff;
+  color: rgb(255, 255, 255);
+
   height: 4px;
   width: 30px;
   transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
   border-radius: 2px;
   margin-right: 100%;
 }
-
 .bm-item {
   display: inline-block;
 
   /* Our sidebar item styling */
   text-decoration: none;
   margin-bottom: 10px;
-  color: #d1d1d1;
+  color: white;
   transition: color 0.2s;
 }
 
 .bm-item:hover {
-  color: white;
+  color: rgb(237, 241, 232);
 }
 
 .bm-burger-button {
@@ -215,7 +219,7 @@ li.nav-item:active{
   height: 30px;
   left: 36px;
   top: 15px;
-  color: #fff;
+  color: rgb(240, 245, 248);
   
 }
 
@@ -237,7 +241,7 @@ li.nav-item:active{
 
 /* General sidebar styles */
 .bm-menu {
-  background: #000;
+  background: rgb(9, 1, 52);
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
 }
@@ -267,7 +271,6 @@ li.nav-item:active{
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.125em;
  }
-
  .react-calendar__navigation button {
   color: #6f48eb;
   min-width: 44px;
@@ -276,23 +279,27 @@ li.nav-item:active{
   margin-top: 8px;
  }
 
+
  .dropdown-item{
   color:rgb(13, 11, 11);
- }
 
+ }
  .logout{
   margin-left: 90%;
-  margin-top: 20px;
+  margin-top: auto;
+  padding-right: 1%;
+  
  }
-
  .menu-item1{
-  background-color: transparent;
   width: fit-content;
   margin-left: 60px;
-  border-radius: 2px;
-  color: #ffffff;
+  border-radius: 6px;
+  color: #000000;
+   background-color: #ababac;
+   padding: 4px;
+   
  }
+ .menu-item1:hover{
+  color:red
 
- .logout{
-  padding-right: 1%;
  }

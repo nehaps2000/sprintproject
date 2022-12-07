@@ -5,11 +5,13 @@ import Team from "./Team";
 import { slide as Menu } from "react-burger-menu";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+
 const ProjectSettings = () => {
+  
   const [selectedTab, setSelectedTab] = useState(null);
 
   const params = useParams();
-  console.log(params);
+  console.log(params.Id);
 
   return (
     <>
@@ -23,7 +25,9 @@ const ProjectSettings = () => {
             >
               Project Settings
             </Link>
-            <Link id="about" className="menu-item" to="/sprintsettings">
+            <Link to= 
+           { `/${params.Id}/SprintSettings`}
+              >
               Sprint Settings
             </Link>
           </Menu>
@@ -58,7 +62,7 @@ const ProjectSettings = () => {
         </div>
         <div class="card-body">
           {selectedTab === "Team" ? (
-            <div>
+            <div className={window.location}>
               <Team></Team>
             </div>
           ) : selectedTab === "Resources" ? (
