@@ -8,6 +8,7 @@ import Resources from "./pages/Resources";
 import Login from "./Login";
 import ProjectSettings from "./pages/ProjectSettings";
 import SprintSettings from "./pages/SprintSettings";
+import StoryLog from "./pages/StoryLog";
 function App() {
   return (
     <>
@@ -20,6 +21,7 @@ function App() {
           <Route path="/Resources" element={<Resources />} />
           <Route path="/:Id/ProjectSettings" element={<ProjectSettings />} />
           <Route path="/:Id/SprintSettings" element={<SprintSettings />} />
+          <Route path="/:Id/StoryLog" element={<StoryLog />} />
         </Routes>
       </Router>
     </>

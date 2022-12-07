@@ -30,6 +30,11 @@ const ProjectSettings = () => {
               >
               Sprint Settings
             </Link>
+            <Link to= 
+           { `/${params.Id}/StoryLog`}
+              >
+            Story BackLog
+            </Link>
           </Menu>
         </div>
         <div class="card-header">
