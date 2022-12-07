@@ -175,16 +175,23 @@ label {
   
   border-radius: 6px;
   margin: 4px;
-  color: aliceblue;
+  color: rgb(0, 0, 0);
   font-size: larger;
   font-family:'Times New Roman', Times, serif;
   cursor: pointer;
+  background-color: #fdfdfd;
+  width:100px;
+
   
   
 }
+.nav-item:hover{
+  color :rgb(255, 0, 8)
+}
+
 
 .Hamburger{
-  color: #fff;
+  color: rgb(255, 255, 255);
 
   height: 4px;
   width: 30px;
@@ -198,12 +205,12 @@ label {
   /* Our sidebar item styling */
   text-decoration: none;
   margin-bottom: 10px;
-  color: #d1d1d1;
+  color: white;
   transition: color 0.2s;
 }
 
 .bm-item:hover {
-  color: white;
+  color: rgb(237, 241, 232);
 }
 
 .bm-burger-button {
@@ -212,7 +219,7 @@ label {
   height: 30px;
   left: 36px;
   top: 15px;
-  color: #fff;
+  color: rgb(240, 245, 248);
   
 }
 
@@ -234,7 +241,7 @@ label {
 
 /* General sidebar styles */
 .bm-menu {
-  background: #000;
+  background: rgb(9, 1, 52);
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
 }
@@ -272,25 +279,28 @@ label {
   margin-top: 8px;
  }
 
- .accordion{
-  position: absolute;
-  right: 1vw;
-  width: 40vw;
- }
+
  .dropdown-item{
   color:rgb(13, 11, 11);
 
  }
  .logout{
   margin-left: 90%;
-  margin-top: 20px;
+  margin-top: auto;
+  padding-right: 1%;
   
  }
  .menu-item1{
-  background-color: transparent;
   width: fit-content;
   margin-left: 60px;
-  border-radius: 2px;
-  color: #ffffff;
+  border-radius: 6px;
+  color: #000000;
+   background-color: #ababac;
+   padding: 4px;
+   
+ }
+ .menu-item1:hover{
+  color:red
 
  }
+
