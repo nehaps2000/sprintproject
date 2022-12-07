@@ -19,6 +19,7 @@ import {
   AccordionItemPanel,
 } from "react-accessible-accordion";
 import "react-accessible-accordion/dist/fancy-example.css";
+import Logout from "./Logout";
 
 const Project = () => {
   const url = "/api/Project/Projects";
@@ -28,7 +29,7 @@ const Project = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [addProjectModal, setAddProjectModal] = useState(false);
   const [deleteProjectModal, setDeleteProjectModal] = useState(false);
-  const [addHolidayModal, setaddHolidayModal] = useState(false);
+  const [addHolidayModal, setAddHolidayModal] = useState(false);
   const Navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState(null);
   const [holidayList, setHolidayList] = useState([]);
@@ -119,24 +120,22 @@ const Project = () => {
   };
 
   const projectOpen = (id) => {
-    Navigate(`/projectSettings/${id}`);
+    Navigate(`/${id}/projectSettings`);
   };
 
   const showHolidayModal = (status) => {
-    setaddHolidayModal(status);
+    setAddHolidayModal(status);
     if (!status) setHolidayModal({});
   };
 
-  const addHoliday = (holidayModal) => {
-    const addurl = `/api/Calendar/AddHoliday`;
-    const apiCall = async () => {
-      let response = await api("post", addurl, holidayModal);
-      if (response) {
-        let res = await api("get", url);
-        setHolidayList(res);
-      }
-    };
-    apiCall();
+  const addHoliday = async (holidayModal) => {
+    const addHolidayUrl = `/api/Calendar/AddHoliday`;
+    let response = await api("post", addHolidayUrl, holidayModal);
+    if (response) {
+      let res2 = await api("get", url2);
+      setHolidayList(res2);
+    }
+    setAddHolidayModal(false);
   };
 
   const logout = (e) => {
@@ -152,11 +151,14 @@ const Project = () => {
       <div class="card text-center">
         <div class="card-header">
           <div>
-            <button className="logout">
-              <Link className="dropdown-item" to="#" onClick={logout}>
-                Logout
-              </Link>
-            </button>
+            <Link
+              to="/"
+              onClick={() => {
+                logout();
+              }}
+            >
+              <Logout className="logout"></Logout>
+            </Link>
           </div>
           <ul class="nav nav-tabs card-header-tabs">
             <li
@@ -324,16 +326,17 @@ const Project = () => {
               >
                 <Form.Label>Date</Form.Label>
                 <input
-                  name="holidayDate"
+                  name="date"
                   class="form-label"
                   for="formControlDisabled"
                   type="date"
                   onChange={handleHolidayChange}
+                  value={holidayModal?.date}
                 ></input>
                 <Form.Label>Name</Form.Label>
                 <input
-                  name="holidayName"
-                  value={holidayModal?.holidayName}
+                  name="name"
+                  value={holidayModal?.name}
                   onChange={handleHolidayChange}
                 ></input>
               </Form.Group>
