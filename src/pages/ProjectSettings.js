@@ -9,7 +9,7 @@ const ProjectSettings = () => {
   const [selectedTab, setSelectedTab] = useState(null);
 
   const params = useParams();
-  console.log(params);
+  console.log(params.Id);
 
   return (
     <>
@@ -23,7 +23,9 @@ const ProjectSettings = () => {
             >
               Project Settings
             </Link>
-            <Link id="about" className="menu-item" to="/sprintsettings">
+            <Link to= 
+           { `/${params.Id}/SprintSettings`}
+              >
               Sprint Settings
             </Link>
           </Menu>

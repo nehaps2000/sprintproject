@@ -7,6 +7,7 @@ import Allocations from "./pages/Allocations";
 import Resources from "./pages/Resources";
 import Login from "./Login";
 import ProjectSettings from "./pages/ProjectSettings";
+import SprintSettings from "./pages/SprintSettings";
 function App() {
   return (
     <>
@@ -18,6 +19,7 @@ function App() {
           <Route path="/Allocations" element={<Allocations />} />
           <Route path="/Resources" element={<Resources />} />
           <Route path="/:Id/ProjectSettings" element={<ProjectSettings />} />
+          <Route path="/:Id/SprintSettings" element={<SprintSettings />} />
         </Routes>
       </Router>
     </>

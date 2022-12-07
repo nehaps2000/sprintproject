@@ -282,7 +282,8 @@ li.nav-item:active{
 
  .logout{
   margin-left: 90%;
-  margin-top: 20px;
+  margin-top: auto;
+  padding-right: 1%;
  }
 
  .menu-item1{
@@ -291,8 +292,4 @@ li.nav-item:active{
   margin-left: 60px;
   border-radius: 2px;
   color: #ffffff;
- }
-
- .logout{
-  padding-right: 1%;
  }
