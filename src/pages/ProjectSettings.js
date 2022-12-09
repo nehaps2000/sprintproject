@@ -2,45 +2,27 @@ import { useState } from "react";
 import Allocations from "./Allocations";
 import Resources from "./Resources";
 import Team from "./Team";
-import { slide as Menu } from "react-burger-menu";
 import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import Navbar from "../Navbar";
+import Hamburger from "../Hamburger";
 
 const ProjectSettings = () => {
-  
   const [selectedTab, setSelectedTab] = useState(null);
-
   const params = useParams();
   console.log(params.Id);
 
   return (
     <>
-      <div class="card text-center">
-        <div className="Hamburger">
-          <Menu>
-            <Link
-              id="projectsettings"
-              className="menu-item1"
-              to="#"
-            >
-              Project Settings
-            </Link>
-            <Link to= 
-           { `/${params.Id}/SprintSettings`}
-              >
-              Sprint Settings
-            </Link>
-            <Link to= 
-           { `/${params.Id}/StoryLog`}
-              >
-            Story BackLog
-            </Link>
-          </Menu>
+      <div className="card-text-center">
+        <div className="card-header">
+          <Navbar>
+              <Hamburger></Hamburger>
+          </Navbar>
         </div>
-        <div class="card-header">
-          <ul class="nav nav-tabs card-header-tabs">
+        <div className="card-body">
+          <ul className="nav nav-tabs card-header-tabs">
             <li
-              class="nav-item"
+              className="nav-item"
               onClick={() => {
                 setSelectedTab("Allocations");
               }}
@@ -48,7 +30,7 @@ const ProjectSettings = () => {
               Allocations
             </li>
             <li
-              class="nav-item"
+              className="nav-item"
               onClick={() => {
                 setSelectedTab("Resources");
               }}
@@ -56,7 +38,7 @@ const ProjectSettings = () => {
               Resources
             </li>
             <li
-              class="nav-item"
+              className="nav-item"
               onClick={() => {
                 setSelectedTab("Team");
               }}
@@ -64,8 +46,6 @@ const ProjectSettings = () => {
               Team
             </li>
           </ul>
-        </div>
-        <div class="card-body">
           {selectedTab === "Team" ? (
             <div className={window.location}>
               <Team></Team>

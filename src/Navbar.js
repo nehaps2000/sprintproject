@@ -1,29 +1,48 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import Hamburger from "./Hamburger";
+import Logout from "./pages/Logout";
 
+const Navbar = () => {
+  const params = useParams();
+  const Navigate = useNavigate();
+  const logout = (e) => {
+    e.preventDefault();
+    console.log("Logout");
 
-function Navbar() {
+    localStorage.clear();
+    Navigate("/");
+  };
+
   return (
-    <nav className="Navigation">
-      <div className="btn-div">
-        <button className="btn">
-          <Link style={{textDecoration:'none',color:'#000080'}} to = "/project">Project</Link>
-        </button>
-        <button type="button" className="btn">
-          <Link style={{textDecoration:'none',color:'#000080'}} to="/team">Team</Link>
-        </button>
-        <button type="button" className="btn">
-          <Link style={{textDecoration:'none',color:'#000080'}} to="/allocations">Allocations</Link>
-        </button>
-        <button type="button" className="btn">
-          <Link style={{textDecoration:'none',color:'#000080'}} to="/resources">Resources</Link>
-        </button>
-      </div>
-    </nav>
-
-
-
+    <div className="card-text-center">
+      if({params.Id})
+      {
+        <>
+        <Hamburger></Hamburger>
+          <div className="card-header">
+            <ul className="nav nav-tabs card-header-tabs"></ul>
+          </div>
+          <div>
+            <Link
+              to="/"
+              onClick={() => {
+                logout();
+              }}
+            >
+              <Logout className="logout"></Logout>
+            </Link>
+          </div>
+        </>
+      }
+      else
+      {
+        <div className="card-header">
+          <ul className="nav nav-tabs card-header-tabs"></ul>
+        </div>
+      }
+    </div>
   );
-}
+};
 
 export default Navbar;
