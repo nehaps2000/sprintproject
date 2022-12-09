@@ -31,11 +31,13 @@ const Allocations = () => {
   const addOrEdit = (allocationModal) => {
     if (!isEdit) {
       const addUrl = `/api/Allocation/AddAllocation`;
+      allocationModal.id=params.Id;
       const apiCall = async () => {
         let response = await api("post", addUrl, allocationModal);
         if (response) {
           let res = await api("get", url);
           setAllocationList(res);
+          
         }
       };
       apiCall();

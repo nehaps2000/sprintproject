@@ -35,7 +35,8 @@ const SprintSettings = () => {
 
   const addOrEdit = (sprintModal) => {
     const addurl = `/api/Sprint/addSprint`;
-
+    
+    sprintModal.id=params.Id;
     if (!isEdit) {
       const apiCall = async () => {
         let response = await api("post", addurl, sprintModal);
@@ -109,10 +110,8 @@ const SprintSettings = () => {
     <>
       <div className="card-header">
         <Navbar>
-          <div className="hamburger">
-            <Hamburger></Hamburger>
-          </div>
         </Navbar>
+        <Hamburger></Hamburger>
       </div>
       <div>
         <div className="card-body">

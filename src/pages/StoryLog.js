@@ -7,8 +7,12 @@ import Add from "./Add";
 import Edit from "./Edit";
 import Delete from "./Delete";
 import Button from "react-bootstrap/Button";
+import { useParams } from "react-router-dom";
+import Navbar from "../Navbar";
+import Hamburger from "../Hamburger";
 const StoryLog = () => {
-  const url = "/api/Story/Stories";
+  const params= useParams();
+  const url = `/api/Story/SearchStory/${params.Id}`;
   const [checked, setChecked] = useState([]);
   const [storyList, setStoryList] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
@@ -27,6 +31,7 @@ const StoryLog = () => {
   }, [url]);
   const addOrEdit = (storyModal) => {
     const addurl = `/api/Story/AddStory`;
+    storyModal.id=params.Id;
     if (!isEdit) {
       const apiCall = async () => {
         let response = await api("post", addurl, storyModal);
@@ -115,6 +120,11 @@ const StoryLog = () => {
 
   return (
     <>
+    <div className="card-header">
+    <Navbar>
+        </Navbar>
+        <Hamburger></Hamburger>
+      </div>
       <div className="app">
         <div className="checkList">
           <div className="title">
