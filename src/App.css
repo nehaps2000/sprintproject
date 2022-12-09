@@ -74,7 +74,16 @@ h1{
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-
+.bm-menu-wrap{
+ position: absolute;
+ top: 0;
+ left: 0;
+}
+.bm-overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+}
 .primary{
   background-color: #000000;
   text-align: center;
@@ -248,7 +257,7 @@ label {
 /* General sidebar styles */
 .bm-menu {
   background: rgb(9, 1, 52);
-  padding: 2.5em 1.5em 0;
+  padding-right: 40px;
   font-size: 1.15em;
 }
 
@@ -351,4 +360,7 @@ label {
  text-align: center;
  
   
+}
+.head{
+  padding-left: 40%;
 }

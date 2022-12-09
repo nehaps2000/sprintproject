@@ -13,6 +13,7 @@ const Resource = () => {
   const params=useParams();
   console.log(params);
   const url = `/api/Resource/SearchResource/${params.Id}`;
+  console.log(params.Id);
   const [resourceList, setResourceList] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [show, setShow] = useState(false);
@@ -40,6 +41,8 @@ const Resource = () => {
 
   const addOrEdit = (resourceModal) => {
     const addurl = `/api/Resource/AddResource`;
+    console.log(resourceModal);
+    resourceModal.id=params.Id;
     if (!isEdit) {
       const apiCall = async () => {
         let response = await api("post", addurl, resourceModal);

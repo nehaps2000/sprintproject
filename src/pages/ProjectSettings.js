@@ -16,10 +16,13 @@ const ProjectSettings = () => {
       <div className="card-text-center">
         <div className="card-header">
           <Navbar>
-              <Hamburger></Hamburger>
           </Navbar>
+          
+          <Hamburger></Hamburger>
         </div>
+
         <div className="card-body">
+          <div className="head">
           <ul className="nav nav-tabs card-header-tabs">
             <li
               className="nav-item"
@@ -45,7 +48,7 @@ const ProjectSettings = () => {
             >
               Team
             </li>
-          </ul>
+          </ul></div>
           {selectedTab === "Team" ? (
             <div className={window.location}>
               <Team></Team>

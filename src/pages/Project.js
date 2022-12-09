@@ -167,6 +167,7 @@ const Project = () => {
           <Navbar></Navbar>
         </div>
         <div class="card-body">
+          <div className="head">
           <ul class="nav nav-tabs card-header-tabs">
             <li
               class="nav-item"
@@ -184,7 +185,7 @@ const Project = () => {
             >
               Holidays
             </li>
-          </ul>
+          </ul></div>
           {selectedTab === "Calendar" ? (
             <div className="accordion">
               <Accordion allowMultipleExpanded={true} allowZeroExpanded={true}>
