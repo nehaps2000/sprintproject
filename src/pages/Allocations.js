@@ -7,8 +7,12 @@ import Edit from "./Edit";
 import Delete from "./Delete";
 import Add from "./Add";
 import api from "../utility/api";
+import { useParams } from "react-router-dom";
+
 const Allocations = () => {
-  const url = "/api/Allocation/Allocations";
+  const params = useParams();
+  console.log(params);
+  const url = `/api/Allocation/SearchAllocation/${params.Id}`;
   const [allocationList, setAllocationList] = useState([]);
   const [allocationModal, setAllocationModal] = useState({});
   const [show, setShow] = useState(false);
@@ -49,20 +53,6 @@ const Allocations = () => {
     setAllocationModal({});
   };
 
-  const project = [
-    {
-      label: "Delpheon",
-      value: "1",
-    },
-    {
-      label: "Delpheon cloud",
-      value: "2",
-    },
-    {
-      label: "Railway",
-      value: "3",
-    },
-  ];
 
   const team = [
     {
@@ -131,7 +121,10 @@ const Allocations = () => {
 
   const handleChange = ({ target: { name, value } }) => {
     setAllocationModal((prev) => {
-      return { ...prev, [name]: name==="employeeId"?value:parseInt(value) };
+      return {
+        ...prev,
+        [name]: name === "employeeId" ? value : parseInt(value),
+      };
     });
   };
 
@@ -190,7 +183,7 @@ const Allocations = () => {
               <Form.Label>Role</Form.Label>
               <input
                 name="role"
-                value={allocationModal.role ||""}
+                value={allocationModal.role || ""}
                 onChange={handleChange}
               ></input>
               <br></br>
@@ -246,7 +239,7 @@ const Allocations = () => {
 
               <Form.Label>Project</Form.Label>
 
-              <select
+              {/* <select
                 className="custom-select"
                 id="inputGroupSelect04"
                 onChange={handleChange}
@@ -263,7 +256,13 @@ const Allocations = () => {
                     {project.label}
                   </option>
                 ))}
-              </select>
+              </select> */}
+
+              <input
+                name="ProjectId"
+                value={params.Id}
+                disabled
+              ></input>
 
               <br></br>
             </Form.Group>

@@ -7,9 +7,11 @@ import Delete from "./Delete";
 import Add from "./Add";
 import api from "../utility/api";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const Team = () => {
-  const url = "/api/Team/Teams";
+  const params=useParams();
+  const url = `/api/Team/SearchTeam/${params.Id}`;
   const [teamList, setTeamList] = useState([]);
   const [teamModal, setTeamModal] = useState({});
   const [show, setShow] = useState(false);
@@ -142,8 +144,14 @@ const Team = () => {
               <Form.Label>Name</Form.Label>
               <input
                 name="name"
-                value={teamModal.name || " "}
+                value={teamModal.name ||""}
                 onChange={handleChange}
+              ></input>
+              <Form.Label>ProjectID</Form.Label>
+              <input
+                name="ProjectId"
+                value={params.Id}
+                disabled
               ></input>
             </Form.Group>
           </Form>

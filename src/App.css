@@ -94,8 +94,8 @@ h1{
 
 .add{
   display: block;
-  margin-left: 50%;
-  margin-right: 50%;
+  margin-left: 45%;
+  margin-right: 45%;
 
 }
 
@@ -105,9 +105,7 @@ h1{
   margin-left:auto;
   margin-right:auto;
   height: 100%;
-
 }
-
 
 label {
   display: inline-block;
@@ -115,6 +113,7 @@ label {
   color: #777777;
   margin-bottom: 10px;
 }
+
 input {
   padding: 5px 10px;
   margin-bottom: 10px;
@@ -125,7 +124,9 @@ input {
   float:left;
   align-items: center;
   width: 100vw;
-  height: 100vh;;
+  height: 100vh;
+  padding-left: 35%;
+  padding-top: 5%;
 }
 
 .form {
@@ -169,10 +170,18 @@ label {
 .card-header{
   padding-left: 40%;
   background-color: rgb(3, 3, 61);
- 
+  height: 50%;
 }
+
+.card-text-center{
+  text-align: center;
+}
+
+.card-body{
+  text-align: center;
+}
+
 .nav-item{
-  
   border-radius: 6px;
   margin: 4px;
   color: rgb(0, 0, 0);
@@ -181,24 +190,21 @@ label {
   cursor: pointer;
   background-color: #fdfdfd;
   width:100px;
-
-  
-  
 }
+
 .nav-item:hover{
   color :rgb(255, 0, 8)
 }
 
-
 .Hamburger{
   color: rgb(255, 255, 255);
-
   height: 4px;
   width: 30px;
   transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
   border-radius: 2px;
   margin-right: 100%;
 }
+
 .bm-item {
   display: inline-block;
 
@@ -271,6 +277,7 @@ label {
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.125em;
  }
+
  .react-calendar__navigation button {
   color: #6f48eb;
   min-width: 44px;
@@ -299,7 +306,49 @@ label {
    padding: 4px;
    
  }
+
  .menu-item1:hover{
   color:red
+ }
+
+ .accordion{
+  text-align: center;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top: 1%;
+  height: 100%;
+  width: 98%;
+ }
+
+ .logo{
+  margin-left: 5vw;
+  margin-top: 0.5vw;
+ }
+ 
+
+ .title{
+  text-align: center;
+  color:#170553
+  
+ }
+
+ .return{
+  padding-left: 1px;
+
 
  }
+ .border{
+  
+  width:50%;
+  text-align: center;
+  padding-top: 40px;
+  margin-top: 25px;
+ }
+.list{
+  padding-right: 60%;
+}
+.story{
+ text-align: center;
+ 
+  
+}

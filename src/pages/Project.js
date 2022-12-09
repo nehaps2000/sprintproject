@@ -9,7 +9,7 @@ import Add from "./Add";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import api from "../utility/api";
 import {
   Accordion,
@@ -19,7 +19,7 @@ import {
   AccordionItemPanel,
 } from "react-accessible-accordion";
 import "react-accessible-accordion/dist/fancy-example.css";
-import Logout from "./Logout";
+import Navbar from "../Navbar";
 
 const Project = () => {
   const url = "/api/Project/Projects";
@@ -136,30 +136,37 @@ const Project = () => {
       setHolidayList(res2);
     }
     setAddHolidayModal(false);
+    setHolidayModal({});
   };
 
-  const logout = (e) => {
-    e.preventDefault();
-    console.log("Logout");
-
-    localStorage.clear();
-    Navigate("/");
+  const holidayGrouping = (holidayList) => {
+    let d = {};
+    console.log(holidayList);
+    holidayList.forEach((holiday) => {
+      var date = new Date(holiday.date);
+      var year = date.getFullYear;
+      if(d.keys && !d.keys.includes(year))
+      {
+      d.year = [];
+      d.year.push(date);
+      }
+      else if(d.keys){
+        d.year=[]
+        d.year.push(date)
+      }
+      console.log(d)
+      console.log(date,year);
+    });
+    
   };
 
   return (
     <>
-      <div class="card text-center">
+      <div class="card-text-center">
         <div class="card-header">
-          <div>
-            <Link
-              to="/"
-              onClick={() => {
-                logout();
-              }}
-            >
-              <Logout className="logout"></Logout>
-            </Link>
-          </div>
+          <Navbar></Navbar>
+        </div>
+        <div class="card-body">
           <ul class="nav nav-tabs card-header-tabs">
             <li
               class="nav-item"
@@ -178,27 +185,30 @@ const Project = () => {
               Holidays
             </li>
           </ul>
-        </div>
-        <div class="card-body">
           {selectedTab === "Calendar" ? (
-            <div>
+            <div className="accordion">
               <Accordion allowMultipleExpanded={true} allowZeroExpanded={true}>
-                {holidayList?.map((holiday) => {
-                  return (
-                    <>
-                      <AccordionItem>
-                        <AccordionItemHeading>
-                          <AccordionItemButton>
-                            {holiday.date}
-                          </AccordionItemButton>
-                        </AccordionItemHeading>
-                        <AccordionItemPanel>
-                          <h2>{holiday.name}</h2>
-                        </AccordionItemPanel>
-                      </AccordionItem>
-                    </>
-                  );
-                })}
+                <AccordionItem>
+                  <AccordionItemHeading>
+                    <AccordionItemButton></AccordionItemButton>
+                  </AccordionItemHeading>
+                  <AccordionItemPanel>
+                    {/* {holidayList?.map((holiday) => {
+                      var date = new Date(holiday.date);
+                      {
+                        date.getFullYear();
+                      }
+                      return (
+                        <>
+                          {holiday.name} - {holiday.date}
+                          <br></br>
+                        </>
+                      );
+                    })} */
+                    holidayGrouping(holidayList)
+                    }
+                  </AccordionItemPanel>
+                </AccordionItem>
               </Accordion>
               <Add
                 onClick={() => {
@@ -208,7 +218,7 @@ const Project = () => {
             </div>
           ) : (
             <div>
-              <div>
+              <div className="card">
                 <Row xs={1} md={5} className="g-4">
                   {projectList?.map((project) => {
                     return (

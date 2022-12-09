@@ -20,8 +20,8 @@ function App() {
           <Route path="/Allocations" element={<Allocations />} />
           <Route path="/Resources" element={<Resources />} />
           <Route path="/:Id/ProjectSettings" element={<ProjectSettings />} />
-          <Route path="/:Id/SprintSettings" element={<SprintSettings />} />
-          <Route path="/:Id/StoryLog" element={<StoryLog />} />
+          <Route path="/:Id/Sprint/SearchSprint" element={<SprintSettings />} />
+          <Route path="/:Id/Story/SearchStory" element={<StoryLog />} />
         </Routes>
       </Router>
     </>
