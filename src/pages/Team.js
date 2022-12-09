@@ -28,6 +28,7 @@ const Team = () => {
 
   const addOrEdit = (teamModal) => {
     const addurl = `/api/Team/AddTeam`;
+    teamModal.id=params.Id;
     if (!isEdit) {
       const apiCall = async () => {
         let response = await api("post", addurl, teamModal,);
