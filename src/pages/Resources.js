@@ -7,9 +7,12 @@ import Edit from "./Edit";
 import Add from "./Add";
 import api from "../utility/api";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const Resource = () => {
-  const url = "/api/Resource/Resources";
+  const params=useParams();
+  console.log(params);
+  const url = `/api/Resource/SearchResource/${params.Id}`;
   const [resourceList, setResourceList] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [show, setShow] = useState(false);
@@ -50,10 +53,10 @@ const Resource = () => {
       const apiCall = async () => {
         const editUrl = `/api/Resource/updateResource/${resourceModal.id}`;
         let response = await api("patch", editUrl, resourceModal);
-        if(response){
-        let res = await api("get", url);
-        setResourceList(res);
-      }
+        if (response) {
+          let res = await api("get", url);
+          setResourceList(res);
+        }
       };
       apiCall();
     }
@@ -171,26 +174,31 @@ const Resource = () => {
               <Form.Label>Employee ID</Form.Label>
               <input
                 name="employeeId"
-                value={resourceModal.employeeId || " "}
+                value={resourceModal.employeeId || ""}
                 onChange={handleChange}
               ></input>
               <br></br>
-
               <Form.Label>Email</Form.Label>
               <input
                 name="email"
-                value={resourceModal.email || " "}
+                value={resourceModal.email || ""}
                 onChange={handleChange}
               ></input>
               <br></br>
-
               <Form.Label>Name</Form.Label>
               <input
                 name="name"
-                value={resourceModal.name || " "}
+                value={resourceModal.name || ""}
                 onChange={handleChange}
               ></input>
               <br></br>
+              <Form.Label>ProjectID</Form.Label>
+                <input
+                  name="ProjectId"
+                  value={params.Id}
+                  disabled
+                ></input>
+                <br></br>
               <Form.Label>Designation</Form.Label>
               <select
                 className="custom-select"
@@ -199,6 +207,7 @@ const Resource = () => {
                 value={resourceModal?.designation}
                 name="designation"
               >
+                
                 <option selected>Choose...</option>
                 {options.map((option) => (
                   <option
