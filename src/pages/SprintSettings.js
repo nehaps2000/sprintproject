@@ -17,7 +17,7 @@ import Hamburger from "../Hamburger";
 
 const SprintSettings = () => {
   const params = useParams();
-  const url = `/api/Sprint/SearchSprint/${params.Id}`;
+  const url = `/api/${params.Id}/Sprint/SearchSprint`;
   const [sprintList, setSprintList] = useState([]);
   const [sprintModal, setSprintModal] = useState({});
   const [isEdit, setIsEdit] = useState(false);
@@ -35,8 +35,8 @@ const SprintSettings = () => {
 
   const addOrEdit = (sprintModal) => {
     const addurl = `/api/Sprint/addSprint`;
-    
-    sprintModal.id=params.Id;
+
+    sprintModal.projectId = params.Id;
     if (!isEdit) {
       const apiCall = async () => {
         let response = await api("post", addurl, sprintModal);
@@ -105,12 +105,10 @@ const SprintSettings = () => {
     Navigate(`/${id}/SprintSettings`);
   };
 
-
   return (
     <>
       <div className="card-header">
-        <Navbar>
-        </Navbar>
+        <Navbar></Navbar>
         <Hamburger></Hamburger>
       </div>
       <div>
@@ -165,18 +163,18 @@ const SprintSettings = () => {
               >
                 <Form.Label>Name</Form.Label>
                 <input
-                  name="name"
-                  value={sprintModal.name || ""}
+                  name="Name"
+                  value={sprintModal.Name || ""}
                   onChange={handleChange}
                 ></input>
                 <Form.Label>Duration</Form.Label>
                 <input
-                  name="duration"
-                  value={sprintModal.duration || ""}
+                  name="Duration"
+                  value={sprintModal.Duration || ""}
                   onChange={handleChange}
                 ></input>
                 <Form.Label>ProjectID</Form.Label>
-                <input name="ProjectId" value={params.Id} disabled></input>
+                <input name="ProjectId" value={sprintModal.name||params.Id} disabled></input>
               </Form.Group>
             </Form>
           </Modal.Body>
