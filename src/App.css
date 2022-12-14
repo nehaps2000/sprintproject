@@ -6,16 +6,12 @@
   align-items: center;
 
 }
-.Navigation{
-  background-color: rgb(25, 72, 118);
-  padding: 50px;
-  width: 100%;
-}
 
 .btn-div {
   text-align: center;
   width: 100%;
 }
+
 .btn {
   width: 100px;
   height: 50px;
@@ -23,6 +19,7 @@
   color: black;
   margin-right: 10px;
 }
+
 table{
   margin-left: auto;
   margin-right: auto;
@@ -67,7 +64,6 @@ border:transparent;
   margin-right:auto;
   height:50%; 
   width: 50%;
-
 }
 
 h1{
@@ -94,6 +90,7 @@ h1{
   color: rgb(255, 255, 255);
   width: fit-content;
 }
+
 .secondary{
   color: rgb(255, 255, 255);
   background-color: #060606;
@@ -102,10 +99,36 @@ h1{
 }
 
 .add{
-  display: block;
   margin-left: 45%;
   margin-right: 45%;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  cursor: pointer;
+}
 
+.edit{
+  cursor: pointer;
+}
+
+.delete{
+  cursor: pointer;
+}
+
+.card-text{
+  cursor: pointer;
+}
+
+.notChecked{
+  display: none;
+}
+
+.checked{
+  display: block;
+}
+
+.list-container{
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 .card{
@@ -114,6 +137,11 @@ h1{
   margin-left:auto;
   margin-right:auto;
   height: 100%;
+  width: fit-content;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  padding-top: 1vh;
+
 }
 
 label {
@@ -172,18 +200,22 @@ label {
 
   align-items:center;
 }
+
 .add1{
   margin-left: auto;
 }
 
-.card-header{
-  padding-left: 40%;
-  background-color: rgb(3, 3, 61);
-  height: 50%;
+.header{
+ background-color: #160354;
+ width: 100%;
+ height: 10vh;
+ 
 }
 
-.card-text-center{
+.body{
   text-align: center;
+  padding-left: 1%;
+  padding-right: 1%;
 }
 
 .card-body{
@@ -191,19 +223,42 @@ label {
 }
 
 .nav-item{
-  border-radius: 6px;
-  margin: 4px;
   color: rgb(0, 0, 0);
   font-size: larger;
   font-family:'Times New Roman', Times, serif;
   cursor: pointer;
+  margin-right: 20px;
   background-color: #fdfdfd;
-  width:100px;
 }
 
 .nav-item:hover{
   color :rgb(255, 0, 8)
+
 }
+
+.navbar
+{
+  position: relative;
+  display: flex !important;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.card-header
+{
+  width: 100% !important;
+  display: block;
+}
+
+.head
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  color: white;
+}
+
 
 .Hamburger{
   color: rgb(255, 255, 255);
@@ -276,44 +331,26 @@ label {
   background:rgb(3, 3, 61);;
 }
 
-.react-calendar { 
-  width: 400px;
-  max-width: 100%;
-  background-color: #fff;
-  color: #222;
-  border-radius: 8px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.125em;
- }
-
- .react-calendar__navigation button {
-  color: #6f48eb;
-  min-width: 44px;
-  background: none;
-  font-size: 16px;
-  margin-top: 8px;
- }
-
-
  .dropdown-item{
   color:rgb(13, 11, 11);
+ }
 
- }
  .logout{
-  margin-left: 90%;
-  margin-top: auto;
-  padding-right: 1%;
-  
+  float: right;
+  cursor:pointer;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  padding-top: 2vh;
+  padding-bottom: 1vh;
  }
+
  .menu-item1{
   width: fit-content;
   margin-left: 60px;
   border-radius: 6px;
   color: #000000;
-   background-color: #ababac;
-   padding: 4px;
-   
+  background-color: #ababac;
+  padding: 4px;
  }
 
  .menu-item1:hover{
@@ -333,34 +370,51 @@ label {
   margin-left: 5vw;
   margin-top: 0.5vw;
  }
- 
 
  .title{
   text-align: center;
   color:#170553
-  
  }
 
  .return{
   padding-left: 1px;
-
-
  }
+
  .border{
-  
   width:50%;
   text-align: center;
   padding-top: 40px;
   margin-top: 25px;
  }
+
 .list{
   padding-right: 60%;
 }
+
 .story{
  text-align: center;
- 
-  
 }
-.head{
+
+.tab{
+  margin-left: 40%;
+  margin-right: auto;
+}
+
+.accList
+{
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.d-grid-gap-2-mt-3{
   padding-left: 40%;
+}
+.form-control-mt-1{
+margin-left: 5%;
+margin-right: 5%;
+/* padding-left: 45%; */
+width:90%;
+
 }
