@@ -24,6 +24,7 @@ const Resource = () => {
     const apiCall = async () => {
       let response = await api("get", url);
       setResourceList(response);
+     // console.log(resourceList)
     };
     apiCall();
   }, [url]);
@@ -42,7 +43,7 @@ const Resource = () => {
   const addOrEdit = (resourceModal) => {
     const addurl = `/api/Resource/AddResource`;
     console.log(resourceModal);
-    resourceModal.id=params.Id;
+    resourceModal.projectId=params.Id;
     if (!isEdit) {
       const apiCall = async () => {
         let response = await api("post", addurl, resourceModal);
@@ -195,10 +196,10 @@ const Resource = () => {
                 onChange={handleChange}
               ></input>
               <br></br>
-              <Form.Label>ProjectID</Form.Label>
+              <Form.Label>projectName</Form.Label>
                 <input
-                  name="ProjectId"
-                  value={params.Id}
+                  name="projectId"
+                  value={resourceModal.projectId || params.Id}
                   disabled
                 ></input>
                 <br></br>

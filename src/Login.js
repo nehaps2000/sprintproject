@@ -58,27 +58,27 @@ const Login = () => {
         <form className="form">
           <div className="Form-content">
             <h3 className="form-title">Login</h3>
-            <div className="form-group mt-3">
-              <label>Email</label>
+            <div className="form-group-mt-3">
+              <label className="text">Email</label>
               <input
                 type="email"
                 value={email}
-                className="form-control mt-1"
+                className="form-control-mt-1"
                 placeholder="email"
                 onChange={handleEmail}
               />
             </div>
-            <div className="form-group mt-3">
-              <label>Password</label>
+            <div className="form-group-mt-3">
+              <label className="text">Password</label>
               <input
                 type="password"
                 value={password}
-                className="form-control mt-1"
+                className="form-control-mt-1"
                 placeholder="password"
                 onChange={handlePassword}
               />
             </div>
-            <div className="d-grid gap-2 mt-3">
+            <div className="d-grid-gap-2-mt-3">
               <button
                 type="button"
                 onClick={handleApi}

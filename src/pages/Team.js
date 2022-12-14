@@ -28,7 +28,8 @@ const Team = () => {
 
   const addOrEdit = (teamModal) => {
     const addurl = `/api/Team/AddTeam`;
-    teamModal.id=params.Id;
+    
+    teamModal.projectId=params.Id;
     if (!isEdit) {
       const apiCall = async () => {
         let response = await api("post", addurl, teamModal,);
@@ -148,10 +149,10 @@ const Team = () => {
                 value={teamModal.name ||""}
                 onChange={handleChange}
               ></input>
-              <Form.Label>ProjectID</Form.Label>
+              <Form.Label>projectID</Form.Label>
               <input
-                name="ProjectId"
-                value={params.Id}
+                name="projectId"
+                value={teamModal.projectId || params.Id}
                 disabled
               ></input>
             </Form.Group>
