@@ -34,6 +34,10 @@ const Project = () => {
   const [selectedTab, setSelectedTab] = useState(null);
   const [holidayList, setHolidayList] = useState([]);
   const [holidayModal, setHolidayModal] = useState({});
+  const [holidaySet, setHoliday] = useState({
+    list: {},
+    keys: [],
+  });
 
   useEffect(() => {
     const apiCall = async () => {
@@ -141,75 +145,83 @@ const Project = () => {
 
   const holidayGrouping = (holidayList) => {
     let d = {};
-    console.log(holidayList);
     holidayList.forEach((holiday) => {
-      var date = new Date(holiday.date);
-      var year = date.getFullYear;
-      if(d.keys && !d.keys.includes(year))
-      {
-      d.year = [];
-      d.year.push(date);
+      var date = holiday.date;
+      var year = date.split("-")[date.split("-").length - 1];
+      const keys = Object.keys(d);
+      if (!keys.length === 0 && keys.includes(year)) {
+        d[`${year}`].push({
+          name: holiday.name,
+          date,
+        });
+      } else if (!keys.includes(year)) {
+        d[`${year}`] = [];
+        d[`${year}`].push({
+          name: holiday.name,
+          date,
+        });
       }
-      else if(d.keys){
-        d.year=[]
-        d.year.push(date)
-      }
-      console.log(d)
-      console.log(date,year);
     });
-    
+    setHoliday({
+      list: d,
+      keys: Object.keys(d),
+    });
   };
 
   return (
     <>
       <div class="card-text-center">
         <div class="card-header">
-          <Navbar></Navbar>
-        </div>
-        <div class="card-body">
+          <Navbar>
+          </Navbar>
           <div className="head">
-          <ul class="nav nav-tabs card-header-tabs">
-            <li
-              class="nav-item"
-              onClick={() => {
-                setSelectedTab("Project");
-              }}
-            >
-              Projects
-            </li>
-            <li
-              class="nav-item"
-              onClick={() => {
-                setSelectedTab("Calendar");
-              }}
-            >
-              Holidays
-            </li>
-          </ul></div>
+            <ul class="navbar nav nav-tabs card-header-tabs">
+              <li
+                class="nav-item"
+                onClick={() => {
+                  setSelectedTab("Project");
+                }}
+              >
+                Projects
+              </li>
+              <li
+                class="nav-item"
+                onClick={() => {
+                  holidayGrouping(holidayList);
+                  setSelectedTab("Calendar");
+                }}
+              >
+                Holidays
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="card-body">
           {selectedTab === "Calendar" ? (
             <div className="accordion">
               <Accordion allowMultipleExpanded={true} allowZeroExpanded={true}>
-                <AccordionItem>
-                  <AccordionItemHeading>
-                    <AccordionItemButton></AccordionItemButton>
-                  </AccordionItemHeading>
-                  <AccordionItemPanel>
-                    {/* {holidayList?.map((holiday) => {
-                      var date = new Date(holiday.date);
-                      {
-                        date.getFullYear();
-                      }
-                      return (
-                        <>
-                          {holiday.name} - {holiday.date}
-                          <br></br>
-                        </>
-                      );
-                    })} */
-                    holidayGrouping(holidayList)
-                    }
-                  </AccordionItemPanel>
-                </AccordionItem>
+                {holidaySet.keys.map((key) => {
+                  return (
+                    <AccordionItem>
+                      <AccordionItemHeading>
+                        <AccordionItemButton>{key}</AccordionItemButton>
+                      </AccordionItemHeading>
+                      <AccordionItemPanel>
+                        <ul>
+                          {holidaySet.list[`${key}`].map((data) => {
+                           
+                            return (
+                              <li className="accList" key={Math.random()}>
+                                <b>{data.name}</b> <i>{data.date}</i>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </AccordionItemPanel>
+                    </AccordionItem>
+                  );
+                })}
               </Accordion>
               <Add
                 onClick={() => {
@@ -239,21 +251,19 @@ const Project = () => {
                               <br></br>
                               <br></br>
                             </Card.Text>
-                            <Edit onClick={() => editview(project)} />
-                            <Delete onClick={() => deleteProject(project)} />
+                            <Edit className="edit" onClick={() => editview(project)} />
+                            <Delete className="delete" onClick={() => deleteProject(project)} />
                           </Card.Body>
                         </Card>
                       </Col>
                     );
                   })}
                 </Row>
-                <div className="add">
-                  <Add
+                  <Add className="add"
                     onClick={() => {
                       showHideModal(true);
                     }}
                   />
-                </div>
               </div>
             </div>
           )}

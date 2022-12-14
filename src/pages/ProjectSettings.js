@@ -15,40 +15,39 @@ const ProjectSettings = () => {
     <>
       <div className="card-text-center">
         <div className="card-header">
-          <Navbar>
-          </Navbar>
-          
-          <Hamburger></Hamburger>
+          <Navbar></Navbar>
+          <Hamburger />
         </div>
 
         <div className="card-body">
           <div className="head">
-          <ul className="nav nav-tabs card-header-tabs">
-            <li
-              className="nav-item"
-              onClick={() => {
-                setSelectedTab("Allocations");
-              }}
-            >
-              Allocations
-            </li>
-            <li
-              className="nav-item"
-              onClick={() => {
-                setSelectedTab("Resources");
-              }}
-            >
-              Resources
-            </li>
-            <li
-              className="nav-item"
-              onClick={() => {
-                setSelectedTab("Team");
-              }}
-            >
-              Team
-            </li>
-          </ul></div>
+            <ul className="nav nav-tabs card-header-tabs">
+              <li
+                className="nav-item"
+                onClick={() => {
+                  setSelectedTab("Allocations");
+                }}
+              >
+                Allocations
+              </li>
+              <li
+                className="nav-item"
+                onClick={() => {
+                  setSelectedTab("Resources");
+                }}
+              >
+                Resources
+              </li>
+              <li
+                className="nav-item"
+                onClick={() => {
+                  setSelectedTab("Team");
+                }}
+              >
+                Team
+              </li>
+            </ul>
+          </div>
           {selectedTab === "Team" ? (
             <div className={window.location}>
               <Team></Team>
