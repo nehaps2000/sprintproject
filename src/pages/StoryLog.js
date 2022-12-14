@@ -31,7 +31,8 @@ const StoryLog = () => {
   }, [url]);
   const addOrEdit = (storyModal) => {
     const addurl = `/api/Story/AddStory`;
-    storyModal.id=params.Id;
+    storyModal.projectId=params.Id;
+    console.log(storyModal)
     if (!isEdit) {
       const apiCall = async () => {
         let response = await api("post", addurl, storyModal);
@@ -47,7 +48,7 @@ const StoryLog = () => {
         if (response) {
         let res = await api("get", url);
         setStoryList(res);
-        console.log(setStoryList)
+       // console.log(setStoryList)
         showHideModal(false);
         }
 
@@ -132,7 +133,7 @@ const StoryLog = () => {
           </div>
           <div className="list-container">
             <div className="return">
-              <h1>Listed Story</h1>
+            <h1 className={checked.length>0 ? "checked" : "notChecked"}>Listed Story</h1>
               {checked?.map((item) => {
                 console.log(item);
                 return (
@@ -153,7 +154,6 @@ const StoryLog = () => {
               console.log(item);
               return (
                 <>
-                 
                   <div key={index} class="border">
                     <span>
                       {item.id} {item.name}
@@ -206,6 +206,7 @@ const StoryLog = () => {
                 value={storyModal.name || " "}
                 onChange={handleChange}
               ></input>
+              
             </Form.Group>
           </Form>
         </Modal.Body>

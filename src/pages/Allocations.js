@@ -13,17 +13,38 @@ const Allocations = () => {
   const params = useParams();
   console.log(params);
   const url = `/api/Allocation/SearchAllocation/${params.Id}`;
+  const url2 = `/api/Resource/SearchResource/${params.Id}`;
+  const url3= `/api/Team/SearchTeam/${params.Id}`;
   const [allocationList, setAllocationList] = useState([]);
   const [allocationModal, setAllocationModal] = useState({});
   const [show, setShow] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [alert, setAlert] = useState(false);
+  const [employeeList,setEmployeeList] = useState([]);
+  const [teamList,setTeamList]=useState([])
   console.log(allocationModal);
 
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
+      let response2= await api("get",url2);
+      let response3=await api("get",url3)
       setAllocationList(response);
+      let temp =response2.map((currentValue)=>{
+        let tempRes={value:currentValue.name.trim(),
+        label:currentValue.Id}
+        console.log("label","neha")
+        return tempRes
+      })
+      setEmployeeList(temp)
+      console.log("temp" ,temp)
+      console.log('allocation',response)
+      let temp2 =response3.map((teamValue)=>{
+        let tempRes2={'value':teamValue.name.trim(),
+      "label":teamValue.Id}
+      return tempRes2
+      })
+      setTeamList(temp2)
     };
     apiCall();
   }, [url]);
@@ -31,7 +52,8 @@ const Allocations = () => {
   const addOrEdit = (allocationModal) => {
     if (!isEdit) {
       const addUrl = `/api/Allocation/AddAllocation`;
-      allocationModal.id=params.Id;
+      allocationModal.projectId=params.Id;
+    //  allocationModal.projectName=params.name;
       const apiCall = async () => {
         let response = await api("post", addUrl, allocationModal);
         if (response) {
@@ -54,38 +76,6 @@ const Allocations = () => {
     setShow(false);
     setAllocationModal({});
   };
-
-
-  const team = [
-    {
-      label: "frontend",
-      value: "1",
-    },
-    {
-      label: "backend",
-      value: "2",
-    },
-    {
-      label: "testing",
-      value: "3",
-    },
-  ];
-
-  const employee = [
-    {
-      label: "Neha",
-      value: "G123",
-    },
-    {
-      label: "Nasrulla",
-      value: "G212",
-    },
-    {
-      label: "Dathan",
-      value: "G323",
-    },
-  ];
-
   const deleteOneAllocation = (allocationModal) => {
     const url = `/api/Allocation/DeleteAllocation/${allocationModal.id}`;
     const apiCall = async () => {
@@ -121,7 +111,7 @@ const Allocations = () => {
     showConfirmModel(true);
   };
 
-  const handleChange = ({ target: { name, value } }) => {
+  const handleChange = ({ target: { name, value} }) => {
     setAllocationModal((prev) => {
       return {
         ...prev,
@@ -131,6 +121,7 @@ const Allocations = () => {
   };
 
   return (
+   
     <div>
       <table>
         <tr>
@@ -207,13 +198,14 @@ const Allocations = () => {
                 name="employeeId"
               >
                 <option selected>Choose...</option>
-                {employee.map((employee) => (
+                {employeeList.map((employee) => (
+                  
                   <option
                     key={employee.value}
-                    id={employee.value}
-                    value={employee.value}
+                    id={employee.label}
+                    value={employee.label}
                   >
-                    {employee.label}
+                    {employee.value}{console.log('current',employee)}
                   </option>
                 ))}
               </select>
@@ -222,7 +214,7 @@ const Allocations = () => {
 
               <Form.Label>Team</Form.Label>
 
-              <select
+              {/* <select
                 className="custom-select"
                 id="inputGroupSelect04"
                 onChange={handleChange}
@@ -230,43 +222,55 @@ const Allocations = () => {
                 name="teamId"
               >
                 <option selected>Choose...</option>
-                {team.map((team) => (
-                  <option key={team.label} id={team.value} value={team.value}>
-                    {team.label}
+                {teamList.map((team) => (
+                  <option
+                   key={team.value}
+                    id={team.value}
+                     value={team.value}
+                     >
+                    {team.value}{console.log('current1',team)}
+                  </option>
+                ))}
+              </select> */}
+
+
+<select
+                className="custom-select"
+                id="inputGroupSelect04"
+                onChange={handleChange}
+                value={allocationModal?.teamId}
+                
+                name="teamId"
+              >
+                <option selected>Choose...</option>
+                {teamList.map((team) => (
+                  
+                  <option
+                    key={team.value}
+                    id={team.label}
+                    value={team.label}
+                  >
+                    {team.value}{console.log('current1',team)}
                   </option>
                 ))}
               </select>
+
+
 
               <br></br>
 
               <Form.Label>Project</Form.Label>
 
-              {/* <select
-                className="custom-select"
-                id="inputGroupSelect04"
-                onChange={handleChange}
-                value={allocationModal?.projectId}
-                name="projectId"
-              >
-                <option selected>Choose...</option>
-                {project.map((project) => (
-                  <option
-                    key={project.value}
-                    id={project.value}
-                    value={project.value}
-                  >
-                    {project.label}
-                  </option>
-                ))}
-              </select> */}
-
+  
               <input
                 name="ProjectId"
-                value={params.Id}
+                value={allocationList.project|| params.Id}
+               
                 disabled
               ></input>
-
+{console.log(allocationModal)}
               <br></br>
+             
             </Form.Group>
           </Form>
         </Modal.Body>
