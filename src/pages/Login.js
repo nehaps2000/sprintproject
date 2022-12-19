@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import "./App.css";
-import api from "./utility/api";
+import "../App.css";
+import api from "../utility/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -36,8 +36,6 @@ const Login = () => {
     });
 
     if (response !== "Wrong Credentials!") {
-      
-
       localStorage.setItem("token", response);
 
       Navigate("/project");

@@ -3,32 +3,36 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useState, useEffect } from "react";
-import Edit from "./Edit";
-import Delete from "./Delete";
-import Add from "./Add";
+import Edit from "../custom-icons/Edit";
+import Delete from "../custom-icons/Delete";
+import Add from "../custom-icons/Add";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useNavigate } from "react-router-dom";
 import api from "../utility/api";
 import { useParams } from "react-router-dom";
-import Navbar from "../Navbar";
-import Hamburger from "../Hamburger";
+import Navbar from "../components/Navbar";
+import Hamburger from "../components/Hamburger";
+import moment from "moment/moment";
 
 const SprintSettings = () => {
   const params = useParams();
-  const url = `/api/${params.Id}/Sprint/SearchSprint`;
+  const url = `/api/Sprint/SearchSprint/${params.Id}`;
+  const url2 = "/api/Calendar/GetHoliday";
   const [sprintList, setSprintList] = useState([]);
   const [sprintModal, setSprintModal] = useState({});
   const [isEdit, setIsEdit] = useState(false);
   const [addSprintModal, setAddSprintModal] = useState(false);
   const [deleteSprintModal, setDeleteSprintModal] = useState(false);
-  const Navigate = useNavigate();
+  const [holidayList, setHolidayList] = useState([]);
 
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
+      let response2 = await api("get", url2);
+      console.log(response2);
       setSprintList(response);
+      setHolidayList(response2);
     };
     apiCall();
   }, [url]);
@@ -101,8 +105,57 @@ const SprintSettings = () => {
     });
   };
 
-  const sprintOpen = (id) => {
-    Navigate(`/${id}/SprintSettings`);
+  const findDuration = (sDate, eDate) => {
+    // console.log(sDate, eDate);
+    let d1 = Date.parse(sDate);
+    let d2 = Date.parse(eDate);
+
+    let difference = (d2 - d1) / (1000 * 3600 * 24) + 1;
+
+    // console.log(Date(sDate).toString().split(" ")[0]);
+
+    holidayList?.forEach((holiday) => {
+      var d = moment(holiday.date, "DD-MM-YYYY");
+
+      console.log(holiday.date);
+
+      d = Date.parse(d);
+
+      // console.log(d, typeof d);
+
+      if (d1 <= d && d2 >= d) {
+        // console.log("HERE");
+        difference--;
+      }
+    });
+    const start = new Date(sDate);
+    const end = new Date(eDate);
+    for (start; start <= end; new Date(start.setDate(start.getDate() + 1))) {
+      let newDate = start.setDate(start.getDate() + 1);
+      start = new Date(newDate);
+      console.log(sDate, eDate);
+      // if (start.getDay() === 0 || start.getDay() === 6) {
+      //   var dateB = Date.parse(start);
+      //   holidayList.forEach((holiday) => {
+      //     var d = moment(holiday.date, "DD-MM-YYYY");
+      //     d = Date.parse(d);
+      //     if (dateB !== d) difference--;
+      //   });
+      // }
+    }
+
+    console.log(difference);
+  };
+
+  const randomfn = () => {
+    const start = new Date("02/05/2020");
+    const end = new Date("02/10/2020");
+    let loop = new Date(start);
+    while (loop <= end) {
+      console.log(loop);
+      let newDate = loop.setDate(loop.getDate() + 1);
+      loop = new Date(newDate);
+    }
   };
 
   return (
@@ -126,7 +179,6 @@ const SprintSettings = () => {
                           height: "max content",
                           border: "solid 1px black",
                         }}
-                        onClick={() => sprintOpen(sprint.id)}
                       >
                         Sprint ID: {sprint.id}
                         <br></br>
@@ -167,14 +219,27 @@ const SprintSettings = () => {
                   value={sprintModal.Name || ""}
                   onChange={handleChange}
                 ></input>
-                <Form.Label>Duration</Form.Label>
+                <Form.Label>Start date</Form.Label>
                 <input
-                  name="Duration"
-                  value={sprintModal.Duration || ""}
+                  name="StartDate"
+                  value={sprintModal.StartDate}
+                  type="date"
+                  onChange={handleChange}
+                ></input>
+                <Form.Label>End date</Form.Label>
+                <input
+                  name="EndDate"
+                  value={sprintModal.EndDate}
+                  type="date"
+                  min={sprintModal.StartDate}
                   onChange={handleChange}
                 ></input>
                 <Form.Label>ProjectID</Form.Label>
-                <input name="ProjectId" value={sprintModal.name||params.Id} disabled></input>
+                <input
+                  name="ProjectId"
+                  value={sprintModal.projectId || params.Id}
+                  disabled
+                ></input>
               </Form.Group>
             </Form>
           </Modal.Body>
@@ -185,7 +250,8 @@ const SprintSettings = () => {
             <Button
               variant="primary"
               onClick={() => {
-                addOrEdit(sprintModal);
+                findDuration(sprintModal.StartDate, sprintModal.EndDate);
+                // addOrEdit(sprintModal);
               }}
             >
               Submit

@@ -2,15 +2,15 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import Delete from "./Delete";
-import Edit from "./Edit";
-import Add from "./Add";
+import Delete from "../custom-icons/Delete";
+import Edit from "../custom-icons/Edit";
+import Add from "../custom-icons/Add";
 import api from "../utility/api";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 const Resource = () => {
-  const params=useParams();
+  const params = useParams();
   console.log(params);
   const url = `/api/Resource/SearchResource/${params.Id}`;
   console.log(params.Id);
@@ -42,7 +42,7 @@ const Resource = () => {
   const addOrEdit = (resourceModal) => {
     const addurl = `/api/Resource/AddResource`;
     console.log(resourceModal);
-    resourceModal.id=params.Id;
+    resourceModal.id = params.Id;
     if (!isEdit) {
       const apiCall = async () => {
         let response = await api("post", addurl, resourceModal);
@@ -196,12 +196,8 @@ const Resource = () => {
               ></input>
               <br></br>
               <Form.Label>ProjectID</Form.Label>
-                <input
-                  name="ProjectId"
-                  value={params.Id}
-                  disabled
-                ></input>
-                <br></br>
+              <input name="ProjectId" value={params.Id} disabled></input>
+              <br></br>
               <Form.Label>Designation</Form.Label>
               <select
                 className="custom-select"
@@ -210,7 +206,6 @@ const Resource = () => {
                 value={resourceModal?.designation}
                 name="designation"
               >
-                
                 <option selected>Choose...</option>
                 {options.map((option) => (
                   <option

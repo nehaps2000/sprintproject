@@ -7,7 +7,7 @@ function Logo(props) {
       width="40"
       height="40"
       fill="white"
-      class="bi bi-hurricane"
+      className="bi bi-hurricane"
       viewBox="0 0 16 16"
       {...props}
     >

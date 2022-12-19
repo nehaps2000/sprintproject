@@ -5,7 +5,7 @@ import Project from "./pages/Project";
 import Team from "./pages/Team";
 import Allocations from "./pages/Allocations";
 import Resources from "./pages/Resources";
-import Login from "./Login";
+import Login from "./pages/Login";
 import ProjectSettings from "./pages/ProjectSettings";
 import SprintSettings from "./pages/SprintSettings";
 import StoryLog from "./pages/StoryLog";

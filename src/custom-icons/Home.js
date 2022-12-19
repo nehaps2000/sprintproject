@@ -7,7 +7,7 @@ function Home(props) {
       width="20"
       height="20"
       fill="white"
-      class="bi bi-house"
+      className="bi bi-house"
       viewBox="0 0 16 16"
       {...props}
     >
