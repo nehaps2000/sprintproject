@@ -126,6 +126,11 @@ h1{
   display: block;
 }
 
+.nav-nav-tabs-card-header-tabs{
+  justify-content: center;  
+  display: flex;
+}
+
 .list-container{
   margin-left: 5%;
   margin-right: 5%;
@@ -231,10 +236,8 @@ label {
   background-color: #fdfdfd;
 }
 
-.nav-item:hover{
-  color :rgb(255, 0, 8)
 
-}
+
 
 .navbar
 {

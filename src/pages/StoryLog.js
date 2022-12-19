@@ -3,15 +3,15 @@ import ListGroup from "react-bootstrap/ListGroup";
 import api from "../utility/api";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import Add from "./Add";
-import Edit from "./Edit";
-import Delete from "./Delete";
+import Add from "../custom-icons/Add";
+import Edit from "../custom-icons/Edit";
+import Delete from "../custom-icons/Delete";
 import Button from "react-bootstrap/Button";
 import { useParams } from "react-router-dom";
-import Navbar from "../Navbar";
-import Hamburger from "../Hamburger";
+import Navbar from "../components/Navbar";
+import Hamburger from "../components/Hamburger";
 const StoryLog = () => {
-  const params= useParams();
+  const params = useParams();
   const url = `/api/Story/SearchStory/${params.Id}`;
   const [checked, setChecked] = useState([]);
   const [storyList, setStoryList] = useState([]);
@@ -31,14 +31,13 @@ const StoryLog = () => {
   }, [url]);
   const addOrEdit = (storyModal) => {
     const addurl = `/api/Story/AddStory`;
-    storyModal.projectId=params.Id;
-    console.log(storyModal)
+    storyModal.id = params.Id;
     if (!isEdit) {
       const apiCall = async () => {
         let response = await api("post", addurl, storyModal);
-          response = await api("get", url);
-          setStoryList(response);
-          showHideModal(false);
+        response = await api("get", url);
+        setStoryList(response);
+        showHideModal(false);
       };
       apiCall();
     } else {
@@ -46,16 +45,14 @@ const StoryLog = () => {
       const apiCall = async () => {
         let response = await api("patch", updateurl, storyModal);
         if (response) {
-        let res = await api("get", url);
-        setStoryList(res);
-       // console.log(setStoryList)
-        showHideModal(false);
+          let res = await api("get", url);
+          setStoryList(res);
+          console.log(setStoryList);
+          showHideModal(false);
         }
-
       };
       apiCall();
     }
-    
 
     setStoryModal(false);
     setShow({});
@@ -84,8 +81,7 @@ const StoryLog = () => {
   };
   const editStory = (currentStory) => {
     setStoryModal({ ...currentStory });
-    
-    
+
     showHideModal(true);
     setIsEdit(true);
   };
@@ -121,9 +117,8 @@ const StoryLog = () => {
 
   return (
     <>
-    <div className="card-header">
-    <Navbar>
-        </Navbar>
+      <div className="card-header">
+        <Navbar></Navbar>
         <Hamburger></Hamburger>
       </div>
       <div className="app">
@@ -133,57 +128,53 @@ const StoryLog = () => {
           </div>
           <div className="list-container">
             <div className="return">
-            <h1 className={checked.length>0 ? "checked" : "notChecked"}>Listed Story</h1>
+              <h1>Listed Story</h1>
               {checked?.map((item) => {
                 console.log(item);
                 return (
                   <div className="list">
                     <ListGroup>
-                      <ListGroup.Item >{item}</ListGroup.Item>
+                      <ListGroup.Item>{item}</ListGroup.Item>
                     </ListGroup>
                   </div>
-                  
                 );
-            
               })}
             </div>
             <h1>Stories</h1>
             <div className="story">
-          
-            {storyList?.map((item, index) => {
-              console.log(item);
-              return (
-                <>
-                  <div key={index} class="border">
+              {storyList?.map((item, index) => {
+                console.log(item);
+                return (
+                  <>
+                    <div key={index} className="border">
+                      <span>
+                        {item.id} {item.name}
+                        <input
+                          value={`${item.id} ${item.name}`}
+                          type="checkbox"
+                          onChange={handleCheck}
+                          id={item.id}
+                        ></input>
+                      </span>
+                    </div>
                     <span>
-                      {item.id} {item.name}
-                      <input
-                        value={`${item.id} ${item.name}`}
-                        type="checkbox"
-                        onChange={handleCheck}
-                        id={item.id}
-                      ></input>
+                      <Delete
+                        onClick={() => {
+                          deleteStory(item);
+                        }}
+                      />
                     </span>
-                  </div>
-                  <span>
-                    <Delete
-                      onClick={() => {
-                        deleteStory(item);
-                      }}
-                    />
-                  </span> 
-                  <span>
-                    <Edit
-                      onClick={() => {
-                        editStory(item);
-                      }}
-                    />
-                  </span>            
-                </>
-                
-              );
-            })}{" "}
-        </div>    
+                    <span>
+                      <Edit
+                        onClick={() => {
+                          editStory(item);
+                        }}
+                      />
+                    </span>
+                  </>
+                );
+              })}{" "}
+            </div>
             <Add
               className="add"
               onClick={() => {
@@ -206,7 +197,6 @@ const StoryLog = () => {
                 value={storyModal.name || " "}
                 onChange={handleChange}
               ></input>
-              
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -217,12 +207,10 @@ const StoryLog = () => {
           <Button
             variant="primary"
             onClick={() => {
-
               addOrEdit(storyModal);
             }}
           >
             Submit
-            
           </Button>
         </Modal.Footer>
       </Modal>

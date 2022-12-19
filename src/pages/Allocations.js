@@ -2,64 +2,72 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import { useState, useEffect } from "react";
-import Edit from "./Edit";
-import Delete from "./Delete";
-import Add from "./Add";
+import { useState, useEffect, useRef } from "react";
+import Edit from "../custom-icons/Edit";
+import Delete from "../custom-icons/Delete";
+import Add from "../custom-icons/Add";
 import api from "../utility/api";
 import { useParams } from "react-router-dom";
 
 const Allocations = () => {
   const params = useParams();
-  console.log(params);
+
   const url = `/api/Allocation/SearchAllocation/${params.Id}`;
   const url2 = `/api/Resource/SearchResource/${params.Id}`;
-  const url3= `/api/Team/SearchTeam/${params.Id}`;
+  const url3 = `/api/Team/SearchTeam/${params.Id}`;
   const [allocationList, setAllocationList] = useState([]);
   const [allocationModal, setAllocationModal] = useState({});
   const [show, setShow] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [alert, setAlert] = useState(false);
-  const [employeeList,setEmployeeList] = useState([]);
-  const [teamList,setTeamList]=useState([])
+  const [employeeList, setEmployeeList] = useState([]);
+  const [teamList, setTeamList] = useState([]);
+  const [allEmployees, setAllEmployees] = useState([]);
+  const [allTeam, setAllTeam] = useState([]);
   console.log(allocationModal);
 
+  const role = useRef("");
+  const hoursPerDay=useRef("")
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
-      let response2= await api("get",url2);
-      let response3=await api("get",url3)
+      let response2 = await api("get", url2);
+      let response3 = await api("get", url3);
       setAllocationList(response);
-      let temp =response2.map((currentValue)=>{
-        let tempRes={value:currentValue.name.trim(),
-        label:currentValue.Id}
-        console.log("label","neha")
-        return tempRes
-      })
-      setEmployeeList(temp)
-      console.log("temp" ,temp)
-      console.log('allocation',response)
-      let temp2 =response3.map((teamValue)=>{
-        let tempRes2={'value':teamValue.name.trim(),
-      "label":teamValue.Id}
-      return tempRes2
-      })
-      setTeamList(temp2)
+      setAllEmployees(response2);
+      setAllTeam(response3);
+      let temp = response2.map((currentValue) => {
+        let tempRes = {
+          value: currentValue.name.trim(),
+          label: currentValue.id,
+        };
+
+        return tempRes;
+      });
+      setEmployeeList(temp);
+
+      let temp2 = response3.map((teamValue) => {
+        let tempRes2 = {
+          value: teamValue.name.trim(),
+          label: teamValue.id,
+        };
+        return tempRes2;
+      });
+      setTeamList(temp2);
     };
     apiCall();
   }, [url]);
-
+  console.log("list", employeeList);
   const addOrEdit = (allocationModal) => {
     if (!isEdit) {
       const addUrl = `/api/Allocation/AddAllocation`;
-      allocationModal.projectId=params.Id;
-    //  allocationModal.projectName=params.name;
+      allocationModal.projectId = params.Id;
+      //  allocationModal.projectName=params.name;
       const apiCall = async () => {
         let response = await api("post", addUrl, allocationModal);
         if (response) {
           let res = await api("get", url);
           setAllocationList(res);
-          
         }
       };
       apiCall();
@@ -110,25 +118,43 @@ const Allocations = () => {
     setAllocationModal({ ...currentAllocation });
     showConfirmModel(true);
   };
+  const handleChange1 = ({ target: { name, value } }) => {
+    console.log(allTeam);
+    console.log(value, "value");
+    setAllocationModal((prev) => ({
+      ...prev,
+      [name]: value,
+     // employeeId: allEmployees.find((e) => e.name.trim() === value)?.employeeId,
+        teamId: allTeam.find((e) => e.name.trim() === value)?.id,
+    }));
 
-  const handleChange = ({ target: { name, value} }) => {
-    setAllocationModal((prev) => {
-      return {
-        ...prev,
-        [name]: name === "employeeId" ? value : parseInt(value),
-      };
-    });
+  };
+
+  const handleChange = ({ target: { name, value } }) => {
+    console.log(allTeam);
+    console.log(value, "value");
+    setAllocationModal((prev) => ({
+      ...prev,
+      [name]: value,
+      
+      employeeId: allEmployees.find((e) => e.name.trim() === value)?.employeeId,
+        //teamId: allTeam.find((e1) => e1.name.trim() === value)?.id,
+    }));
+
+    console.log(allEmployees, "hai");
+    console.log(allTeam, "helloo");
   };
 
   return (
-   
     <div>
       <table>
         <tr>
           <th>SL.no</th>
-          <th>Employee</th>
-          <th>Team</th>
-          <th>Project</th>
+          <th>Name</th>
+          <th>EmployeeId</th>
+          <th>TeamId</th>
+          <th>TeamName</th>
+
           <th>Role</th>
           <th>Hours</th>
 
@@ -138,11 +164,13 @@ const Allocations = () => {
           return (
             <tr key={allocation.value}>
               <td>{allocation.id}</td>
-              <td> {allocation.employee}</td>
-              <td> {allocation.team}</td>
-              <td> {allocation.project}</td>
+              <td> {allocation.name}</td>
+              <td> {allocation.employeeId}</td>
+              <td> {allocation.teamId}</td>
+              <td> {allocation.teamName}</td>
+
               <td> {allocation.role}</td>
-              <td> {allocation.hoursperday}</td>
+              <td> {allocation.hoursPerDay}</td>
 
               <td>
                 <span>
@@ -173,104 +201,90 @@ const Allocations = () => {
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Role</Form.Label>
-              <input
-                name="role"
-                value={allocationModal.role || ""}
-                onChange={handleChange}
-              ></input>
-              <br></br>
-              <Form.Label>Hoursperday</Form.Label>
-              <input
-                name="hoursperday"
-                value={allocationModal.hoursperday || ""}
-                onChange={handleChange}
-              ></input>
-              <br></br>
-
-              <Form.Label>employee</Form.Label>
+              <Form.Label>Name</Form.Label>
 
               <select
                 className="custom-select"
                 id="inputGroupSelect04"
                 onChange={handleChange}
-                value={allocationModal?.employeeId}
+                value={allocationModal?.name}
+                name="name"
+              >
+                <option selected>Choose...</option>
+                {employeeList.map((name) => (
+                  <option key={name.value} id={name.label} value={name.value}>
+                    {name.value}
+                  </option>
+                ))}
+              </select>
+
+              <br></br>
+              <Form.Label>EmployeeId</Form.Label>
+              <input
                 name="employeeId"
+                value={allocationModal.employeeId || ""}
+                onChange={handleChange}
+               
+              ></input>
+              <br></br>
+
+              <Form.Label>TeamName</Form.Label>
+
+              <select
+                className="custom-select"
+                id="inputGroupSelect04"
+                onChange={handleChange1}
+                value={allocationModal?.Id}
+                name="teamName"
               >
                 <option selected>Choose...</option>
-                {employeeList.map((employee) => (
-                  
+                {teamList.map((teamName) => (
                   <option
-                    key={employee.value}
-                    id={employee.label}
-                    value={employee.label}
+                    key={teamName.value}
+                    id={teamName.label}
+                    value={teamName.value}
                   >
-                    {employee.value}{console.log('current',employee)}
+                    {teamName.value}
                   </option>
                 ))}
               </select>
 
               <br></br>
-
-              <Form.Label>Team</Form.Label>
-
-              {/* <select
-                className="custom-select"
-                id="inputGroupSelect04"
-                onChange={handleChange}
-                value={allocationModal?.teamId}
+              <Form.Label>TeamId</Form.Label>
+              <input
                 name="teamId"
-              >
-                <option selected>Choose...</option>
-                {teamList.map((team) => (
-                  <option
-                   key={team.value}
-                    id={team.value}
-                     value={team.value}
-                     >
-                    {team.value}{console.log('current1',team)}
-                  </option>
-                ))}
-              </select> */}
+                value={allocationModal.teamId || ""}
+               onChange={handleChange1}
+               
+              ></input>
+              <br></br>
 
-
-<select
-                className="custom-select"
-                id="inputGroupSelect04"
-                onChange={handleChange}
-                value={allocationModal?.teamId}
+              <Form.Label>Role</Form.Label>
+              <input
                 
-                name="teamId"
-              >
-                <option selected>Choose...</option>
-                {teamList.map((team) => (
-                  
-                  <option
-                    key={team.value}
-                    id={team.label}
-                    value={team.label}
-                  >
-                    {team.value}{console.log('current1',team)}
-                  </option>
-                ))}
-              </select>
-
-
-
+                name="role"
+                //value={allocationModal.role || ""}
+               ref={role}
+               // type="number"
+              // onChange={handleChange}
+              ></input>
               <br></br>
-
-              <Form.Label>Project</Form.Label>
-
-  
+              <Form.Label>Hoursperday</Form.Label>
+              <input
+                name="hoursPerDay"
+               // value={allocationModal.hoursPerDay || ""}
+                 ref={hoursPerDay}
+              //  onChange={handleChange}
+              ></input>
+              <br></br>
+              <Form.Label>ProjectId</Form.Label>
               <input
                 name="ProjectId"
-                value={allocationList.project|| params.Id}
-               
+                value={allocationList.project || params.Id}
                 disabled
               ></input>
-{console.log(allocationModal)}
+
               <br></br>
-             
             </Form.Group>
           </Form>
         </Modal.Body>

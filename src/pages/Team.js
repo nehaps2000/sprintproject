@@ -2,15 +2,15 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import Edit from "./Edit";
-import Delete from "./Delete";
-import Add from "./Add";
+import Edit from "../custom-icons/Edit";
+import Delete from "../custom-icons/Delete";
+import Add from "../custom-icons/Add";
 import api from "../utility/api";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 const Team = () => {
-  const params=useParams();
+  const params = useParams();
   const url = `/api/Team/SearchTeam/${params.Id}`;
   const [teamList, setTeamList] = useState([]);
   const [teamModal, setTeamModal] = useState({});
@@ -20,7 +20,7 @@ const Team = () => {
 
   useEffect(() => {
     const apiCall = async () => {
-      let response = await api("get", url,);
+      let response = await api("get", url);
       setTeamList(response);
     };
     apiCall();
@@ -28,11 +28,10 @@ const Team = () => {
 
   const addOrEdit = (teamModal) => {
     const addurl = `/api/Team/AddTeam`;
-    
-    teamModal.projectId=params.Id;
+    teamModal.id = params.Id;
     if (!isEdit) {
       const apiCall = async () => {
-        let response = await api("post", addurl, teamModal,);
+        let response = await api("post", addurl, teamModal);
         if (response) {
           let response1 = await api("get", url);
           setTeamList(response1);
@@ -59,7 +58,7 @@ const Team = () => {
     const apiCall = async () => {
       let response = await api("delete", deleteurl);
       if (response) {
-        let res =  await api("get",url);
+        let res = await api("get", url);
         setTeamList(res);
       }
     };
@@ -146,15 +145,11 @@ const Team = () => {
               <Form.Label>Name</Form.Label>
               <input
                 name="name"
-                value={teamModal.name ||""}
+                value={teamModal.name || ""}
                 onChange={handleChange}
               ></input>
-              <Form.Label>projectID</Form.Label>
-              <input
-                name="projectId"
-                value={teamModal.projectId || params.Id}
-                disabled
-              ></input>
+              <Form.Label>ProjectID</Form.Label>
+              <input name="ProjectId" value={params.Id} disabled></input>
             </Form.Group>
           </Form>
         </Modal.Body>
