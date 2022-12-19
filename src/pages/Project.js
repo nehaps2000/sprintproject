@@ -3,9 +3,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useState, useEffect } from "react";
-import Edit from "./Edit";
-import Delete from "./Delete";
-import Add from "./Add";
+import Edit from "../custom-icons/Edit";
+import Delete from "../custom-icons/Delete";
+import Add from "../custom-icons/Add";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -19,7 +19,7 @@ import {
   AccordionItemPanel,
 } from "react-accessible-accordion";
 import "react-accessible-accordion/dist/fancy-example.css";
-import Navbar from "../Navbar";
+import Navbar from "../components/Navbar";
 
 const Project = () => {
   const url = "/api/Project/Projects";
@@ -123,7 +123,8 @@ const Project = () => {
     });
   };
 
-  const projectOpen = (id) => {
+  const projectOpen = (id,name) => {
+    localStorage.setItem(id,name)
     Navigate(`/${id}/projectSettings`);
   };
 
@@ -145,11 +146,12 @@ const Project = () => {
 
   const holidayGrouping = (holidayList) => {
     let d = {};
+    console.log(holidayList)
     holidayList.forEach((holiday) => {
       var date = holiday.date;
       var year = date.split("-")[date.split("-").length - 1];
       const keys = Object.keys(d);
-      if (!keys.length === 0 && keys.includes(year)) {
+      if (keys.includes(year)) {
         d[`${year}`].push({
           name: holiday.name,
           date,
@@ -170,23 +172,39 @@ const Project = () => {
 
   return (
     <>
-      <div class="card-text-center">
-        <div class="card-header">
-          <Navbar>
-          </Navbar>
+      <div className="card-text-center">
+        <div className="card-header">
+          <Navbar></Navbar>
           <div className="head">
-            <ul class="navbar nav nav-tabs card-header-tabs">
+            <ul className="navbar nav nav-tabs card-header-tabs">
               <li
-                class="nav-item"
-                onClick={() => {
+                className="nav-item"
+                onClick={(e) => {
+                  let elements = e.target.parentElement.children;
+                  console.log(elements)
+                  let i =0;
+                  while(i<elements.length)
+                  {
+                    elements[i].style = "border:none";
+                    i++;
+                  }
+                    e.target.style="border-bottom:solid red";
                   setSelectedTab("Project");
                 }}
               >
                 Projects
               </li>
               <li
-                class="nav-item"
-                onClick={() => {
+                className="nav-item"
+                onClick={(e) => {
+                  let elements = e.target.parentElement.children;
+                  let i =0;
+                  while(i<elements.length)
+                  {
+                    elements[i].style = "border:none";
+                    i++;
+                  }
+                  e.target.style="border-bottom:solid red";
                   holidayGrouping(holidayList);
                   setSelectedTab("Calendar");
                 }}
@@ -196,8 +214,8 @@ const Project = () => {
             </ul>
           </div>
         </div>
-        
-        <div class="card-body">
+
+        <div className="card-body">
           {selectedTab === "Calendar" ? (
             <div className="accordion">
               <Accordion allowMultipleExpanded={true} allowZeroExpanded={true}>
@@ -210,7 +228,7 @@ const Project = () => {
                       <AccordionItemPanel>
                         <ul>
                           {holidaySet.list[`${key}`].map((data) => {
-                           
+                            console.log(holidaySet)
                             return (
                               <li className="accList" key={Math.random()}>
                                 <b>{data.name}</b> <i>{data.date}</i>
@@ -245,25 +263,32 @@ const Project = () => {
                                 height: "max content",
                                 border: "solid 1px black",
                               }}
-                              onClick={() => projectOpen(project.id)}
+                              onClick={() => projectOpen(project.id,project.name)}
                             >
                               Project ID: {project.id}
                               <br></br>
                               <br></br>
                             </Card.Text>
-                            <Edit className="edit" onClick={() => editview(project)} />
-                            <Delete className="delete" onClick={() => deleteProject(project)} />
+                            <Edit
+                              className="edit"
+                              onClick={() => editview(project)}
+                            />
+                            <Delete
+                              className="delete"
+                              onClick={() => deleteProject(project)}
+                            />
                           </Card.Body>
                         </Card>
                       </Col>
                     );
                   })}
                 </Row>
-                  <Add className="add"
-                    onClick={() => {
-                      showHideModal(true);
-                    }}
-                  />
+                <Add
+                  className="add"
+                  onClick={() => {
+                    showHideModal(true);
+                  }}
+                />
               </div>
             </div>
           )}
@@ -348,7 +373,7 @@ const Project = () => {
                 <Form.Label>Date</Form.Label>
                 <input
                   name="date"
-                  class="form-label"
+                  className="form-label"
                   for="formControlDisabled"
                   type="date"
                   onChange={handleHolidayChange}

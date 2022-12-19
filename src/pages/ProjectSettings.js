@@ -3,8 +3,8 @@ import Allocations from "./Allocations";
 import Resources from "./Resources";
 import Team from "./Team";
 import { useParams } from "react-router-dom";
-import Navbar from "../Navbar";
-import Hamburger from "../Hamburger";
+import Navbar from "../components/Navbar";
+import Hamburger from "../components/Hamburger";
 
 const ProjectSettings = () => {
   const [selectedTab, setSelectedTab] = useState(null);
@@ -21,7 +21,7 @@ const ProjectSettings = () => {
 
         <div className="card-body">
           <div className="head">
-            <ul className="nav nav-tabs card-header-tabs">
+            <ul className="navbar nav nav-tabs card-header-tabs">
               <li
                 className="nav-item"
                 onClick={() => {
