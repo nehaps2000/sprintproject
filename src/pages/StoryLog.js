@@ -32,6 +32,8 @@ const StoryLog = () => {
   const addOrEdit = (storyModal) => {
     const addurl = `/api/Story/AddStory`;
     storyModal.id = params.Id;
+    storyModal.projectId=params.Id;
+    console.log(storyModal)
     if (!isEdit) {
       const apiCall = async () => {
         let response = await api("post", addurl, storyModal);
@@ -128,7 +130,8 @@ const StoryLog = () => {
           </div>
           <div className="list-container">
             <div className="return">
-              <h1>Listed Story</h1>
+             
+              <h1 className={checked.length>0 ? "checked" : "notChecked"}>Listed Story</h1>
               {checked?.map((item) => {
                 console.log(item);
                 return (
