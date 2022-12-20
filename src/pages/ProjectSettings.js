@@ -24,7 +24,16 @@ const ProjectSettings = () => {
             <ul className="navbar nav nav-tabs card-header-tabs">
               <li
                 className="nav-item"
-                onClick={() => {
+                onClick={(e) => {
+                  let elements = e.target.parentElement.children;
+                  console.log(elements)
+                  let i =0;
+                  while(i<elements.length)
+                  {
+                    elements[i].style = "border:none";
+                    i++;
+                  }
+                    e.target.style="border-bottom:solid red"; 
                   setSelectedTab("Allocations");
                 }}
               >
@@ -32,7 +41,16 @@ const ProjectSettings = () => {
               </li>
               <li
                 className="nav-item"
-                onClick={() => {
+                onClick={(e) => {
+                  let elements = e.target.parentElement.children;
+                  console.log(elements)
+                  let i =0;
+                  while(i<elements.length)
+                  {
+                    elements[i].style = "border:none";
+                    i++;
+                  }
+                    e.target.style="border-bottom:solid red";
                   setSelectedTab("Resources");
                 }}
               >
@@ -40,8 +58,18 @@ const ProjectSettings = () => {
               </li>
               <li
                 className="nav-item"
-                onClick={() => {
+                onClick={(e) => {
+                  let elements = e.target.parentElement.children;
+                  console.log(elements)
+                  let i =0;
+                  while(i<elements.length)
+                  {
+                    elements[i].style = "border:none";
+                    i++;
+                  }
+                    e.target.style="border-bottom:solid red";
                   setSelectedTab("Team");
+
                 }}
               >
                 Team

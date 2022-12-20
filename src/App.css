@@ -421,3 +421,23 @@ margin-right: 5%;
 width:90%;
 
 }
+.name{
+  color:#fdfdfd;
+  text-align: center;
+}
+.wrapper{
+  width:50%;
+  height: 50%;
+  border:1px solid;
+  margin:5px;
+}
+.calenderHead{
+  width: 100px;
+  height:40px;
+ /*  display: flex; */
+   justify-content: space-around; 
+  font-size: 24px;
+  align-items: center;
+  text-align: center;
+  margin-left: 50%;
+}
