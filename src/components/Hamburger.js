@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import Home from "../custom-icons/Home";
 import { slide as Menu } from "react-burger-menu";
 
+
 const Hamburger = () => {
   const params = useParams();
   console.log(params.Id);
@@ -16,11 +17,12 @@ const Hamburger = () => {
               <Home className="home"></Home>
               Home
             </Link>
-            <Link id="projectsettings" className="menu-item1" to="#">
+            <Link className="menu-item1" to={`/${params.Id}/ProjectSettings`}defaultValue>
               Project Settings
             </Link>
             <Link to={`/${params.Id}/Sprint/SearchSprint`}>Sprint Settings</Link>
             <Link to={`/${params.Id}/Story/SearchStory`}>Story BackLog</Link>
+        <Link to={`/${params.Id}/Leave/Getleave`}>Leave Settings</Link>
           </Menu>
         </div>
       </div>
