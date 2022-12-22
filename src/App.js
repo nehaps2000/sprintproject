@@ -10,6 +10,7 @@ import ProjectSettings from "./pages/ProjectSettings";
 import SprintSettings from "./pages/SprintSettings";
 import StoryLog from "./pages/StoryLog";
 import Leaves from "./pages/Leaves";
+
 function App() {
   return (
     <>
@@ -23,7 +24,7 @@ function App() {
           <Route path="/:Id/ProjectSettings" element={<ProjectSettings />} />
           <Route path="/:Id/Sprint/SearchSprint" element={<SprintSettings />} />
           <Route path="/:Id/Story/SearchStory" element={<StoryLog />} />
-          <Route path="/:Id/Leave/Getleave" element={<Leaves />} />
+          <Route path="/Leave/Getleave" element={<Leaves />} />
         </Routes>
       </Router>
     </>

@@ -13,12 +13,12 @@ import api from "../utility/api";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Hamburger from "../components/Hamburger";
-import moment from "moment/moment";
+import moment, { duration } from "moment/moment";
 
 const SprintSettings = () => {
   const params = useParams();
   const url = `/api/Sprint/SearchSprint/${params.Id}`;
-  const url2 = "/api/Calendar/GetHoliday";
+  const url2 = `/api/Calendar/GetHoliday`;
   const [sprintList, setSprintList] = useState([]);
   const [sprintModal, setSprintModal] = useState({});
   const [isEdit, setIsEdit] = useState(false);
@@ -37,6 +37,12 @@ const SprintSettings = () => {
     apiCall();
   }, [url]);
 
+  useEffect(() => {
+    if (sprintModal?.StartDate && sprintModal?.EndDate) {
+      findDuration(sprintModal.StartDate, sprintModal.EndDate);
+    }
+  }, [sprintModal?.StartDate, sprintModal?.EndDate]);
+  console.log(sprintModal)
   const addOrEdit = (sprintModal) => {
     const addurl = `/api/Sprint/addSprint`;
 
@@ -106,7 +112,7 @@ const SprintSettings = () => {
   };
 
   const findDuration = (sDate, eDate) => {
-    // console.log(sDate, eDate);
+    console.log(sDate, eDate);
     let d1 = Date.parse(sDate);
     let d2 = Date.parse(eDate);
 
@@ -115,47 +121,40 @@ const SprintSettings = () => {
     // console.log(Date(sDate).toString().split(" ")[0]);
 
     holidayList?.forEach((holiday) => {
-      var d = moment(holiday.date, "DD-MM-YYYY");
+      let holidayDate = new Date(holiday.date.split("-").reverse().join("-"));
 
-      console.log(holiday.date);
-
-      d = Date.parse(d);
-
-      // console.log(d, typeof d);
-
-      if (d1 <= d && d2 >= d) {
-        // console.log("HERE");
+      if (d1 <= holidayDate && d2 >= holidayDate) {
         difference--;
       }
     });
-    const start = new Date(sDate);
+    var start = new Date(sDate);
     const end = new Date(eDate);
-    for (start; start <= end; new Date(start.setDate(start.getDate() + 1))) {
+
+    while (start <= end) {
+      console.log("day", start.getDay());
       let newDate = start.setDate(start.getDate() + 1);
+      var dateB = Date.parse(start);
+      if (start.getDay() === 0 || start.getDay() === 6) {
+        difference--;
+      }
+      holidayList.forEach((holiday) => {
+        var d = moment(holiday.date, "DD-MM-YYYY");
+        let dd = Date.parse(d);
+        if (d1 <= dd && d2 >= dd) {
+          if (dateB === dd) {
+            difference++;
+          }
+        }
+      });
+
       start = new Date(newDate);
-      console.log(sDate, eDate);
-      // if (start.getDay() === 0 || start.getDay() === 6) {
-      //   var dateB = Date.parse(start);
-      //   holidayList.forEach((holiday) => {
-      //     var d = moment(holiday.date, "DD-MM-YYYY");
-      //     d = Date.parse(d);
-      //     if (dateB !== d) difference--;
-      //   });
-      // }
     }
 
     console.log(difference);
-  };
-
-  const randomfn = () => {
-    const start = new Date("02/05/2020");
-    const end = new Date("02/10/2020");
-    let loop = new Date(start);
-    while (loop <= end) {
-      console.log(loop);
-      let newDate = loop.setDate(loop.getDate() + 1);
-      loop = new Date(newDate);
-    }
+    setSprintModal((prev) => {
+      return { ...prev, duration: difference };
+    });
+    return difference;
   };
 
   return (
@@ -185,8 +184,11 @@ const SprintSettings = () => {
                         Duration: {sprint.duration}
                         <br></br>
                       </Card.Text>
-                      <Edit onClick={() => editview(sprint)} />
-                      <Delete onClick={() => deleteSprint(sprint)} />
+                      <Edit className="edit" onClick={() => editview(sprint)} />
+                      <Delete
+                        className="delete"
+                        onClick={() => deleteSprint(sprint)}
+                      />
                     </Card.Body>
                   </Card>
                 </Col>
@@ -250,8 +252,7 @@ const SprintSettings = () => {
             <Button
               variant="primary"
               onClick={() => {
-                findDuration(sprintModal.StartDate, sprintModal.EndDate);
-                // addOrEdit(sprintModal);
+                addOrEdit(sprintModal);
               }}
             >
               Submit
