@@ -13,12 +13,12 @@ import api from "../utility/api";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Hamburger from "../components/Hamburger";
-import moment from "moment/moment";
+import moment, { duration } from "moment/moment";
 
 const SprintSettings = () => {
   const params = useParams();
   const url = `/api/Sprint/SearchSprint/${params.Id}`;
-  const url2 = "/api/Calendar/GetHoliday";
+  const url2 = `/api/Calendar/GetHoliday`;
   const [sprintList, setSprintList] = useState([]);
   const [sprintModal, setSprintModal] = useState({});
   const [isEdit, setIsEdit] = useState(false);
@@ -35,9 +35,14 @@ const SprintSettings = () => {
       setHolidayList(response2);
     };
     apiCall();
-    setSprintModal({ sprintModal: findDuration });
   }, [url]);
 
+  useEffect(() => {
+    if (sprintModal?.StartDate && sprintModal?.EndDate) {
+      findDuration(sprintModal.StartDate, sprintModal.EndDate);
+    }
+  }, [sprintModal?.StartDate, sprintModal?.EndDate]);
+  console.log(sprintModal)
   const addOrEdit = (sprintModal) => {
     const addurl = `/api/Sprint/addSprint`;
 
@@ -117,7 +122,6 @@ const SprintSettings = () => {
 
     holidayList?.forEach((holiday) => {
       let holidayDate = new Date(holiday.date.split("-").reverse().join("-"));
-      console.log(d1 <= holidayDate && d2 >= holidayDate);
 
       if (d1 <= holidayDate && d2 >= holidayDate) {
         difference--;
@@ -147,6 +151,9 @@ const SprintSettings = () => {
     }
 
     console.log(difference);
+    setSprintModal((prev) => {
+      return { ...prev, duration: difference };
+    });
     return difference;
   };
 
@@ -245,7 +252,6 @@ const SprintSettings = () => {
             <Button
               variant="primary"
               onClick={() => {
-                findDuration(sprintModal.StartDate, sprintModal.EndDate);
                 addOrEdit(sprintModal);
               }}
             >

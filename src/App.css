@@ -273,8 +273,9 @@ label {
 }
 
 .bm-item {
-  display: inline-block;
-
+  display: flex;
+  margin-top: 4vh;
+margin-left: 5vw;
   /* Our sidebar item styling */
   text-decoration: none;
   margin-bottom: 10px;
@@ -283,7 +284,7 @@ label {
 }
 
 .bm-item:hover {
-  color: rgb(237, 241, 232);
+  color: white;
 }
 
 .bm-burger-button {
@@ -295,6 +296,8 @@ label {
   color: rgb(240, 245, 248);
   
 }
+
+
 
 /* Color/shape of burger icon bars */
 .bm-burger-bars {
@@ -425,19 +428,20 @@ width:90%;
   color:#fdfdfd;
   text-align: center;
 }
-.wrapper{
-  width:50%;
-  height: 50%;
-  border:1px solid;
-  margin:5px;
-}
-.calenderHead{
-  width: 100px;
-  height:40px;
- /*  display: flex; */
-   justify-content: space-around; 
-  font-size: 24px;
+
+.calendar {
+  display: flex;
   align-items: center;
-  text-align: center;
-  margin-left: 50%;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 25vh;
+  padding-left: 25vw;
+  padding-right: 25vw;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+
+.highlight{
+  background-color: red !important;
+  color: white !important;
 }
