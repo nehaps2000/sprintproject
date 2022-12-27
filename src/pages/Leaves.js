@@ -7,7 +7,7 @@ import Navbar from "../components/Navbar";
 import "react-calendar/dist/Calendar.css";
 import Hamburger from "../components/Hamburger";
 import api from "../utility/api";
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import format from "date-fns/format";
 
 const Leaves = () => {
@@ -16,9 +16,10 @@ const Leaves = () => {
   const [leaveModal, setLeaveModal] = useState({});
   const [addLeaveModal, setAddLeaveModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [isLeave, setIsLeave] = useState(false);
+  //const [isLeave, setIsLeave] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
-
+  const [del, setDel] = useState(false);
+  
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
@@ -29,6 +30,7 @@ const Leaves = () => {
   console.log(leaveList, "here");
 
   const addOrEdit = (leaveModal) => {
+    console.log(leaveModal)
     const addurl = `/api/Leave/AddLeave`;
     if (!isEdit) {
       const apiCall = async () => {
@@ -36,6 +38,7 @@ const Leaves = () => {
         if (response) {
           let res = await api("get", url);
           setLeaveList(res);
+          
         }
       };
       apiCall();
@@ -51,6 +54,22 @@ const Leaves = () => {
 
     setAddLeaveModal(false);
     setLeaveModal({});
+  };
+  const deleteOneLeave = (leaveModal) => {
+    const deleteurl = `/api/Leave/DeleteLeave${leaveModal.id}`;
+    const apiCall = async () => {
+      let response = await api("delete", deleteurl);
+      if (response) {
+        let res = await api("get", url);
+        setLeaveList(res);
+      }
+    };
+    apiCall();
+    setDel(false);
+    setLeaveModal({});
+  };
+  const showDeleteModal = (status) => {
+    setDel(status);
   };
 
   const showHideModal = (status) => {
@@ -86,11 +105,12 @@ const Leaves = () => {
           onClickDay={handleDateChange}
           value={selectedDate}
           tileClassName={({ date }) => {
-            {let isHighlighted = false;
+            {
+              let isHighlighted = false;
               leaveList?.map((l) => {
                 if (Date.parse(l.leaveDate) === Date.parse(date))
                   // setIsLeave(true);
-                  isHighlighted=true;
+                  isHighlighted = true;
               });
               if (isHighlighted) return "highlight";
             }
@@ -101,9 +121,21 @@ const Leaves = () => {
         ></Calendar>
       </div>
       <div>
-        {leaveList?.map((l) => {
-          return <div>{l.leaveDate}</div>;
-        })}
+        <table className="listed-leave">
+          <tr>
+            <th>EmployeeId</th>
+            <th>Leave Date</th>
+          </tr>
+          {leaveList?.map((l) => {
+            return (
+              <tr key={l.employeeId}>
+                <td> {l.employeeId}</td>
+
+                <td> {l.leaveDate}</td>
+              </tr>
+            );
+          })}{" "}
+        </table>
       </div>
 
       <Modal show={addLeaveModal} onHide={() => showHideModal(false)}>
@@ -120,9 +152,10 @@ const Leaves = () => {
                 onChange={handleChange}
               ></input>
               <Form.Label>Leave Date</Form.Label>
+              
               <input
                 name="leaveDate"
-                value={format(new Date(selectedDate), 'yyyy-MM-dd')||leaveModal.leaveDate}
+                value={format(selectedDate, "yyyy-MM-dd")}
                 onChange={handleChange}
               ></input>
             </Form.Group>
@@ -139,6 +172,29 @@ const Leaves = () => {
             }}
           >
             Submit
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={del} onHide={() => showDeleteModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete team</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Label>Do you really want to delete ?</Form.Label>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => showDeleteModal(false)}>
+            Cancel
+          </Button>
+          <Button
+            variant="primary"
+            onClick={() => {
+              deleteOneLeave(leaveModal);
+            }}
+          >
+            Yes
           </Button>
         </Modal.Footer>
       </Modal>
