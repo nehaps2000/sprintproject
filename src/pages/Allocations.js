@@ -59,9 +59,15 @@ const Allocations = () => {
   }, [url]);
   console.log("list", employeeList);
   const addOrEdit = (allocationModal) => {
+    console.log(typeof(role),role.current.value,"hey")
+
     if (!isEdit) {
       const addUrl = `/api/Allocation/AddAllocation`;
       allocationModal.projectId = params.Id;
+     allocationModal.role=parseInt(role.current.value);
+      allocationModal.hoursPerDay=parseInt(hoursPerDay.current.value)
+     console.log(allocationModal);
+
       //  allocationModal.projectName=params.name;
       const apiCall = async () => {
         let response = await api("post", addUrl, allocationModal);

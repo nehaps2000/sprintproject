@@ -31,9 +31,10 @@ const StoryLog = () => {
   }, [url]);
   const addOrEdit = (storyModal) => {
     const addurl = `/api/Story/AddStory`;
-    storyModal.id = params.Id;
+    //storyModal.id = params.Id;
     storyModal.projectId=params.Id;
-    console.log(storyModal)
+
+    console.log(params.Id,"monkey")
     if (!isEdit) {
       const apiCall = async () => {
         let response = await api("post", addurl, storyModal);
