@@ -118,7 +118,7 @@ const Resource = () => {
   ];
   return (
     <div className="main">
-      <table>
+      <table className="team">
         <tr>
           <th>ID</th>
           <th>Employee ID</th>

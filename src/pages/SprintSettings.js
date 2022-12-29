@@ -13,7 +13,7 @@ import api from "../utility/api";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Hamburger from "../components/Hamburger";
-import moment, { duration } from "moment/moment";
+import moment from "moment/moment";
 
 const SprintSettings = () => {
   const params = useParams();
@@ -35,7 +35,7 @@ const SprintSettings = () => {
       setHolidayList(response2);
     };
     apiCall();
-  }, [url]);
+  }, [url,url2]);
 
   useEffect(() => {
     if (sprintModal?.StartDate && sprintModal?.EndDate) {

@@ -7,19 +7,23 @@ import Navbar from "../components/Navbar";
 import "react-calendar/dist/Calendar.css";
 import Hamburger from "../components/Hamburger";
 import api from "../utility/api";
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import format from "date-fns/format";
-
+import Delete from "../custom-icons/Delete";
+import Edit from "../custom-icons/Edit";
 const Leaves = () => {
   const url = `/api/Leave/GetLeaves`;
   const [leaveList, setLeaveList] = useState([]);
   const [leaveModal, setLeaveModal] = useState({});
   const [addLeaveModal, setAddLeaveModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  //const [isLeave, setIsLeave] = useState(false);
+  const [isLeave, setIsLeave] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [del, setDel] = useState(false);
-  
+
+
+
+ 
+  const [alert, setAlert] = useState(false);
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
@@ -30,7 +34,7 @@ const Leaves = () => {
   console.log(leaveList, "here");
 
   const addOrEdit = (leaveModal) => {
-    console.log(leaveModal)
+    console.log(leaveModal);
     const addurl = `/api/Leave/AddLeave`;
     if (!isEdit) {
       const apiCall = async () => {
@@ -38,12 +42,11 @@ const Leaves = () => {
         if (response) {
           let res = await api("get", url);
           setLeaveList(res);
-          
         }
       };
       apiCall();
     } else {
-      const updateurl = `/api/Project/UpdateProject/${leaveModal.id}`;
+      const updateurl = `/api/Leave/UpdateLeave/${leaveModal.id}`;
       const apiCall = async () => {
         let response = await api("patch", updateurl, leaveModal);
         response = await api("get", url);
@@ -56,7 +59,7 @@ const Leaves = () => {
     setLeaveModal({});
   };
   const deleteOneLeave = (leaveModal) => {
-    const deleteurl = `/api/Leave/DeleteLeave${leaveModal.id}`;
+    const deleteurl = `/api/Leave/DeleteLeave/${leaveModal.id}`;
     const apiCall = async () => {
       let response = await api("delete", deleteurl);
       if (response) {
@@ -65,11 +68,21 @@ const Leaves = () => {
       }
     };
     apiCall();
-    setDel(false);
+    setAlert(false);
     setLeaveModal({});
   };
-  const showDeleteModal = (status) => {
-    setDel(status);
+
+  const deleteLeave = (currentLeave) => {
+    setLeaveModal({ ...currentLeave });
+    showConfirmModel(true);
+  };
+  const showConfirmModel = (status) => {
+    setAlert(status);
+  };
+  const editview = (currentLeave) => {
+    setLeaveModal({ ...currentLeave });
+    showHideModal(true);
+    setIsEdit(true);
   };
 
   const showHideModal = (status) => {
@@ -109,10 +122,12 @@ const Leaves = () => {
               let isHighlighted = false;
               leaveList?.map((l) => {
                 if (Date.parse(l.leaveDate) === Date.parse(date))
-                  // setIsLeave(true);
+                  
                   isHighlighted = true;
               });
-              if (isHighlighted) return "highlight";
+              if (isHighlighted) {
+                setIsLeave(true);
+                return "highlight"};
             }
           }}
           tileDisabled={({ date }) =>
@@ -125,13 +140,26 @@ const Leaves = () => {
           <tr>
             <th>EmployeeId</th>
             <th>Leave Date</th>
+            <th>Hours</th>
+            <th>Actions</th>
           </tr>
-          {leaveList?.map((l) => {
+          {leaveList?.map((leave) => {
             return (
-              <tr key={l.employeeId}>
-                <td> {l.employeeId}</td>
-
-                <td> {l.leaveDate}</td>
+              <tr key={leave.employeeId}>
+                <td> {leave.employeeId}</td>
+                <td> {leave.leaveDate}</td>
+                <td>{leave.hours}</td>
+              
+                <td>
+                  {" "}
+                  <span>
+                  <Edit onClick={() => editview(leave)} />
+                </span>
+                  <span>
+                    <Delete onClick={() => deleteLeave(leave)} />
+                  </span>
+                
+                </td>
               </tr>
             );
           })}{" "}
@@ -152,12 +180,29 @@ const Leaves = () => {
                 onChange={handleChange}
               ></input>
               <Form.Label>Leave Date</Form.Label>
-              
+
               <input
                 name="leaveDate"
                 value={format(selectedDate, "yyyy-MM-dd")}
                 onChange={handleChange}
               ></input>
+              <Form.Label>Hours</Form.Label>
+              <input
+                type="radio"
+                name="hours"
+                value="8"
+                defaultChecked
+                onChange={handleChange}
+              />
+              <span>Full day</span>
+
+              <input
+                type="radio"
+                name="hours"
+                value="4"
+                onChange={handleChange}
+              />
+               <span>Half day</span>
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -175,26 +220,27 @@ const Leaves = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Modal show={del} onHide={() => showDeleteModal(false)}>
+  
+      <Modal show={alert} onHide={() => showConfirmModel(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Delete team</Modal.Title>
+          <Modal.Title>Delete Leave?</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Label>Do you really want to delete ?</Form.Label>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <h1>Do you really want to delete?</h1>
+            </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => showDeleteModal(false)}>
-            Cancel
-          </Button>
           <Button
-            variant="primary"
-            onClick={() => {
-              deleteOneLeave(leaveModal);
-            }}
+            className="secondary"
+            onClick={() => deleteOneLeave(leaveModal)}
           >
-            Yes
+            yes
+          </Button>
+          <Button className="secondary" onClick={() => showConfirmModel(false)}>
+            Cancel
           </Button>
         </Modal.Footer>
       </Modal>

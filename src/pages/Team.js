@@ -96,7 +96,7 @@ const Team = () => {
   return (
     <div>
       <div className="main">
-        <table>
+        <table className="team">
           <tr>
             <th>Name</th>
             <th>id</th>
