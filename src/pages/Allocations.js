@@ -153,7 +153,7 @@ const Allocations = () => {
 
   return (
     <div>
-      <table>
+      <table className="allocation">
         <tr>
           <th>SL.no</th>
           <th>Name</th>

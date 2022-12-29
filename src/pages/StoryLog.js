@@ -13,6 +13,7 @@ import Hamburger from "../components/Hamburger";
 const StoryLog = () => {
   const params = useParams();
   const url = `/api/Story/SearchStory/${params.Id}`;
+
   const [checked, setChecked] = useState([]);
   const [storyList, setStoryList] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
@@ -33,7 +34,7 @@ const StoryLog = () => {
     const addurl = `/api/Story/AddStory`;
     //storyModal.id = params.Id;
     storyModal.projectId=params.Id;
-
+    storyModal.SprintId=params.Id
     console.log(params.Id,"monkey")
     if (!isEdit) {
       const apiCall = async () => {
@@ -201,6 +202,12 @@ const StoryLog = () => {
                 value={storyModal.name || " "}
                 onChange={handleChange}
               ></input>
+               {/* <Form.Label>SprintId</Form.Label>
+                 <input
+                name="SprintId"
+                value={storyModal.SprintId || " "}
+                onChange={handleChange}
+              ></input> */}
             </Form.Group>
           </Form>
         </Modal.Body>
