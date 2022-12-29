@@ -56,7 +56,7 @@ const Login = () => {
         <form className="form">
           <div className="Form-content">
             <h3 className="form-title">Login</h3>
-            <div className="form-group mt-3">
+            <div className="form-group-mt-3">
               <label>Email</label>
               <input
                 type="email"
@@ -66,7 +66,7 @@ const Login = () => {
                 onChange={handleEmail}
               />
             </div>
-            <div className="form-group mt-3">
+            <div className="form-group-mt-3">
               <label>Password</label>
               <input
                 type="password"

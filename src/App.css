@@ -20,16 +20,39 @@
   margin-right: 10px;
 }
 
-table{
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 5%;
-  width: 50vmax;
+.listed-leave{
+  margin-right: 200px;
+ float: right;
+margin-top:0%;
+  width: 30vmax;
   border: 1px solid black;
   border-collapse: collapse;
   text-align: center;
-  align-self: center;
+
 }
+.team{
+  margin-right: 200px;
+ float: right;
+margin-top:0%;
+  width: 30vmax;
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+
+}
+.allocation {
+
+    margin-left: 400px;
+   
+  margin-top:0%;
+    width: 60vmax;
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+  
+  }
+
+
 
 th{
   border: 1px solid black;
@@ -306,6 +329,11 @@ margin-left: 5vw;
   
 }
 
+.form-group-mt-3{
+  padding-right: 5%;
+  padding-left: 5%;
+}
+
 
 
 /* Color/shape of burger icon bars */
@@ -349,6 +377,7 @@ margin-left: 5vw;
  .dropdown-item{
   color:rgb(13, 11, 11);
  }
+
 
  .logout{
   float: right;
@@ -440,12 +469,12 @@ width:90%;
 
 .calendar {
 
-  
-  flex-direction: column;
+  float:left;
+  /* flex-direction: column; */
   gap: 20px;
-  padding-bottom: 35vh;
+  padding-bottom: 0%;
   padding-left: 5vw;
-  padding-right: 35vw;
+
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 }
 
@@ -453,12 +482,7 @@ width:90%;
  
   color: rgb(243, 3, 3) !important;
 }
-.listed-leave{
- 
-  padding-bottom: 35vh;
-  padding-left: 50vw;
- 
-}
+
 html {
   height: 90%;
 }
