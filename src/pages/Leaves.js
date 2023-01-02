@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import format from "date-fns/format";
 import Delete from "../custom-icons/Delete";
 import Edit from "../custom-icons/Edit";
+
 const Leaves = () => {
   const url = `/api/Leave/GetLeaves`;
   const [leaveList, setLeaveList] = useState([]);
@@ -18,11 +19,7 @@ const Leaves = () => {
   const [addLeaveModal, setAddLeaveModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isLeave, setIsLeave] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
 
-
-
- 
   const [alert, setAlert] = useState(false);
   useEffect(() => {
     const apiCall = async () => {
@@ -103,7 +100,11 @@ const Leaves = () => {
   };
 
   const handleDateChange = (value) => {
-    setSelectedDate(new Date(value));
+
+    value = format(value, "yyyy-MM-dd");
+    setLeaveModal((prev) => {
+      return { ...prev, leaveDate: value };
+    });
     addLeave();
   };
 
@@ -116,18 +117,17 @@ const Leaves = () => {
       <div className="calendar">
         <Calendar
           onClickDay={handleDateChange}
-          value={selectedDate}
           tileClassName={({ date }) => {
             {
               let isHighlighted = false;
               leaveList?.map((l) => {
                 if (Date.parse(l.leaveDate) === Date.parse(date))
-                  
                   isHighlighted = true;
               });
               if (isHighlighted) {
                 setIsLeave(true);
-                return "highlight"};
+                return "highlight";
+              }
             }
           }}
           tileDisabled={({ date }) =>
@@ -147,18 +147,17 @@ const Leaves = () => {
             return (
               <tr key={leave.employeeId}>
                 <td> {leave.employeeId}</td>
-                <td> {leave.leaveDate}</td>
+                <td> {leave.leaveDate.toString().split("T")[0]}</td>
                 <td>{leave.hours}</td>
-              
+
                 <td>
                   {" "}
                   <span>
-                  <Edit onClick={() => editview(leave)} />
-                </span>
+                    <Edit onClick={() => editview(leave)} />
+                  </span>
                   <span>
                     <Delete onClick={() => deleteLeave(leave)} />
                   </span>
-                
                 </td>
               </tr>
             );
@@ -183,15 +182,16 @@ const Leaves = () => {
 
               <input
                 name="leaveDate"
-                value={format(selectedDate, "yyyy-MM-dd")}
+                value={leaveModal.leaveDate}
                 onChange={handleChange}
               ></input>
               <Form.Label>Hours</Form.Label>
               <input
                 type="radio"
                 name="hours"
-                value="8"
                 defaultChecked
+                value="8"
+                defaultValue="8"
                 onChange={handleChange}
               />
               <span>Full day</span>
@@ -202,7 +202,7 @@ const Leaves = () => {
                 value="4"
                 onChange={handleChange}
               />
-               <span>Half day</span>
+              <span>Half day</span>
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -220,7 +220,7 @@ const Leaves = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-  
+
       <Modal show={alert} onHide={() => showConfirmModel(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Delete Leave?</Modal.Title>
