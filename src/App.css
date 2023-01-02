@@ -19,6 +19,15 @@
   color: black;
   margin-right: 10px;
 }
+.btn-btn-primary{
+  width:25%;
+  margin-left:22px;
+  height: 30px;
+  border-radius: 6px;
+  background-color: #170553;
+  color: #fff;
+  border: #fdfdfd;
+}
 
 .listed-leave{
   margin-right: 200px;

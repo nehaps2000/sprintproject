@@ -80,7 +80,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={handleApi}
-                className="btn btn-primary"
+                className="btn-btn-primary"
               >
                 Submit
               </button>
