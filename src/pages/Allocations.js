@@ -78,9 +78,9 @@ const Allocations = () => {
       };
       apiCall();
     } else {
-      const url = `/api/Allocation/UpdateAllocation/${allocationModal.id}`;
+      const editurl = `/api/Allocation/UpdateAllocation/${allocationModal.id}`;
       const apiCall = async () => {
-        let response = await api("patch", url, allocationModal);
+        let response = await api("patch", editurl, allocationModal);
         response = await api("get", url);
         setAllocationList(response);
       };
@@ -91,9 +91,9 @@ const Allocations = () => {
     setAllocationModal({});
   };
   const deleteOneAllocation = (allocationModal) => {
-    const url = `/api/Allocation/DeleteAllocation/${allocationModal.id}`;
+    const delurl = `/api/Allocation/DeleteAllocation/${allocationModal.id}`;
     const apiCall = async () => {
-      let response = await api("delete", url);
+      let response = await api("delete", delurl);
       if (response) {
         let res = await api("get", url);
         setAllocationList(res);
@@ -155,7 +155,8 @@ const Allocations = () => {
     <div>
       <table className="allocation">
         <tr>
-          <th>SL.no</th>
+          <th>SL NO</th>
+          <th>ProjectID</th>
           <th>Name</th>
           <th>EmployeeId</th>
           <th>TeamId</th>
@@ -168,8 +169,9 @@ const Allocations = () => {
         </tr>
         {allocationList?.map((allocation) => {
           return (
-            <tr key={allocation.value}>
+            <tr key={allocation.projectId}>
               <td>{allocation.id}</td>
+              <td>{allocation.projectId}</td>
               <td> {allocation.name}</td>
               <td> {allocation.employeeId}</td>
               <td> {allocation.teamId}</td>
@@ -256,6 +258,14 @@ const Allocations = () => {
               </select>
 
               <br></br>
+              {/* <Form.Label>Allocation Id</Form.Label>
+              <input
+                name="id"
+                value={allocationModal.id || ""}
+               onChange={handleChange1}
+               
+              ></input> */}
+              <br></br>
               <Form.Label>TeamId</Form.Label>
               <input
                 name="teamId"
@@ -283,12 +293,10 @@ const Allocations = () => {
               //  onChange={handleChange}
               ></input>
               <br></br>
-              <Form.Label>ProjectId</Form.Label>
-              <input
-                name="ProjectId"
-                value={allocationList.project || params.Id}
-                disabled
-              ></input>
+          
+              <Form.Label>ProjectID</Form.Label>
+              <input name="projectId"
+               value={params.Id} disabled></input>
 
               <br></br>
             </Form.Group>

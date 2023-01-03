@@ -28,7 +28,7 @@ const Team = () => {
 
   const addOrEdit = (teamModal) => {
     const addurl = `/api/Team/AddTeam`;
-    teamModal.id = params.Id;
+    teamModal.projectId = params.Id;
     if (!isEdit) {
       const apiCall = async () => {
         let response = await api("post", addurl, teamModal);
@@ -39,7 +39,7 @@ const Team = () => {
       };
       apiCall();
     } else {
-      const updateurl = `/api/Team/UpdateTeam/${teamModal.id}`;
+      const updateurl = `/api/Team/UpdateTeam/${teamModal.Id}`;
       const apiCall = async () => {
         let response = await api("patch", updateurl, teamModal);
         if (response) {
@@ -54,7 +54,7 @@ const Team = () => {
   };
 
   const deleteOneTeam = (teamModal) => {
-    const deleteurl = `/api/Team/DeleteTeam/${teamModal.id}`;
+    const deleteurl = `/api/Team/DeleteTeam/${teamModal.Id}`;
     const apiCall = async () => {
       let response = await api("delete", deleteurl);
       if (response) {
@@ -99,14 +99,14 @@ const Team = () => {
         <table className="team">
           <tr>
             <th>Name</th>
-            <th>id</th>
+            <th>ID</th>
             <th>Actions</th>
           </tr>
           {teamList?.map((team) => {
             return (
-              <tr key={team.id}>
+              <tr key={team.projectId}>
                 <td> {team.name}</td>
-                <td> {team.id}</td>
+                <td> {team.projectId}</td>
                 <td>
                   <span>
                     <Edit
@@ -149,7 +149,8 @@ const Team = () => {
                 onChange={handleChange}
               ></input>
               <Form.Label>ProjectID</Form.Label>
-              <input name="ProjectId" value={params.Id} disabled></input>
+              <input name="projectId"
+               value={params.Id} disabled></input>
             </Form.Group>
           </Form>
         </Modal.Body>
