@@ -64,7 +64,7 @@ const Allocations = () => {
     if (!isEdit) {
       const addUrl = `/api/Allocation/AddAllocation`;
       allocationModal.projectId = params.Id;
-     allocationModal.role=parseInt(role.current.value);
+    // allocationModal.role=parseInt(role.current.value);
       allocationModal.hoursPerDay=parseInt(hoursPerDay.current.value)
      console.log(allocationModal);
 
@@ -135,6 +135,11 @@ const Allocations = () => {
     }));
 
   };
+  const handleChange2 = ({ target: { name, value } }) => {
+    setAllocationModal((prev) => {
+      return { ...prev, [name]: value };
+    });
+  };
 
   const handleChange = ({ target: { name, value } }) => {
     console.log(allTeam);
@@ -146,6 +151,7 @@ const Allocations = () => {
       employeeId: allEmployees.find((e) => e.name.trim() === value)?.employeeId,
         //teamId: allTeam.find((e1) => e1.name.trim() === value)?.id,
     }));
+ 
 
     console.log(allEmployees, "hai");
     console.log(allTeam, "helloo");
@@ -162,7 +168,7 @@ const Allocations = () => {
           <th>TeamId</th>
           <th>TeamName</th>
 
-          <th>Role</th>
+          {/* <th>Role</th> */}
           <th>Hours</th>
 
           <th>Actions</th>
@@ -177,7 +183,7 @@ const Allocations = () => {
               <td> {allocation.teamId}</td>
               <td> {allocation.teamName}</td>
 
-              <td> {allocation.role}</td>
+              {/* <td> {allocation.role}</td> */}
               <td> {allocation.hoursPerDay}</td>
 
               <td>
@@ -257,14 +263,8 @@ const Allocations = () => {
                 ))}
               </select>
 
-              <br></br>
-              {/* <Form.Label>Allocation Id</Form.Label>
-              <input
-                name="id"
-                value={allocationModal.id || ""}
-               onChange={handleChange1}
-               
-              ></input> */}
+             
+         
               <br></br>
               <Form.Label>TeamId</Form.Label>
               <input
@@ -275,7 +275,7 @@ const Allocations = () => {
               ></input>
               <br></br>
 
-              <Form.Label>Role</Form.Label>
+              {/* <Form.Label>Role</Form.Label>
               <input
                 
                 name="role"
@@ -283,14 +283,15 @@ const Allocations = () => {
                ref={role}
                // type="number"
               // onChange={handleChange}
-              ></input>
-              <br></br>
+              ></input> */}
+              {/* <br></br> */}
               <Form.Label>Hoursperday</Form.Label>
               <input
                 name="hoursPerDay"
-               // value={allocationModal.hoursPerDay || ""}
+                value={allocationModal.hoursPerDay || ""}
                  ref={hoursPerDay}
-              //  onChange={handleChange}
+                 type="number"
+               onChange={handleChange2}
               ></input>
               <br></br>
           
