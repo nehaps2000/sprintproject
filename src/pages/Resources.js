@@ -100,11 +100,15 @@ const Resource = () => {
 
   const options = [
     {
-      label: "Frontend Developer",
+      label: "ScrumMaster",
+      value: "0",
+    },
+    {
+      label: "Lead",
       value: "1",
     },
     {
-      label: "Backend Developer",
+      label: "Developer",
       value: "2",
     },
     {
@@ -112,7 +116,7 @@ const Resource = () => {
       value: "3",
     },
     {
-      label: "DevOps Engineer",
+      label: "Admin",
       value: "4",
     },
   ];
@@ -124,8 +128,7 @@ const Resource = () => {
           <th>Employee ID</th>
           <th>Email</th>
           <th>Name</th>
-          <th>Designation</th>
-
+          <th>Role</th>
           <th>Actions</th>
         </tr>
         {resourceList?.map((resources) => {
@@ -135,7 +138,7 @@ const Resource = () => {
               <td>{resources.employeeId}</td>
               <td>{resources.email}</td>
               <td>{resources.name}</td>
-              <td>{resources.designation}</td>
+              <td>{resources.role}</td>
 
               <td>
                 <span>
@@ -198,13 +201,13 @@ const Resource = () => {
               <Form.Label>ProjectID</Form.Label>
               <input name="projectId" value={params.Id} disabled></input>
               <br></br>
-              <Form.Label>Designation</Form.Label>
+              <Form.Label>Role</Form.Label>
               <select
                 className="custom-select"
                 id="inputGroupSelect04"
                 onChange={handleChange}
-                value={resourceModal?.designation}
-                name="designation"
+                value={resourceModal?.role}
+                name="role"
               >
                 <option selected>Choose...</option>
                 {options.map((option) => (
