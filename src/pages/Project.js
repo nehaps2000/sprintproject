@@ -11,6 +11,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useNavigate } from "react-router-dom";
 import api from "../utility/api";
+import ProjectManager from "./ProjectManager"
 import {
   Accordion,
   AccordionItem,
@@ -211,6 +212,22 @@ const Project = () => {
               >
                 Holidays
               </li>
+              <li
+                className="nav-item"
+                onClick={(e) => {
+                  let elements = e.target.parentElement.children;
+                  let i =0;
+                  while(i<elements.length)
+                  {
+                    elements[i].style = "border:none";
+                    i++;
+                  }
+                  e.target.style="border-bottom:solid red";
+                setSelectedTab("ProjectManager");
+                }}
+              >
+                ProjectManagers
+              </li>
             </ul>
           </div>
         </div>
@@ -247,7 +264,7 @@ const Project = () => {
                 }}
               ></Add>
             </div>
-          ) : (
+          ):selectedTab==="ProjectManager" ?(<ProjectManager></ProjectManager>): (
             <div>
               <div className="card">
                 <Row xs={1} md={5} className="g-4">

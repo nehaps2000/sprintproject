@@ -106,6 +106,7 @@ h1{
  position: absolute;
  top: 0;
  left: 0;
+
 }
 .bm-overlay{
   position: absolute;
@@ -393,8 +394,9 @@ margin-left: 5vw;
   cursor:pointer;
   padding-left: 1vw;
   padding-right: 1vw;
-  padding-top: 2vh;
+  padding-top: 1vh;
   padding-bottom: 1vh;
+
  }
 
  .menu-item1{

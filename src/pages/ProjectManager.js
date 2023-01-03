@@ -9,77 +9,77 @@ import api from "../utility/api";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-const Resource = () => {
+const ProjectManager = () => {
   const params = useParams();
   console.log(params);
-  const url = `/api/Resource/SearchResource/${params.Id}`;
+  const url = `/api/Allocation/GetScrumMasters`;
   console.log(params.Id);
-  const [resourceList, setResourceList] = useState([]);
+  const [managerList, setManagerList] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [show, setShow] = useState(false);
-  const [resourceModal, setResourceModal] = useState({});
+  const [managerModal, setManagerModal] = useState({});
   const [del, setDel] = useState(false);
 
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
-      setResourceList(response);
+      setManagerList(response);
     };
     apiCall();
   }, [url]);
 
-  const editResource = (currentResource) => {
-    setResourceModal({ ...currentResource });
+  const editManager = (currentResource) => {
+    setManagerModal({ ...currentResource });
     showHideModal(true);
     setIsEdit(true);
   };
 
-  const deleteResource = (currentResource) => {
-    setResourceModal({ ...currentResource });
+  const deleteManager= (currentResource) => {
+    setManagerModal({ ...currentResource });
     showDeleteModal(true);
   };
 
-  const addOrEdit = (resourceModal) => {
-    const addurl = `/api/Resource/AddResource`;
-    console.log(resourceModal);
-    resourceModal.projectId = params.Id;
+  const addOrEdit = (managerModal) => {
+    const addurl = `/api/Allocation/ProjectManager`;
+    console.log(managerModal);
+    managerModal.projectId = params.Id;
     if (!isEdit) {
       const apiCall = async () => {
-        let response = await api("post", addurl, resourceModal);
+        let response = await api("post", addurl, managerModal);
         if (response) {
           let response1 = await api("get", url);
-          setResourceList(response1);
+          setManagerList(response1);
         }
       };
       apiCall();
     } else {
       const apiCall = async () => {
-        const editUrl = `/api/Resource/updateResource/${resourceModal.projectId}`;
-        let response = await api("patch", editUrl, resourceModal);
+        const editUrl = `/api/Resource/updateResource/${managerModal.projectId}`;
+        let response = await api("patch", editUrl, managerModal);
         if (response) {
           let res = await api("get", url);
-          setResourceList(res);
+          setManagerList(res);
         }
       };
       apiCall();
     }
-    setResourceModal({});
+    setManagerModal({});
     setShow(false);
   };
 
-  const deleteOneResource = (resourceModal) => {
-    const delUrl = `/api/Resource/DeleteResource/${resourceModal.projectId}`;
+  const deleteOneManager = (managerModal) => {
+    const delUrl = `/api/Resource/DeleteResource/${managerModal.projectId}`;
     const apiCall = async () => {
       let response = await api("delete", delUrl);
       if (response) {
         let res = await api("get", url);
-        setResourceList(res);
+        setManagerList(res);
       }
     };
     apiCall();
 
     setDel(false);
-    setResourceModal({});
+    setManagerModal({});
   };
 
   const showDeleteModal = (status) => {
@@ -88,12 +88,12 @@ const Resource = () => {
 
   const showHideModal = (status) => {
     setShow(status);
-    if (!status) setResourceModal({});
+    if (!status) setManagerModal({});
     setIsEdit(false);
   };
 
   const handleChange = ({ target: { name, value } }) => {
-    setResourceModal((prev) => {
+    setManagerModal((prev) => {
       return { ...prev, [name]: value };
     });
   };
@@ -120,39 +120,39 @@ const Resource = () => {
     <div className="main">
       <table className="team">
         <tr>
-          <th>ID</th>
+        
           <th>Employee ID</th>
           <th>Email</th>
           <th>Name</th>
-          <th>Designation</th>
+        
 
-          <th>Actions</th>
+          {/* <th>Actions</th> */}
         </tr>
-        {resourceList?.map((resources) => {
+        {managerList?.map((manager) => {
           return (
-            <tr key={resources.projectId}>
-              <td>{resources.projectId}</td>
-              <td>{resources.employeeId}</td>
-              <td>{resources.email}</td>
-              <td>{resources.name}</td>
-              <td>{resources.designation}</td>
+            <tr key={manager.projectId}>
+             
+              <td>{manager.employeeId}</td>
+              <td>{manager.email}</td>
+              <td>{manager.name}</td>
+             
 
-              <td>
+              {/* <td>
                 <span>
                   <Edit
                     onClick={() => {
-                      editResource(resources);
+                      editManager(manager);
                     }}
                   />
                 </span>
                 <span>
                   <Delete
                     onClick={() => {
-                      deleteResource(resources);
+                      deleteManager(manager);
                     }}
                   />
                 </span>
-              </td>
+              </td> */}
             </tr>
           );
         })}
@@ -177,33 +177,33 @@ const Resource = () => {
               <Form.Label>Employee ID</Form.Label>
               <input
                 name="employeeId"
-                value={resourceModal.employeeId || ""}
+                value={managerModal.employeeId || ""}
                 onChange={handleChange}
               ></input>
               <br></br>
-              <Form.Label>Email</Form.Label>
-              <input
+              {/* <Form.Label>Email</Form.Label> */}
+              {/* <input
                 name="email"
-                value={resourceModal.email || ""}
+                value={managerModal.email || ""}
                 onChange={handleChange}
-              ></input>
-              <br></br>
+              ></input> */}
+              {/* <br></br>
               <Form.Label>Name</Form.Label>
               <input
                 name="name"
-                value={resourceModal.name || ""}
+                value={managerModal.name || ""}
                 onChange={handleChange}
               ></input>
-              <br></br>
-              <Form.Label>ProjectID</Form.Label>
+              <br></br> */}
+              {/* <Form.Label>ProjectID</Form.Label>
               <input name="projectId" value={params.Id} disabled></input>
-              <br></br>
-              <Form.Label>Designation</Form.Label>
+              <br></br> */}
+              {/* <Form.Label>Designation</Form.Label>
               <select
                 className="custom-select"
                 id="inputGroupSelect04"
                 onChange={handleChange}
-                value={resourceModal?.designation}
+                value={managerModal?.designation}
                 name="designation"
               >
                 <option selected>Choose...</option>
@@ -216,7 +216,7 @@ const Resource = () => {
                     {option.label}
                   </option>
                 ))}
-              </select>
+              </select> */}
               <br></br>
             </Form.Group>
           </Form>
@@ -228,7 +228,7 @@ const Resource = () => {
           <Button
             variant="primary"
             onClick={() => {
-              addOrEdit(resourceModal);
+              addOrEdit(managerModal);
             }}
           >
             Submit
@@ -252,7 +252,7 @@ const Resource = () => {
           <Button
             variant="primary"
             onClick={() => {
-              deleteOneResource(resourceModal);
+              deleteOneManager(managerModal);
             }}
           >
             Yes
@@ -262,4 +262,4 @@ const Resource = () => {
     </div>
   );
 };
-export default Resource;
+export default ProjectManager;
