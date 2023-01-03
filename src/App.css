@@ -19,6 +19,15 @@
   color: black;
   margin-right: 10px;
 }
+.btn-btn-primary{
+  width:25%;
+  margin-left:22px;
+  height: 30px;
+  border-radius: 6px;
+  background-color: #170553;
+  color: #fff;
+  border: #fdfdfd;
+}
 
 .listed-leave{
   margin-right: 200px;
@@ -97,6 +106,7 @@ h1{
  position: absolute;
  top: 0;
  left: 0;
+
 }
 .bm-overlay{
   position: absolute;
@@ -384,8 +394,9 @@ margin-left: 5vw;
   cursor:pointer;
   padding-left: 1vw;
   padding-right: 1vw;
-  padding-top: 2vh;
+  padding-top: 1vh;
   padding-bottom: 1vh;
+
  }
 
  .menu-item1{
