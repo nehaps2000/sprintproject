@@ -120,7 +120,7 @@ const Leaves = () => {
           tileClassName={({ date }) => {
             {
               let isHighlighted = false;
-              leaveList?.map((l) => {
+              leaveList?.forEach((l) => {
                 if (Date.parse(l.leaveDate) === Date.parse(date))
                   isHighlighted = true;
               });

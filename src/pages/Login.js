@@ -5,23 +5,13 @@ import "../App.css";
 import api from "../utility/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import jwtDecode from "jwt-decode";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [isLoggedIn, setIsLoggedIn] = useState("false");
   const Navigate = useNavigate();
 
-  //  useEffect(()=>{
-  //   if(!localStorage.getItem('token')){
-  //     Navigate("/project");
-  //   }
-  //  })
-  // const showToastMessage = () => {
-  //   toast.error("Wrong Creditentials !", {
-  //     position: toast.POSITION.TOP_RIGHT,
-  //   });
-  // };
   const handleEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -34,21 +24,19 @@ const Login = () => {
       username: email,
       password: password,
     });
+    var decoded = jwtDecode(response);
+    console.log(decoded,"token decoded");
+    console.log(decoded.Role)
 
     if (response !== "Wrong Credentials!") {
       localStorage.setItem("token", response);
-
+      localStorage.setItem("role",decoded.Role);
       Navigate("/project");
     } else {
       toast.error("wrong credentials !", {
         position: toast.POSITION.TOP_CENTER,
       });
     }
-    // })
-    // .catch((error) => {
-    //   alert("service error");
-    //   console.log(error);
-    // });
   };
   return (
     <>
@@ -99,4 +87,3 @@ const Login = () => {
 };
 
 export default Login;
-//.split('.').length === 3

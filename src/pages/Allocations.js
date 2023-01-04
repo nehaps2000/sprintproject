@@ -27,7 +27,7 @@ const Allocations = () => {
   console.log(allocationModal);
 
   const role = useRef("");
-  const hoursPerDay=useRef("")
+  const hoursPerDay = useRef("");
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
@@ -59,14 +59,14 @@ const Allocations = () => {
   }, [url]);
   console.log("list", employeeList);
   const addOrEdit = (allocationModal) => {
-    console.log(typeof(role),role.current.value,"hey")
+    console.log(typeof role, role.current.value, "hey");
 
     if (!isEdit) {
       const addUrl = `/api/Allocation/AddAllocation`;
       allocationModal.projectId = params.Id;
-    // allocationModal.role=parseInt(role.current.value);
-      allocationModal.hoursPerDay=parseInt(hoursPerDay.current.value)
-     console.log(allocationModal);
+      // allocationModal.role=parseInt(role.current.value);
+      allocationModal.hoursPerDay = parseInt(hoursPerDay.current.value);
+      console.log(allocationModal);
 
       //  allocationModal.projectName=params.name;
       const apiCall = async () => {
@@ -130,10 +130,9 @@ const Allocations = () => {
     setAllocationModal((prev) => ({
       ...prev,
       [name]: value,
-     // employeeId: allEmployees.find((e) => e.name.trim() === value)?.employeeId,
-        teamId: allTeam.find((e) => e.name.trim() === value)?.id,
+      // employeeId: allEmployees.find((e) => e.name.trim() === value)?.employeeId,
+      teamId: allTeam.find((e) => e.name.trim() === value)?.id,
     }));
-
   };
   const handleChange2 = ({ target: { name, value } }) => {
     setAllocationModal((prev) => {
@@ -147,11 +146,10 @@ const Allocations = () => {
     setAllocationModal((prev) => ({
       ...prev,
       [name]: value,
-      
+
       employeeId: allEmployees.find((e) => e.name.trim() === value)?.employeeId,
-        //teamId: allTeam.find((e1) => e1.name.trim() === value)?.id,
+      //teamId: allTeam.find((e1) => e1.name.trim() === value)?.id,
     }));
- 
 
     console.log(allEmployees, "hai");
     console.log(allTeam, "helloo");
@@ -167,8 +165,6 @@ const Allocations = () => {
           <th>EmployeeId</th>
           <th>TeamId</th>
           <th>TeamName</th>
-
-          {/* <th>Role</th> */}
           <th>Hours</th>
 
           <th>Actions</th>
@@ -182,8 +178,6 @@ const Allocations = () => {
               <td> {allocation.employeeId}</td>
               <td> {allocation.teamId}</td>
               <td> {allocation.teamName}</td>
-
-              {/* <td> {allocation.role}</td> */}
               <td> {allocation.hoursPerDay}</td>
 
               <td>
@@ -238,7 +232,6 @@ const Allocations = () => {
                 name="employeeId"
                 value={allocationModal.employeeId || ""}
                 onChange={handleChange}
-               
               ></input>
               <br></br>
 
@@ -263,41 +256,27 @@ const Allocations = () => {
                 ))}
               </select>
 
-             
-         
               <br></br>
               <Form.Label>TeamId</Form.Label>
               <input
                 name="teamId"
                 value={allocationModal.teamId || ""}
-               onChange={handleChange1}
-               
+                onChange={handleChange1}
               ></input>
               <br></br>
 
-              {/* <Form.Label>Role</Form.Label>
-              <input
-                
-                name="role"
-                //value={allocationModal.role || ""}
-               ref={role}
-               // type="number"
-              // onChange={handleChange}
-              ></input> */}
-              {/* <br></br> */}
               <Form.Label>Hoursperday</Form.Label>
               <input
                 name="hoursPerDay"
                 value={allocationModal.hoursPerDay || ""}
-                 ref={hoursPerDay}
-                 type="number"
-               onChange={handleChange2}
+                ref={hoursPerDay}
+                type="number"
+                onChange={handleChange2}
               ></input>
               <br></br>
-          
+
               <Form.Label>ProjectID</Form.Label>
-              <input name="projectId"
-               value={params.Id} disabled></input>
+              <input name="projectId" value={params.Id} disabled></input>
 
               <br></br>
             </Form.Group>
