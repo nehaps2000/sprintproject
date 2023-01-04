@@ -54,7 +54,7 @@ const Resource = () => {
       apiCall();
     } else {
       const apiCall = async () => {
-        const editUrl = `/api/Resource/updateResource/${resourceModal.projectId}`;
+        const editUrl = `/api/Resource/updateResource/${resourceModal.id}`;
         let response = await api("patch", editUrl, resourceModal);
         if (response) {
           let res = await api("get", url);
@@ -68,7 +68,7 @@ const Resource = () => {
   };
 
   const deleteOneResource = (resourceModal) => {
-    const delUrl = `/api/Resource/DeleteResource/${resourceModal.projectId}`;
+    const delUrl = `/api/Resource/DeleteResource/${resourceModal.id}`;
     const apiCall = async () => {
       let response = await api("delete", delUrl);
       if (response) {
@@ -133,8 +133,8 @@ const Resource = () => {
         </tr>
         {resourceList?.map((resources) => {
           return (
-            <tr key={resources.projectId}>
-              <td>{resources.projectId}</td>
+            <tr key={resources.id}>
+              <td>{resources.id}</td>
               <td>{resources.employeeId}</td>
               <td>{resources.email}</td>
               <td>{resources.name}</td>
@@ -214,7 +214,7 @@ const Resource = () => {
                   <option
                     key={option.label}
                     id={option.value}
-                    value={option.label}
+                    value={option.value}
                   >
                     {option.label}
                   </option>
