@@ -30,12 +30,13 @@ const StoryLog = () => {
     };
     apiCall();
   }, [url]);
+
+  let role = localStorage.getItem("role");
   const addOrEdit = (storyModal) => {
     const addurl = `/api/Story/AddStory`;
-    //storyModal.id = params.Id;
-    storyModal.projectId=params.Id;
-    storyModal.SprintId=params.Id
-    console.log(params.Id,"monkey")
+    storyModal.projectId = params.Id;
+    storyModal.SprintId = params.Id;
+    console.log(params.Id, "monkey");
     if (!isEdit) {
       const apiCall = async () => {
         let response = await api("post", addurl, storyModal);
@@ -110,15 +111,6 @@ const StoryLog = () => {
     setChecked(updatedList);
   };
 
-  // const checkedItems = checked.length
-  //   ? checked.reduce((total, item) => {
-  //       return total + ", " + item;
-  //     })
-  //   : "";
-
-  // var updatedList = (item) =>
-  //   checked.includes(item) ? "checked-item" : "not-checked-item";
-
   return (
     <>
       <div className="card-header">
@@ -132,8 +124,9 @@ const StoryLog = () => {
           </div>
           <div className="list-container">
             <div className="return">
-             
-              <h1 className={checked.length>0 ? "checked" : "notChecked"}>Listed Story</h1>
+              <h1 className={checked.length > 0 ? "checked" : "notChecked"}>
+                Listed Story
+              </h1>
               {checked?.map((item) => {
                 console.log(item);
                 return (
@@ -162,30 +155,42 @@ const StoryLog = () => {
                         ></input>
                       </span>
                     </div>
-                    <span>
-                      <Delete
-                        onClick={() => {
-                          deleteStory(item);
-                        }}
-                      />
-                    </span>
-                    <span>
-                      <Edit
-                        onClick={() => {
-                          editStory(item);
-                        }}
-                      />
-                    </span>
+                    {role === "0" || role === "4" ? (
+                      <div>
+                        <span>
+                          <Delete
+                            onClick={() => {
+                              deleteStory(item);
+                            }}
+                          />
+                        </span>
+                        <span>
+                          <Edit
+                            onClick={() => {
+                              editStory(item);
+                            }}
+                          />
+                        </span>
+                      </div>
+                    ) : (
+                      <div></div>
+                    )}
                   </>
                 );
               })}{" "}
             </div>
-            <Add
-              className="add"
-              onClick={() => {
-                showHideModal(true);
-              }}
-            />
+            {role === "0" || role === "4" ? (
+              <div>
+                <Add
+                  className="add"
+                  onClick={() => {
+                    showHideModal(true);
+                  }}
+                />
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </div>
@@ -202,12 +207,6 @@ const StoryLog = () => {
                 value={storyModal.name || " "}
                 onChange={handleChange}
               ></input>
-               {/* <Form.Label>SprintId</Form.Label>
-                 <input
-                name="SprintId"
-                value={storyModal.SprintId || " "}
-                onChange={handleChange}
-              ></input> */}
             </Form.Group>
           </Form>
         </Modal.Body>

@@ -31,7 +31,7 @@ const Holiday = () => {
       holidayGrouping(holidayList);
     };
     apiCall();
-  }, [url,holidayList]);
+  }, [url, holidayList]);
 
   const handleHolidayChange = ({ target: { name, value } }) => {
     setHolidayModal((prev) => {
@@ -108,11 +108,15 @@ const Holiday = () => {
               );
             })}
           </Accordion>
-          <Add
-            onClick={() => {
-              showHolidayModal(true);
-            }}
-          ></Add>
+          {localStorage.getItem("role") === "4" ? (
+            <Add
+              onClick={() => {
+                showHolidayModal(true);
+              }}
+            ></Add>
+          ) : (
+            <div></div>
+          )}
         </div>
         <Modal show={addHolidayModal} onHide={() => showHolidayModal(false)}>
           <Modal.Header closeButton>

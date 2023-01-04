@@ -29,7 +29,7 @@ const Project = () => {
     };
     apiCall();
   }, [url]);
-
+  let role = localStorage.getItem("role");
   const addOrEdit = (projectModal) => {
     console.log("projectModal" + projectModal);
     const addurl = `/api/Project/addProject`;
@@ -127,21 +127,27 @@ const Project = () => {
                           <br></br>
                           <br></br>
                         </Card.Text>
-                        <Edit
-                          className="edit"
-                          onClick={() => editview(project)}
-                        />
-                        <Delete
-                          className="delete"
-                          onClick={() => deleteProject(project)}
-                        />
+                        {role === "0" || role === "4" ? (
+                          <div>
+                            <Edit
+                              className="edit"
+                              onClick={() => editview(project)}
+                            />
+                            <Delete
+                              className="delete"
+                              onClick={() => deleteProject(project)}
+                            />
+                          </div>
+                        ) : (
+                          <></>
+                        )}
                       </Card.Body>
                     </Card>
                   </Col>
                 );
               })}
             </Row>
-            {localStorage.getItem("role") === "4" ? (
+            {role === "4" ? (
               <Add
                 className="add"
                 onClick={() => {

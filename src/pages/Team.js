@@ -25,7 +25,7 @@ const Team = () => {
     };
     apiCall();
   }, [url]);
-
+  let role = localStorage.getItem("role");
   const addOrEdit = (teamModal) => {
     const addurl = `/api/Team/AddTeam`;
     teamModal.projectId = params.Id;
@@ -100,39 +100,48 @@ const Team = () => {
           <tr>
             <th>Name</th>
             <th>ID</th>
-            <th>Actions</th>
+            {role === "0" || role === "4" ? <th>Actions</th> : <></>}
           </tr>
           {teamList?.map((team) => {
             return (
               <tr key={team.projectId}>
                 <td> {team.name}</td>
                 <td> {team.projectId}</td>
-                <td>
-                  <span>
-                    <Edit
-                      onClick={() => {
-                        editTeam(team);
-                      }}
-                    />
-                  </span>
-                  <span>
-                    <Delete
-                      onClick={() => {
-                        deleteTeam(team);
-                      }}
-                    />
-                  </span>
-                </td>
+                {role === "0" || role === "4" ? (
+                  <td>
+                    <span>
+                      <Edit
+                        onClick={() => {
+                          editTeam(team);
+                        }}
+                      />
+                    </span>
+                    <span>
+                      <Delete
+                        onClick={() => {
+                          deleteTeam(team);
+                        }}
+                      />
+                    </span>
+                  </td>
+                ) : (
+                  <></>
+                )}
               </tr>
             );
           })}
         </table>
-        <Add
-          className="add"
-          onClick={() => {
-            showHideModal(true);
-          }}
-        />
+        {role === "0" || role === "4" ? (
+          <div className="add">
+            <Add
+              onClick={() => {
+                showHideModal(true);
+              }}
+            />
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
 
       <Modal show={show} onHide={() => showHideModal(false)}>
@@ -149,8 +158,7 @@ const Team = () => {
                 onChange={handleChange}
               ></input>
               <Form.Label>ProjectID</Form.Label>
-              <input name="projectId"
-               value={params.Id} disabled></input>
+              <input name="projectId" value={params.Id} disabled></input>
             </Form.Group>
           </Form>
         </Modal.Body>

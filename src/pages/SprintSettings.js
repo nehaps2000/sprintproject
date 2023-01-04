@@ -35,14 +35,16 @@ const SprintSettings = () => {
       setHolidayList(response2);
     };
     apiCall();
-  }, [url,url2]);
+  }, [url, url2]);
 
   useEffect(() => {
     if (sprintModal?.StartDate && sprintModal?.EndDate) {
       findDuration(sprintModal.StartDate, sprintModal.EndDate);
     }
   }, [sprintModal?.StartDate, sprintModal?.EndDate]);
-  console.log(sprintModal)
+  console.log(sprintModal);
+  let role = localStorage.getItem("role");
+
   const addOrEdit = (sprintModal) => {
     const addurl = `/api/Sprint/addSprint`;
 
@@ -118,8 +120,6 @@ const SprintSettings = () => {
 
     let difference = (d2 - d1) / (1000 * 3600 * 24) + 1;
 
-    // console.log(Date(sDate).toString().split(" ")[0]);
-
     holidayList?.forEach((holiday) => {
       let holidayDate = new Date(holiday.date.split("-").reverse().join("-"));
 
@@ -184,24 +184,37 @@ const SprintSettings = () => {
                         Duration: {sprint.duration}
                         <br></br>
                       </Card.Text>
-                      <Edit className="edit" onClick={() => editview(sprint)} />
-                      <Delete
-                        className="delete"
-                        onClick={() => deleteSprint(sprint)}
-                      />
+                      {role === "0" || role === "4" ? (
+                        <div>
+                          <Edit
+                            className="edit"
+                            onClick={() => editview(sprint)}
+                          />
+                          <Delete
+                            className="delete"
+                            onClick={() => deleteSprint(sprint)}
+                          />
+                        </div>
+                      ) : (
+                        <></>
+                      )}
                     </Card.Body>
                   </Card>
                 </Col>
               );
             })}
           </Row>
-          <div className="add">
-            <Add
-              onClick={() => {
-                showHideModal(true);
-              }}
-            />
-          </div>
+          {role === "0" || role === "4" ? (
+            <div className="add">
+              <Add
+                onClick={() => {
+                  showHideModal(true);
+                }}
+              />
+            </div>
+          ) : (
+            <div></div>
+          )}
         </div>
       </div>
       <div>

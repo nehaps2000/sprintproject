@@ -47,21 +47,25 @@ const HomePage = () => {
               >
                 Holidays
               </li>
-              <li
-                className="nav-item"
-                onClick={(e) => {
-                  let elements = e.target.parentElement.children;
-                  let i = 0;
-                  while (i < elements.length) {
-                    elements[i].style = "border:none";
-                    i++;
-                  }
-                  e.target.style = "border-bottom:solid red";
-                  setSelectedTab("ProjectManager");
-                }}
-              >
-                ProjectManagers
-              </li>
+              {localStorage.getItem("role") === "4" ? (
+                <li
+                  className="nav-item"
+                  onClick={(e) => {
+                    let elements = e.target.parentElement.children;
+                    let i = 0;
+                    while (i < elements.length) {
+                      elements[i].style = "border:none";
+                      i++;
+                    }
+                    e.target.style = "border-bottom:solid red";
+                    setSelectedTab("ProjectManager");
+                  }}
+                >
+                  ProjectManagers
+                </li>
+              ) : (
+                <></>
+              )}
             </ul>
           </div>
         </div>
@@ -69,7 +73,7 @@ const HomePage = () => {
         <div className="card-body">
           {selectedTab === "Calendar" ? (
             <Holiday></Holiday>
-          ) : selectedTab === "ProjectManager" && localStorage.getItem("role")==='4'? (
+          ) : selectedTab === "ProjectManager" ? (
             <ProjectManager></ProjectManager>
           ) : (
             <Project></Project>
