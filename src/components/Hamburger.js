@@ -25,7 +25,7 @@ const Hamburger = () => {
             <Link to={`/${params.Id}/Sprint/SearchSprint`}>
               Sprint Settings
             </Link>
-            <Link to={`/${params.Id}/Story/SearchStory`}>Story BackLog</Link>
+            {/* <Link to={`/${params.Id}/Story/SearchStory`}>Story BackLog</Link> */}
             <Link to={`/Leave/Getleave`}>Leave Settings</Link>
           </Menu>
         </div>
