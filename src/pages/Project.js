@@ -30,6 +30,7 @@ const Project = () => {
     apiCall();
   }, [url]);
   let role = localStorage.getItem("role");
+  
   const addOrEdit = (projectModal) => {
     console.log("projectModal" + projectModal);
     const addurl = `/api/Project/addProject`;
@@ -81,7 +82,7 @@ const Project = () => {
     setDeleteProjectModal(status);
   };
 
-  const editview = (currentProject) => {
+  const editProject = (currentProject) => {
     setProjectModal({ ...currentProject });
     showHideModal(true);
     setIsEdit(true);
@@ -98,8 +99,9 @@ const Project = () => {
     });
   };
 
-  const projectOpen = (id, name) => {
-    localStorage.setItem(id, name);
+  const projectOpen = (id, pName) => {
+    localStorage.setItem("id", id);
+    localStorage.setItem("pName", pName);
     Navigate(`/${id}/projectSettings`);
   };
 
@@ -131,7 +133,7 @@ const Project = () => {
                           <div>
                             <Edit
                               className="edit"
-                              onClick={() => editview(project)}
+                              onClick={() => editProject(project)}
                             />
                             <Delete
                               className="delete"
@@ -147,7 +149,7 @@ const Project = () => {
                 );
               })}
             </Row>
-            {role === "4" ? (
+            {role === "4" || role === "0" ? (
               <Add
                 className="add"
                 onClick={() => {

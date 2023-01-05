@@ -18,7 +18,7 @@ const StoryLog = () => {
   const [storyList, setStoryList] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [storyModal, setStoryModal] = useState({});
-
+  const [saveButton, setSaveButton] = useState(false);
   const [show, setShow] = useState(false);
   const [del, setDel] = useState(false);
 
@@ -105,10 +105,20 @@ const StoryLog = () => {
     var updatedList = [...checked];
     if (event.target.checked) {
       updatedList = [...checked, event.target.value];
+      setSaveButton(true);
     } else {
       updatedList.splice(checked.indexOf(event.target.value), 1);
+      // setSaveButton(false);
     }
     setChecked(updatedList);
+  };
+
+  const saveStory = () => {
+    const addStoryUrl = `/api/Story/AddStorytoSprint`;
+    const apiCall = async () => {
+      await api("post", addStoryUrl, checked);
+      apiCall();
+    };
   };
 
   return (
@@ -124,6 +134,7 @@ const StoryLog = () => {
           </div>
           <div className="list-container">
             <div className="return">
+              {/* {checked.length =0 ? setSaveButton(false) : setSaveButton(true)} */}
               <h1 className={checked.length > 0 ? "checked" : "notChecked"}>
                 Listed Story
               </h1>
@@ -137,6 +148,11 @@ const StoryLog = () => {
                   </div>
                 );
               })}
+              {saveButton ? (
+                <Button onClick={saveStory()}>Save Story</Button>
+              ) : (
+                <></>
+              )}
             </div>
             <h1>Stories</h1>
             <div className="story">
@@ -147,12 +163,18 @@ const StoryLog = () => {
                     <div key={index} className="border">
                       <span>
                         {item.id} {item.name}
-                        <input
-                          value={`${item.id} ${item.name}`}
-                          type="checkbox"
-                          onChange={handleCheck}
-                          id={item.id}
-                        ></input>
+                        {role === "0" || role === "4" ? (
+                          <div>
+                            <input
+                              value={`${item.id} ${item.name}`}
+                              type="checkbox"
+                              onChange={handleCheck}
+                              id={item.id}
+                            ></input>
+                          </div>
+                        ) : (
+                          <></>
+                        )}
                       </span>
                     </div>
                     {role === "0" || role === "4" ? (

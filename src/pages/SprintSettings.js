@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Hamburger from "../components/Hamburger";
 import moment from "moment/moment";
+import { useNavigate } from "react-router-dom";
 
 const SprintSettings = () => {
   const params = useParams();
@@ -25,6 +26,7 @@ const SprintSettings = () => {
   const [addSprintModal, setAddSprintModal] = useState(false);
   const [deleteSprintModal, setDeleteSprintModal] = useState(false);
   const [holidayList, setHolidayList] = useState([]);
+  const Navigate = useNavigate();
 
   useEffect(() => {
     const apiCall = async () => {
@@ -96,7 +98,7 @@ const SprintSettings = () => {
     setDeleteSprintModal(status);
   };
 
-  const editview = (currentSprint) => {
+  const editSprint = (currentSprint) => {
     setSprintModal({ ...currentSprint });
     showHideModal(true);
     setIsEdit(true);
@@ -111,6 +113,10 @@ const SprintSettings = () => {
     setSprintModal((prev) => {
       return { ...prev, [name]: value };
     });
+  };
+
+  const navSprint = () => {
+    Navigate(`/${params.Id}/Story/SearchStory`);
   };
 
   const findDuration = (sDate, eDate) => {
@@ -165,7 +171,7 @@ const SprintSettings = () => {
       </div>
       <div>
         <div className="card-body">
-          <Row xs={1} md={5} className="g-4">
+          <Row xs={1} md={3} className="g-4">
             {sprintList?.map((sprint) => {
               return (
                 <Col key={sprint.id}>
@@ -188,12 +194,18 @@ const SprintSettings = () => {
                         <div>
                           <Edit
                             className="edit"
-                            onClick={() => editview(sprint)}
+                            onClick={() => editSprint(sprint)}
                           />
                           <Delete
                             className="delete"
                             onClick={() => deleteSprint(sprint)}
                           />
+                          <div>
+                            <Button onClick={() => navSprint()}>
+                              AddStory
+                            </Button>
+                            <Button>ViewStory</Button>
+                          </div>
                         </div>
                       ) : (
                         <></>
