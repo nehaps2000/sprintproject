@@ -477,6 +477,13 @@ width:90%;
   color:#fdfdfd;
   text-align: center;
 }
+.user{
+  color: #ffffff;
+
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: right;
+
+}
 
 .calendar {
 
@@ -496,5 +503,19 @@ width:90%;
 
 html {
   height: 90%;
+}
+.addstory{
+  background-color: white;
+  color: black;
+  border: 2px solid #9ec7ed;
+  padding: 8px 8px;
+  font-size: 16px;
+}
+.viewstory{
+  background-color: white;
+  color: black;
+  border: 2px solid #9ec7ed;
+  padding: 8px 8px;
+  font-size: 16px;
 }
 
