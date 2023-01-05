@@ -11,7 +11,6 @@ import { useParams } from "react-router-dom";
 
 const Allocations = () => {
   const params = useParams();
-
   const url = `/api/Allocation/SearchAllocation/${params.Id}`;
   const url2 = `/api/Resource/SearchResource/${params.Id}`;
   const url3 = `/api/Team/SearchTeam/${params.Id}`;
@@ -26,7 +25,6 @@ const Allocations = () => {
   const [allTeam, setAllTeam] = useState([]);
   console.log(allocationModal);
 
-  const role = useRef("");
   const hoursPerDay = useRef("");
   useEffect(() => {
     const apiCall = async () => {
@@ -58,17 +56,16 @@ const Allocations = () => {
     apiCall();
   }, [url]);
   console.log("list", employeeList);
-  const addOrEdit = (allocationModal) => {
-    console.log(typeof role, role.current.value, "hey");
 
+  let role = localStorage.getItem("role");
+
+  const addOrEdit = (allocationModal) => {
     if (!isEdit) {
       const addUrl = `/api/Allocation/AddAllocation`;
       allocationModal.projectId = params.Id;
-      // allocationModal.role=parseInt(role.current.value);
       allocationModal.hoursPerDay = parseInt(hoursPerDay.current.value);
       console.log(allocationModal);
 
-      //  allocationModal.projectName=params.name;
       const apiCall = async () => {
         let response = await api("post", addUrl, allocationModal);
         if (response) {
@@ -130,7 +127,6 @@ const Allocations = () => {
     setAllocationModal((prev) => ({
       ...prev,
       [name]: value,
-      // employeeId: allEmployees.find((e) => e.name.trim() === value)?.employeeId,
       teamId: allTeam.find((e) => e.name.trim() === value)?.id,
     }));
   };
@@ -146,9 +142,7 @@ const Allocations = () => {
     setAllocationModal((prev) => ({
       ...prev,
       [name]: value,
-
       employeeId: allEmployees.find((e) => e.name.trim() === value)?.employeeId,
-      //teamId: allTeam.find((e1) => e1.name.trim() === value)?.id,
     }));
 
     console.log(allEmployees, "hai");
@@ -166,8 +160,7 @@ const Allocations = () => {
           <th>TeamId</th>
           <th>TeamName</th>
           <th>Hours</th>
-
-          <th>Actions</th>
+          {role === "0" || role === "4" ? <th>Actions</th> : <></>}
         </tr>
         {allocationList?.map((allocation) => {
           return (
@@ -179,29 +172,41 @@ const Allocations = () => {
               <td> {allocation.teamId}</td>
               <td> {allocation.teamName}</td>
               <td> {allocation.hoursPerDay}</td>
-
-              <td>
-                <span>
-                  <Edit onClick={() => editview(allocation)} />
-                </span>
-                {
+              {role === "0" || role === "4" ? (
+                <td>
                   <span>
-                    <Delete onClick={() => deleteAllocation(allocation)} />
+                    <Edit
+                      onClick={() => {
+                        editview(allocation);
+                      }}
+                    />
                   </span>
-                }
-              </td>
+                  <span>
+                    <Delete
+                      onClick={() => {
+                        deleteAllocation(allocation);
+                      }}
+                    />
+                  </span>
+                </td>
+              ) : (
+                <></>
+              )}
             </tr>
           );
         })}
       </table>
-      <div className="add">
-        <Add
-          className="add"
-          onClick={() => {
-            showHideModal(true);
-          }}
-        />
-      </div>
+      {role === "0" || role === "4" ? (
+        <div className="add">
+          <Add
+            onClick={() => {
+              showHideModal(true);
+            }}
+          />
+        </div>
+      ) : (
+        <div></div>
+      )}
       <Modal show={show} onHide={() => showHideModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>{isEdit ? "Edit" : "Add new"} Allocations</Modal.Title>

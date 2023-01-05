@@ -26,11 +26,12 @@ const Login = () => {
     });
     var decoded = jwtDecode(response);
     console.log(decoded,"token decoded");
-    console.log(decoded.Role)
+    console.log(decoded.role);
 
     if (response !== "Wrong Credentials!") {
       localStorage.setItem("token", response);
-      localStorage.setItem("role",decoded.Role);
+      localStorage.setItem("role",decoded.role);
+      localStorage.setItem("name",decoded.Name);
       Navigate("/project");
     } else {
       toast.error("wrong credentials !", {

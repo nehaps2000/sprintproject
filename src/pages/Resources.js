@@ -28,6 +28,8 @@ const Resource = () => {
     apiCall();
   }, [url]);
 
+  let role = localStorage.getItem("role");
+
   const editResource = (currentResource) => {
     setResourceModal({ ...currentResource });
     showHideModal(true);
@@ -101,23 +103,23 @@ const Resource = () => {
   const options = [
     {
       label: "ScrumMaster",
-      value: "0",
+      value: 0,
     },
     {
       label: "Lead",
-      value: "1",
+      value: 1,
     },
     {
       label: "Developer",
-      value: "2",
+      value: 2,
     },
     {
       label: "QA Engineer",
-      value: "3",
+      value: 3,
     },
     {
       label: "Admin",
-      value: "4",
+      value: 4,
     },
   ];
   return (
@@ -129,7 +131,12 @@ const Resource = () => {
           <th>Email</th>
           <th>Name</th>
           <th>Role</th>
-          <th>Actions</th>
+          {role === "0" ||
+          role === "4" ? (
+            <th>Actions</th>
+          ) : (
+            <></>
+          )}
         </tr>
         {resourceList?.map((resources) => {
           return (
@@ -140,35 +147,44 @@ const Resource = () => {
               <td>{resources.name}</td>
               <td>{resources.role}</td>
 
-              <td>
-                <span>
-                  <Edit
-                    onClick={() => {
-                      editResource(resources);
-                    }}
-                  />
-                </span>
-                <span>
-                  <Delete
-                    onClick={() => {
-                      deleteResource(resources);
-                    }}
-                  />
-                </span>
-              </td>
+              { role=== "0" ||
+              role === "4" ? (
+                <td>
+                  <span>
+                    <Edit
+                      onClick={() => {
+                        editResource(resources);
+                      }}
+                    />
+                  </span>
+                  <span>
+                    <Delete
+                      onClick={() => {
+                        deleteResource(resources);
+                      }}
+                    />
+                  </span>
+                </td>
+              ) : (
+                <></>
+              )}
             </tr>
           );
         })}
       </table>
 
-      <div>
-        <Add
-          className="add"
-          onClick={() => {
-            showHideModal(true);
-          }}
-        />
-      </div>
+      {role === "0" ||
+      role === "4" ? (
+        <div className="add">
+          <Add
+            onClick={() => {
+              showHideModal(true);
+            }}
+          />
+        </div>
+      ) : (
+        <div></div>
+      )}
 
       <Modal show={show} onHide={() => showHideModal(false)}>
         <Modal.Header closeButton>
