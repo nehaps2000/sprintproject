@@ -1,12 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import Home from "../custom-icons/Home";
 import { slide as Menu } from "react-burger-menu";
 
 const Hamburger = () => {
-  const params = useParams();
-  console.log(params.Id);
+  let projectId=localStorage.getItem("id")
   return (
     <>
       <div>
@@ -17,15 +15,14 @@ const Hamburger = () => {
               Home
             </Link>
             <Link
-              to={`/${params.Id}/ProjectSettings`}
+              to={`/${projectId}/ProjectSettings`}
               defaultValue
             >
               Project Settings
             </Link>
-            <Link to={`/${params.Id}/Sprint/SearchSprint`}>
+            <Link to={`/${projectId}/Sprint/SearchSprint`}>
               Sprint Settings
             </Link>
-            {/* <Link to={`/${params.Id}/Story/SearchStory`}>Story BackLog</Link> */}
             <Link to={`/Leave/Getleave`}>Leave Settings</Link>
           </Menu>
         </div>

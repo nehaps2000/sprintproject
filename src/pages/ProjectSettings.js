@@ -4,7 +4,6 @@ import Resources from "./Resources";
 import Team from "./Team";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import Hamburger from "../components/Hamburger";
 
 const ProjectSettings = () => {
   const [selectedTab, setSelectedTab] = useState(null);
@@ -16,7 +15,6 @@ const ProjectSettings = () => {
       <div className="card-text-center">
         <div className="card-header">
           <Navbar></Navbar>
-          <Hamburger />
         </div>
 
         <div className="card-body">

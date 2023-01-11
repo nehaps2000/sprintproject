@@ -100,184 +100,201 @@ const Resource = () => {
     });
   };
 
-  const options = [
-    {
-      label: "ScrumMaster",
-      value: 0,
+  // const options = [
+  //   {
+  //     0: "ScrumMaster"
+  //   },
+  //   {
+  //     1: "Lead"
+  //   },
+  //   {
+  //     2: "Developer"
+  //   },
+  //   {
+  //     3: "QA Engineer"
+  //   },
+  //   {
+  //     4: "Admin"
+  //   },
+  // ];
+
+  const options = {
+    0: {
+      name: "ScrumMaster",
     },
-    {
-      label: "Lead",
-      value: 1,
+    1: {
+      name: "Lead",
     },
-    {
-      label: "Developer",
-      value: 2,
+    2: {
+      name: "Developer",
     },
-    {
-      label: "QA Engineer",
-      value: 3,
+    3: {
+      name: "QA Engineer",
     },
-    {
-      label: "Admin",
-      value: 4,
+    4: {
+      name: "Admin",
     },
-  ];
+  };
+
   return (
-    <div className="main">
-      <table className="team">
-        <tr>
-          <th>ID</th>
-          <th>Employee ID</th>
-          <th>Email</th>
-          <th>Name</th>
-          <th>Role</th>
-          {role === "0" ||
-          role === "4" ? (
-            <th>Actions</th>
-          ) : (
-            <></>
-          )}
-        </tr>
-        {resourceList?.map((resources) => {
-          return (
-            <tr key={resources.id}>
-              <td>{resources.id}</td>
-              <td>{resources.employeeId}</td>
-              <td>{resources.email}</td>
-              <td>{resources.name}</td>
-              <td>{resources.role}</td>
-
-              { role=== "0" ||
-              role === "4" ? (
-                <td>
-                  <span>
-                    <Edit
-                      onClick={() => {
-                        editResource(resources);
-                      }}
-                    />
-                  </span>
-                  <span>
-                    <Delete
-                      onClick={() => {
-                        deleteResource(resources);
-                      }}
-                    />
-                  </span>
-                </td>
-              ) : (
-                <></>
-              )}
-            </tr>
-          );
-        })}
-      </table>
-
-      {role === "0" ||
-      role === "4" ? (
-        <div className="add">
+    <div>
+      {role === "0" || role === "4" ? (
+        <div>
           <Add
+            className="add"
             onClick={() => {
               showHideModal(true);
             }}
           />
         </div>
       ) : (
-        <div></div>
+        <></>
       )}
+      <div className="main">
+        <table className="team">
+          <tr>
+            <th>ID</th>
+            <th>Employee ID</th>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Role</th>
+            {role === "0" || role === "4" ? <th>Actions</th> : <></>}
+          </tr>
+          {resourceList?.map((resources) => {
+            return (
+              <tr key={resources.id}>
+                <td>{resources.id}</td>
+                <td>{resources.employeeId}</td>
+                <td>{resources.email}</td>
+                <td>{resources.name}</td>
+                <td>{resources.role}</td>
 
-      <Modal show={show} onHide={() => showHideModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>{isEdit ? "Edit" : "Add"} resources</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Employee ID</Form.Label>
-              <input
-                name="employeeId"
-                value={resourceModal.employeeId || ""}
-                onChange={handleChange}
-              ></input>
-              <br></br>
-              <Form.Label>Email</Form.Label>
-              <input
-                name="email"
-                value={resourceModal.email || ""}
-                onChange={handleChange}
-              ></input>
-              <br></br>
-              <Form.Label>Name</Form.Label>
-              <input
-                name="name"
-                value={resourceModal.name || ""}
-                onChange={handleChange}
-              ></input>
-              <br></br>
-              <Form.Label>ProjectID</Form.Label>
-              <input name="projectId" value={params.Id} disabled></input>
-              <br></br>
-              <Form.Label>Role</Form.Label>
-              <select
-                className="custom-select"
-                id="inputGroupSelect04"
-                onChange={handleChange}
-                value={resourceModal?.role}
-                name="role"
+                {role === "0" || role === "4" ? (
+                  <td>
+                    <span>
+                      <Edit
+                        onClick={() => {
+                          editResource(resources);
+                        }}
+                      />
+                    </span>
+                    <span>
+                      <Delete
+                        onClick={() => {
+                          deleteResource(resources);
+                        }}
+                      />
+                    </span>
+                  </td>
+                ) : (
+                  <></>
+                )}
+              </tr>
+            );
+          })}
+        </table>
+
+        <Modal show={show} onHide={() => showHideModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>{isEdit ? "Edit" : "Add"} resources</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
               >
-                <option selected>Choose...</option>
-                {options.map((option) => (
+                <Form.Label>Employee ID</Form.Label>
+                <input
+                  name="employeeId"
+                  value={resourceModal.employeeId || ""}
+                  onChange={handleChange}
+                ></input>
+                <br></br>
+                <Form.Label>Email</Form.Label>
+                <input
+                  name="email"
+                  value={resourceModal.email || ""}
+                  onChange={handleChange}
+                ></input>
+                <br></br>
+                <Form.Label>Name</Form.Label>
+                <input
+                  name="name"
+                  value={resourceModal.name || ""}
+                  onChange={handleChange}
+                ></input>
+                <br></br>
+                <Form.Label>ProjectID</Form.Label>
+                <input name="projectId" value={params.Id} disabled></input>
+                <br></br>
+                <Form.Label>Role</Form.Label>
+                <select
+                  className="custom-select"
+                  id="inputGroupSelect04"
+                  onChange={handleChange}
+                  value={resourceModal?.role}
+                  name="role"
+                >
+                  <option selected>Choose...</option>
+                  {/* {options.forEach((option,key) => (
                   <option
-                    key={option.label}
+                    key={key}
                     id={option.value}
-                    value={option.value}
+                    value={key}
                   >
-                    {option.label}
+                    {option[key].name}
                   </option>
-                ))}
-              </select>
-              <br></br>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => showHideModal(false)}>
-            Cancel
-          </Button>
-          <Button
-            variant="primary"
-            onClick={() => {
-              addOrEdit(resourceModal);
-            }}
-          >
-            Submit
-          </Button>
-        </Modal.Footer>
-      </Modal>
+                ))} */}
+                  {Object.keys(options).map((key) => (
+                    <option key={key} value={key}>
+                      {options[key].name}
+                    </option>
+                  ))}
+                </select>
+                <br></br>
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button className="btn btn-dark" variant="secondary" onClick={() => showHideModal(false)}>
+              Cancel
+            </Button>
+            <Button className="btn btn-dark"
+              variant="primary"
+              onClick={() => {
+                addOrEdit(resourceModal);
+              }}
+            >
+              Submit
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
-      <Modal show={del} onHide={() => showDeleteModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Delete resource</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Label>Do you really want to delete ?</Form.Label>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => showDeleteModal(false)}>
-            Cancel
-          </Button>
-          <Button
-            variant="primary"
-            onClick={() => {
-              deleteOneResource(resourceModal);
-            }}
-          >
-            Yes
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        <Modal show={del} onHide={() => showDeleteModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Delete resource</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Label>Do you really want to delete ?</Form.Label>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button className="btn btn-dark" variant="secondary" onClick={() => showDeleteModal(false)}>
+              Cancel
+            </Button>
+            <Button className="btn btn-dark"
+              variant="primary"
+              onClick={() => {
+                deleteOneResource(resourceModal);
+              }}
+            >
+              Yes
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
     </div>
   );
 };

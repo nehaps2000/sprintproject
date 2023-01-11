@@ -288,10 +288,10 @@ const Allocations = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => showHideModal(false)}>
+          <Button className="btn btn-dark" variant="secondary" onClick={() => showHideModal(false)}>
             Cancel
           </Button>
-          <Button
+          <Button className="btn btn-dark"
             variant="primary"
             onClick={() => {
               addOrEdit(allocationModal);
@@ -314,13 +314,12 @@ const Allocations = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button
-            className="secondary"
+          <Button className="btn btn-dark"
             onClick={() => deleteOneAllocation(allocationModal)}
           >
             yes
           </Button>
-          <Button className="secondary" onClick={() => showConfirmModel(false)}>
+          <Button className="btn btn-dark"  onClick={() => showConfirmModel(false)}>
             Cancel
           </Button>
         </Modal.Footer>
