@@ -9,34 +9,40 @@ import Delete from "../custom-icons/Delete";
 import Button from "react-bootstrap/Button";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import Hamburger from "../components/Hamburger";
+
+
+import "react-toastify/dist/ReactToastify.css";
 const StoryLog = () => {
   const params = useParams();
   const url = `/api/Story/SearchStory/${params.Id}`;
-
+  const newUrl = `/api/Story/StoriesLeft/${params.Id}`;
   const [checked, setChecked] = useState([]);
   const [storyList, setStoryList] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [storyModal, setStoryModal] = useState({});
-  const [saveButton, setSaveButton] = useState(false);
   const [show, setShow] = useState(false);
   const [del, setDel] = useState(false);
+ const [unusedList, setUnusedList] = useState([]);
 
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
-
+      let response1 = await api("get", newUrl);
       setStoryList(response);
+      setUnusedList(response1);
+ 
     };
     apiCall();
   }, [url]);
 
+
   let role = localStorage.getItem("role");
+  let sprint = localStorage.getItem("sprintId");
   const addOrEdit = (storyModal) => {
     const addurl = `/api/Story/AddStory`;
     storyModal.projectId = params.Id;
-    storyModal.SprintId = params.Id;
-    console.log(params.Id, "monkey");
+   
+    console.log(storyModal.sprintId, "monkey");
     if (!isEdit) {
       const apiCall = async () => {
         let response = await api("post", addurl, storyModal);
@@ -100,32 +106,52 @@ const StoryLog = () => {
       return { ...prev, [name]: value };
     });
   };
-
-  const handleCheck = (event) => {
-    var updatedList = [...checked];
-    if (event.target.checked) {
-      updatedList = [...checked, event.target.value];
-      setSaveButton(true);
-    } else {
-      updatedList.splice(checked.indexOf(event.target.value), 1);
-      // setSaveButton(false);
+  const checkuse = (item) => {
+    for (let story of unusedList) {
+      if (item.id === story.id) {
+        return false;
+      }
     }
-    setChecked(updatedList);
+    return true;
   };
+
+  const handleCheck = (e, item) => {
+    var updatedList = [...checked];
+    if (e.target.checked) {
+      updatedList = [...checked, { sprintId: params.sprintId, id: item.id }];
+     
+      setChecked(updatedList);
+    } else {
+      let updated = updatedList.filter((a) => a.id !== item.id);
+
+      console.log(updated, "cat");
+      setChecked(updated);
+     
+    }
+  };
+
+  console.log(checked, "pen");
 
   const saveStory = () => {
     const addStoryUrl = `/api/Story/AddStorytoSprint`;
     const apiCall = async () => {
-      await api("post", addStoryUrl, checked);
-      apiCall();
+      const respose = await api("patch", addStoryUrl, checked);
+
+      if (respose) {
+        console.log(respose, "pencil");
+        const stories = await api("get", url);
+        setStoryList(stories);
+        console.log(storyList, "neha");
+      }
     };
+    apiCall();
   };
 
   return (
     <>
       <div className="card-header">
         <Navbar></Navbar>
-        <Hamburger></Hamburger>
+       
       </div>
       <div className="app">
         <div className="checkList">
@@ -134,59 +160,75 @@ const StoryLog = () => {
           </div>
           <div className="list-container">
             <div className="return">
-              {/* {checked.length =0 ? setSaveButton(false) : setSaveButton(true)} */}
+            
               <h1 className={checked.length > 0 ? "checked" : "notChecked"}>
                 Listed Story
               </h1>
               {checked?.map((item) => {
-                console.log(item);
+                console.log(item, "hhh");
                 return (
                   <div className="list">
                     <ListGroup>
-                      <ListGroup.Item>{item}</ListGroup.Item>
+                      <ListGroup.Item>
+                        {storyList.find((s) => s.id === item.id)?.name}
+                      </ListGroup.Item>
                     </ListGroup>
                   </div>
                 );
               })}
-              {saveButton ? (
-                <Button onClick={saveStory()}>Save Story</Button>
+
+{checked.length > 0 ? (
+                <Button className="btn btn-dark"
+                 
+                  onClick={() => {
+                    saveStory();
+                  }}
+                >
+                  Save Story
+                </Button>
               ) : (
                 <></>
               )}
             </div>
+
             <h1>Stories</h1>
             <div className="story">
               {storyList?.map((item, index) => {
+                const style = checkuse(item) ? {display: 'none'} : {display: 'block'};
                 console.log(item);
                 return (
                   <>
-                    <div key={index} className="border">
-                      <span>
+                  
+                    <div key={index} className="border" style={style}>
+                      
+                      <div className="names">
                         {item.id} {item.name}
                         {role === "0" || role === "4" ? (
-                          <div>
-                            <input
-                              value={`${item.id} ${item.name}`}
+                          <div className="click" >
+                            
+                          <Form.Check
+                              className="clicked"
+                              //disabled={checkuse(item)}
+                              value={` ${item.name}`}
                               type="checkbox"
-                              onChange={handleCheck}
+                              onChange={(e) => handleCheck(e, item)}
                               id={item.id}
-                            ></input>
+                            ></Form.Check>
                           </div>
                         ) : (
                           <></>
                         )}
-                      </span>
-                    </div>
-                    {role === "0" || role === "4" ? (
-                      <div>
-                        <span>
+                      </div>
+                      {role === "0" || role === "4" ? (
+                      <div className="operations">
+                        <span className="option">
                           <Delete
                             onClick={() => {
                               deleteStory(item);
                             }}
                           />
                         </span>
-                        <span>
+                        <span className="option">
                           <Edit
                             onClick={() => {
                               editStory(item);
@@ -197,6 +239,9 @@ const StoryLog = () => {
                     ) : (
                       <div></div>
                     )}
+                    </div>
+
+               
                   </>
                 );
               })}{" "}
@@ -229,14 +274,18 @@ const StoryLog = () => {
                 value={storyModal.name || " "}
                 onChange={handleChange}
               ></input>
+              <Form.Label>ProjectID</Form.Label>
+              <input name="projectId" value={params.Id} disabled></input>
+
+              <br></br>
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => showHideModal(false)}>
+          <Button className="btn btn-dark" variant="secondary" onClick={() => showHideModal(false)}>
             Cancel
           </Button>
-          <Button
+          <Button className="btn btn-dark"
             variant="primary"
             onClick={() => {
               addOrEdit(storyModal);
@@ -257,10 +306,10 @@ const StoryLog = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => showDeleteModal(false)}>
+          <Button className="btn btn-dark" variant="secondary" onClick={() => showDeleteModal(false)}>
             Cancel
           </Button>
-          <Button
+          <Button className="btn btn-dark"
             variant="primary"
             onClick={() => {
               deleteOneStory(storyModal);
