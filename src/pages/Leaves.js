@@ -5,17 +5,19 @@ import Modal from "react-bootstrap/Modal";
 import Calendar from "react-calendar";
 import Navbar from "../components/Navbar";
 import "react-calendar/dist/Calendar.css";
-import Hamburger from "../components/Hamburger";
 import api from "../utility/api";
 import { useState, useEffect } from "react";
 import format from "date-fns/format";
 import Delete from "../custom-icons/Delete";
 import Edit from "../custom-icons/Edit";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 const Leaves = () => {
   const url = `/api/Leave/GetLeaves`;
   const [leaveList, setLeaveList] = useState([]);
-  const [leaveModal, setLeaveModal] = useState({});
+  const [leaveModal, setLeaveModal] = useState({ Hours: 8 });
   const [addLeaveModal, setAddLeaveModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isLeave, setIsLeave] = useState(false);
@@ -100,7 +102,6 @@ const Leaves = () => {
   };
 
   const handleDateChange = (value) => {
-
     value = format(value, "yyyy-MM-dd");
     setLeaveModal((prev) => {
       return { ...prev, leaveDate: value };
@@ -112,58 +113,69 @@ const Leaves = () => {
     <div>
       <div className="card-header">
         <Navbar></Navbar>
-        <Hamburger />
       </div>
-      <div className="calendar">
-        <Calendar
-          onClickDay={handleDateChange}
-          tileClassName={({ date }) => {
-            {
-              let isHighlighted = false;
-              leaveList?.forEach((l) => {
-                if (Date.parse(l.leaveDate) === Date.parse(date))
-                  isHighlighted = true;
-              });
-              if (isHighlighted) {
-                setIsLeave(true);
-                return "highlight";
-              }
-            }
-          }}
-          tileDisabled={({ date }) =>
-            date.getDay() === 0 || date.getDay() === 6
-          }
-        ></Calendar>
-      </div>
-      <div>
-        <table className="listed-leave">
-          <tr>
-            <th>EmployeeId</th>
-            <th>Leave Date</th>
-            <th>Hours</th>
-            <th>Actions</th>
-          </tr>
-          {leaveList?.map((leave) => {
-            return (
-              <tr key={leave.employeeId}>
-                <td> {leave.employeeId}</td>
-                <td> {leave.leaveDate.toString().split("T")[0]}</td>
-                <td>{leave.hours}</td>
+      <Container>
+        <div className="wrapper">
+          {" "}
+          <Row>
+            <Col>
+              <Calendar
+                onClickDay={handleDateChange}
+                tileClassName={({ date }) => {
+                  {
+                    let isHighlighted = false;
+                    leaveList?.forEach((l) => {
+                      if (Date.parse(l.leaveDate) === Date.parse(date))
+                        isHighlighted = true;
+                    });
+                    if (isHighlighted) {
+                      setIsLeave(true);
+                      return "highlight";
+                    }
+                  }
+                }}
+                tileDisabled={({ date }) =>
+                  date.getDay() === 0 || date.getDay() === 6
+                }
+              ></Calendar>
+            </Col>
+            <Col>
+              <table className="listed-leave">
+                <thead>
+                  <tr>
+                    <th>EmployeeId</th>
+                    <th>Leave Date</th>
+                    <th>Hours</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {leaveList?.map((leave) => {
+                    return (
+                      <tr key={leave.employeeId}>
+                        <td> {leave.employeeId}</td>
+                        <td> {leave.leaveDate.toString().split("T")[0]}</td>
+                        <td>{leave.hours}</td>
 
-                <td>
-                  {" "}
-                  <span>
-                    <Edit onClick={() => editview(leave)} />
-                  </span>
-                  <span>
-                    <Delete onClick={() => deleteLeave(leave)} />
-                  </span>
-                </td>
-              </tr>
-            );
-          })}{" "}
-        </table>
-      </div>
+                        <td>
+                          <div>
+                            <span>
+                              <Edit onClick={() => editview(leave)} />
+                            </span>
+                            <span>
+                              <Delete onClick={() => deleteLeave(leave)} />
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </Col>
+          </Row>
+        </div>
+      </Container>
 
       <Modal show={addLeaveModal} onHide={() => showHideModal(false)}>
         <Modal.Header closeButton>
@@ -188,18 +200,17 @@ const Leaves = () => {
               <Form.Label>Hours</Form.Label>
               <input
                 type="radio"
-                name="hours"
+                name="Hours"
                 defaultChecked
-                value="8"
-                defaultValue="8"
+                value={leaveModal.Hours || 8}
                 onChange={handleChange}
               />
               <span>Full day</span>
 
               <input
                 type="radio"
-                name="hours"
-                value="4"
+                name="Hours"
+                value={leaveModal.Hours || 4}
                 onChange={handleChange}
               />
               <span>Half day</span>
@@ -207,10 +218,15 @@ const Leaves = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => showHideModal(false)}>
+          <Button
+            className="btn btn-dark"
+            variant="secondary"
+            onClick={() => showHideModal(false)}
+          >
             Cancel
           </Button>
           <Button
+            className="btn btn-dark"
             variant="primary"
             onClick={() => {
               addOrEdit(leaveModal);
@@ -234,12 +250,15 @@ const Leaves = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button
-            className="secondary"
+            className="btn btn-dark"
             onClick={() => deleteOneLeave(leaveModal)}
           >
             yes
           </Button>
-          <Button className="secondary" onClick={() => showConfirmModel(false)}>
+          <Button
+            className="btn btn-dark"
+            onClick={() => showConfirmModel(false)}
+          >
             Cancel
           </Button>
         </Modal.Footer>

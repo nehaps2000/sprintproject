@@ -39,7 +39,7 @@ const Team = () => {
       };
       apiCall();
     } else {
-      const updateurl = `/api/Team/UpdateTeam/${teamModal.Id}`;
+      const updateurl = `/api/Team/UpdateTeam/${teamModal.id}`;
       const apiCall = async () => {
         let response = await api("patch", updateurl, teamModal);
         if (response) {
@@ -54,7 +54,7 @@ const Team = () => {
   };
 
   const deleteOneTeam = (teamModal) => {
-    const deleteurl = `/api/Team/DeleteTeam/${teamModal.Id}`;
+    const deleteurl = `/api/Team/DeleteTeam/${teamModal.id}`;
     const apiCall = async () => {
       let response = await api("delete", deleteurl);
       if (response) {
@@ -163,10 +163,10 @@ const Team = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => showHideModal(false)}>
+          <Button className="btn btn-dark" variant="secondary" onClick={() => showHideModal(false)}>
             Cancel
           </Button>
-          <Button
+          <Button className="btn btn-dark"
             variant="primary"
             onClick={() => {
               addOrEdit(teamModal);
@@ -187,10 +187,10 @@ const Team = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => showDeleteModal(false)}>
+          <Button className="btn btn-dark" variant="secondary" onClick={() => showDeleteModal(false)}>
             Cancel
           </Button>
-          <Button
+          <Button className="btn btn-dark"
             variant="primary"
             onClick={() => {
               deleteOneTeam(teamModal);
