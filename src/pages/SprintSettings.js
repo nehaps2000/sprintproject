@@ -12,9 +12,10 @@ import Col from "react-bootstrap/Col";
 import api from "../utility/api";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import Hamburger from "../components/Hamburger";
 import moment from "moment/moment";
 import { useNavigate } from "react-router-dom";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const SprintSettings = () => {
   const params = useParams();
@@ -48,8 +49,7 @@ const SprintSettings = () => {
   let role = localStorage.getItem("role");
 
   const addOrEdit = (sprintModal) => {
-    const addurl = `/api/Sprint/addSprint`;
-
+    const addurl = `/api/Sprint/AddSprint`;
     sprintModal.projectId = params.Id;
     if (!isEdit) {
       const apiCall = async () => {
@@ -90,7 +90,9 @@ const SprintSettings = () => {
 
   const showHideModal = (status) => {
     setAddSprintModal(status);
-    if (!status) setSprintModal({});
+    if (status === false) {
+      setSprintModal({});
+    }
     setIsEdit(false);
   };
 
@@ -115,8 +117,13 @@ const SprintSettings = () => {
     });
   };
 
-  const navSprint = () => {
-    Navigate(`/${params.Id}/Story/SearchStory`);
+  const navAddStory = (id) => {
+    Navigate(`/${params.Id}/Story/SearchStory/${id}`);
+    localStorage.setItem("sprintId", id);
+  };
+
+  const navViewStory = (id) => {
+    Navigate(`/${id}/ListedStory`);
   };
 
   const findDuration = (sDate, eDate) => {
@@ -163,11 +170,21 @@ const SprintSettings = () => {
     return difference;
   };
 
+  const handlePlan = (id) => {
+    const planUrl = `/api/Sprint/PlanningSprint/${id}`;
+    const apiCall = async () => {
+      let response = await api("patch", planUrl, id);
+      response = await api("get", url);
+      setSprintList(response);
+      console.log(sprintList);
+    };
+    apiCall();
+  };
+
   return (
     <>
       <div className="card-header">
         <Navbar></Navbar>
-        <Hamburger></Hamburger>
       </div>
       <div>
         <div className="card-body">
@@ -175,7 +192,12 @@ const SprintSettings = () => {
             {sprintList?.map((sprint) => {
               return (
                 <Col key={sprint.id}>
-                  <Card style={{ width: "auto" }}>
+                  <Card
+                    style={{ width: "auto" }}
+                    className={
+                      sprint.planningSprint === true ? "planned" : "unplanned"
+                    }
+                  >
                     <Card.Body>
                       <Card.Title>{sprint.name}</Card.Title>
                       <Card.Text
@@ -200,11 +222,41 @@ const SprintSettings = () => {
                             className="delete"
                             onClick={() => deleteSprint(sprint)}
                           />
-                          <div>
-                            <Button onClick={() => navSprint()}>
-                              AddStory
+
+                          {sprint.planningSprint === true ? (
+                            <div className="card-button">
+                              <Button className="btn btn-dark" onClick={() => navAddStory(sprint.id)}>
+                                AddStory
+                              </Button>
+                              <Button className="btn btn-dark" onClick={() => navViewStory(sprint.id)}>
+                                ViewStory
+                              </Button>
+                            </div>
+                          ) : (
+                            <></>
+                          )}
+                          <div className="card-button">
+                            <Button className="btn btn-dark"
+                              onClick={() => {
+                                confirmAlert({
+                                  title: "Set as Planning Sprint",
+                                  message: "Are you sure to do this?",
+                                  buttons: [
+                                    {
+                                      label: "Yes",
+                                      onClick: () => {
+                                        handlePlan(sprint.id);
+                                      },
+                                    },
+                                    {
+                                      label: "No",
+                                    },
+                                  ],
+                                });
+                              }}
+                            >
+                              PlanSprint
                             </Button>
-                            <Button>ViewStory</Button>
                           </div>
                         </div>
                       ) : (
@@ -271,10 +323,10 @@ const SprintSettings = () => {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => showHideModal(false)}>
+            <Button className="btn btn-dark" variant="secondary" onClick={() => showHideModal(false)}>
               Cancel
             </Button>
-            <Button
+            <Button className="btn btn-dark"
               variant="primary"
               onClick={() => {
                 addOrEdit(sprintModal);
@@ -300,14 +352,12 @@ const SprintSettings = () => {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button
-              className="secondary"
+            <Button className="btn btn-dark"
               onClick={() => deleteOneSprint(sprintModal)}
             >
               Yes
             </Button>
-            <Button
-              className="secondary"
+            <Button className="btn btn-dark"
               onClick={() => showConfirmModal(false)}
             >
               Cancel

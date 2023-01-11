@@ -184,10 +184,10 @@ const Project = () => {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => showHideModal(false)}>
+            <Button className="btn btn-dark" variant="secondary" onClick={() => showHideModal(false)}>
               Cancel
             </Button>
-            <Button
+            <Button className="btn btn-dark"
               variant="primary"
               onClick={() => {
                 addOrEdit(projectModal);
@@ -213,14 +213,12 @@ const Project = () => {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button
-              className="secondary"
+            <Button className="btn btn-dark"
               onClick={() => deleteOneProject(projectModal)}
             >
               Yes
             </Button>
-            <Button
-              className="secondary"
+            <Button className="btn btn-dark"
               onClick={() => showConfirmModal(false)}
             >
               Cancel

@@ -84,30 +84,29 @@ const Holiday = () => {
   return (
     <>
       <div>
-        <div className="accordion">
-          <Accordion allowMultipleExpanded={true} allowZeroExpanded={true}>
-            {holidaySet.keys.map((key) => {
-              return (
-                <AccordionItem>
-                  <AccordionItemHeading>
-                    <AccordionItemButton>{key}</AccordionItemButton>
-                  </AccordionItemHeading>
-                  <AccordionItemPanel>
-                    <ul>
-                      {holidaySet.list[`${key}`].map((data) => {
-                        console.log(holidaySet);
-                        return (
-                          <li className="accList" key={Math.random()}>
-                            <b>{data.name}</b> <i>{data.date}</i>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </AccordionItemPanel>
-                </AccordionItem>
-              );
-            })}
-          </Accordion>
+          <div className="accordion">
+            <Accordion allowMultipleExpanded={true} allowZeroExpanded={true}>
+              {holidaySet.keys.map((key) => {
+                return (
+                  <AccordionItem>
+                    <AccordionItemHeading>
+                      <AccordionItemButton>{key}</AccordionItemButton>
+                    </AccordionItemHeading>
+                    <AccordionItemPanel>
+                      <ul>
+                        {holidaySet.list[`${key}`].map((data) => {
+                          return (
+                            <li className="accList" key={Math.random()}>
+                              <b>{data.name}</b> <i>{data.date}</i>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </AccordionItemPanel>
+                  </AccordionItem>
+                );
+              })}
+            </Accordion>
           {localStorage.getItem("role") === "4" ? (
             <Add
               onClick={() => {
@@ -117,50 +116,53 @@ const Holiday = () => {
           ) : (
             <div></div>
           )}
-        </div>
-        <Modal show={addHolidayModal} onHide={() => showHolidayModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Add new holiday</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
+          </div>
+          <Modal show={addHolidayModal} onHide={() => showHolidayModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>Add new holiday</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Date</Form.Label>
+                  <input
+                    name="date"
+                    className="form-label"
+                    for="formControlDisabled"
+                    type="date"
+                    onChange={handleHolidayChange}
+                    value={holidayModal?.date}
+                  ></input>
+                  <Form.Label>Name</Form.Label>
+                  <input
+                    name="name"
+                    value={holidayModal?.name}
+                    onChange={handleHolidayChange}
+                  ></input>
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button className="btn btn-dark"
+                variant="secondary"
+                onClick={() => showHolidayModal(false)}
               >
-                <Form.Label>Date</Form.Label>
-                <input
-                  name="date"
-                  className="form-label"
-                  for="formControlDisabled"
-                  type="date"
-                  onChange={handleHolidayChange}
-                  value={holidayModal?.date}
-                ></input>
-                <Form.Label>Name</Form.Label>
-                <input
-                  name="name"
-                  value={holidayModal?.name}
-                  onChange={handleHolidayChange}
-                ></input>
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => showHolidayModal(false)}>
-              Cancel
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                addHoliday(holidayModal);
-              }}
-            >
-              Submit
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
+                Cancel
+              </Button>
+              <Button className="btn btn-dark"
+                variant="primary"
+                onClick={() => {
+                  addHoliday(holidayModal);
+                }}
+              >
+                Submit
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
     </>
   );
 };

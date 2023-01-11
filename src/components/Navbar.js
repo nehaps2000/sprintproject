@@ -1,21 +1,22 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Logout from "../custom-icons/Logout";
+import Hamburger from "./Hamburger";
 
 const Navbar = () => {
   const params = useParams();
   console.log(params);
-  const url = "/api/Project/Projects";
-  const [userName, setuserName] = useState("");
+  const [username, setUserName] = useState("");
   const [projectName, setProjectName] = useState("");
   const Navigate = useNavigate();
 
   useEffect(() => {
-    setProjectName(localStorage.getItem(params.Id));
-  });
+    setProjectName(localStorage.getItem("pName"));
+  }, [projectName]);
+
   useEffect(() => {
-    setuserName(localStorage.getItem("username"));
-  });
+    setUserName(localStorage.getItem("name"));
+  }, [username]);
   const logout = (e) => {
     console.log("Logout");
     const confirm = alert("are you sure you want to logout?");
@@ -24,12 +25,15 @@ const Navbar = () => {
   };
   return (
     <>
-      <div className="header">
-        <div className="name">
-          <h1>{projectName}</h1>
-        </div>
-
-        <div>
+      {params.Id ? (
+        <div className="header">
+          <div>
+            <Hamburger></Hamburger>
+          </div>
+          <div className="name">
+            <h1>{projectName}</h1>
+          </div>
+          <div className="username">Welcome {username}</div>
           <div className="logout">
             <Logout
               onClick={() => {
@@ -38,8 +42,19 @@ const Navbar = () => {
             />
           </div>
         </div>
-        <div className="user"><h5>welcome {userName}!</h5></div>
-      </div>
+      ) : (
+        <div className="header">
+          <div>
+            <div className="logout">
+              <Logout
+                onClick={() => {
+                  logout();
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
