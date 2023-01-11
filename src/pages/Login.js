@@ -27,17 +27,19 @@ const Login = () => {
     var decoded = jwtDecode(response);
     console.log(decoded,"token decoded");
     console.log(decoded.role);
-
+  
     if (response !== "Wrong Credentials!") {
       localStorage.setItem("token", response);
-      localStorage.setItem("role",decoded.role);
-      localStorage.setItem("name",decoded.Name);
+        localStorage.setItem("role",decoded.role);
+        localStorage.setItem("username",decoded.Name);
       Navigate("/project");
     } else {
-      toast.error("wrong credentials !", {
+      
+        toast.error("wrong credentials !", {
         position: toast.POSITION.TOP_CENTER,
       });
     }
+   
   };
   return (
     <>
