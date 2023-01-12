@@ -116,7 +116,6 @@ const Leaves = () => {
       </div>
       <Container>
         <div className="wrapper">
-          {" "}
           <Row>
             <Col>
               <Calendar
@@ -253,7 +252,7 @@ const Leaves = () => {
             className="btn btn-dark"
             onClick={() => deleteOneLeave(leaveModal)}
           >
-            yes
+            Yes
           </Button>
           <Button
             className="btn btn-dark"

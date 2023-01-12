@@ -8,6 +8,7 @@ import Add from "../custom-icons/Add";
 import api from "../utility/api";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { Container, Row, Col } from "react-bootstrap";
 
 const Team = () => {
   const params = useParams();
@@ -94,55 +95,63 @@ const Team = () => {
     });
   };
   return (
-    <div>
-      <div className="main">
-        <table className="team">
-          <tr>
-            <th>Name</th>
-            <th>ID</th>
-            {role === "0" || role === "4" ? <th>Actions</th> : <></>}
-          </tr>
-          {teamList?.map((team) => {
-            return (
-              <tr key={team.projectId}>
-                <td> {team.name}</td>
-                <td> {team.projectId}</td>
-                {role === "0" || role === "4" ? (
-                  <td>
-                    <span>
-                      <Edit
-                        onClick={() => {
-                          editTeam(team);
-                        }}
-                      />
-                    </span>
-                    <span>
-                      <Delete
-                        onClick={() => {
-                          deleteTeam(team);
-                        }}
-                      />
-                    </span>
-                  </td>
-                ) : (
-                  <></>
-                )}
-              </tr>
-            );
-          })}
-        </table>
-        {role === "0" || role === "4" ? (
-          <div className="add">
-            <Add
-              onClick={() => {
-                showHideModal(true);
-              }}
-            />
-          </div>
+    <Container>
+      <Row>
+        {role === "4" || role === "0" ? (
+          <Col>
+            <div className="add">
+              <Add
+                onClick={() => {
+                  showHideModal(true);
+                }}
+              />
+            </div>
+          </Col>
         ) : (
           <div></div>
         )}
-      </div>
+      </Row>
+      <Row>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>ID</th>
+              {role === "0" || role === "4" ? <th>Actions</th> : <></>}
+            </tr>
+          </thead>
+          <tbody>
+            {teamList?.map((team) => {
+              return (
+                <tr key={team.projectId}>
+                  <td> {team.name}</td>
+                  <td> {team.projectId}</td>
+                  {role === "0" || role === "4" ? (
+                    <td>
+                      <span>
+                        <Edit
+                          onClick={() => {
+                            editTeam(team);
+                          }}
+                        />
+                      </span>
+                      <span>
+                        <Delete
+                          onClick={() => {
+                            deleteTeam(team);
+                          }}
+                        />
+                      </span>
+                    </td>
+                  ) : (
+                    <></>
+                  )}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </Row>
 
       <Modal show={show} onHide={() => showHideModal(false)}>
         <Modal.Header closeButton>
@@ -163,10 +172,15 @@ const Team = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button className="btn btn-dark" variant="secondary" onClick={() => showHideModal(false)}>
+          <Button
+            className="btn btn-dark"
+            variant="secondary"
+            onClick={() => showHideModal(false)}
+          >
             Cancel
           </Button>
-          <Button className="btn btn-dark"
+          <Button
+            className="btn btn-dark"
             variant="primary"
             onClick={() => {
               addOrEdit(teamModal);
@@ -187,10 +201,15 @@ const Team = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button className="btn btn-dark" variant="secondary" onClick={() => showDeleteModal(false)}>
+          <Button
+            className="btn btn-dark"
+            variant="secondary"
+            onClick={() => showDeleteModal(false)}
+          >
             Cancel
           </Button>
-          <Button className="btn btn-dark"
+          <Button
+            className="btn btn-dark"
             variant="primary"
             onClick={() => {
               deleteOneTeam(teamModal);
@@ -200,7 +219,7 @@ const Team = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </Container>
   );
 };
 

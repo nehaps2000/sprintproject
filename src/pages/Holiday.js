@@ -13,6 +13,7 @@ import {
   AccordionItemPanel,
 } from "react-accessible-accordion";
 import "react-accessible-accordion/dist/fancy-example.css";
+import { Container, Row, Col } from "react-bootstrap";
 
 const Holiday = () => {
   const url = "/api/Calendar/GetHoliday";
@@ -83,8 +84,23 @@ const Holiday = () => {
 
   return (
     <>
-      <div>
-          <div className="accordion">
+      <Container>
+        <Row>
+          {localStorage.getItem("role") === "4" ? (
+            <Col>
+              <div className="add">
+                <Add
+                  onClick={() => {
+                    showHolidayModal(true);
+                  }}
+                />
+              </div>
+            </Col>
+          ) : (
+            <div></div>
+          )}
+        </Row>
+        <Row>
             <Accordion allowMultipleExpanded={true} allowZeroExpanded={true}>
               {holidaySet.keys.map((key) => {
                 return (
@@ -107,62 +123,54 @@ const Holiday = () => {
                 );
               })}
             </Accordion>
-          {localStorage.getItem("role") === "4" ? (
-            <Add
-              onClick={() => {
-                showHolidayModal(true);
-              }}
-            ></Add>
-          ) : (
-            <div></div>
-          )}
-          </div>
-          <Modal show={addHolidayModal} onHide={() => showHolidayModal(false)}>
-            <Modal.Header closeButton>
-              <Modal.Title>Add new holiday</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form>
-                <Form.Group
-                  className="mb-3"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label>Date</Form.Label>
-                  <input
-                    name="date"
-                    className="form-label"
-                    for="formControlDisabled"
-                    type="date"
-                    onChange={handleHolidayChange}
-                    value={holidayModal?.date}
-                  ></input>
-                  <Form.Label>Name</Form.Label>
-                  <input
-                    name="name"
-                    value={holidayModal?.name}
-                    onChange={handleHolidayChange}
-                  ></input>
-                </Form.Group>
-              </Form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button className="btn btn-dark"
-                variant="secondary"
-                onClick={() => showHolidayModal(false)}
-              >
-                Cancel
-              </Button>
-              <Button className="btn btn-dark"
-                variant="primary"
-                onClick={() => {
-                  addHoliday(holidayModal);
-                }}
-              >
-                Submit
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
+          
+        </Row>
+      </Container>
+
+      <Modal show={addHolidayModal} onHide={() => showHolidayModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add new holiday</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Date</Form.Label>
+              <input
+                name="date"
+                className="form-label"
+                for="formControlDisabled"
+                type="date"
+                onChange={handleHolidayChange}
+                value={holidayModal?.date}
+              ></input>
+              <Form.Label>Name</Form.Label>
+              <input
+                name="name"
+                value={holidayModal?.name}
+                onChange={handleHolidayChange}
+              ></input>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            className="btn btn-dark"
+            variant="secondary"
+            onClick={() => showHolidayModal(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            className="btn btn-dark"
+            variant="primary"
+            onClick={() => {
+              addHoliday(holidayModal);
+            }}
+          >
+            Submit
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
