@@ -4,15 +4,18 @@ import Navbar from "../components/Navbar";
 import Project from "./Project";
 import Holiday from "./Holiday";
 import ProjectManager from "./ProjectManager";
+import { Container, Row } from "react-bootstrap";
 
 const HomePage = () => {
   const [selectedTab, setSelectedTab] = useState(null);
 
   return (
     <>
-      <div className="card-text-center">
-        <div className="card-header">
-          <Navbar></Navbar>
+      <div className="card-header">
+        <Navbar></Navbar>
+      </div>
+      <Container>
+        <Row>
           <div className="head">
             <ul className="navbar nav nav-tabs card-header-tabs">
               <li
@@ -22,10 +25,10 @@ const HomePage = () => {
                   console.log(elements);
                   let i = 0;
                   while (i < elements.length) {
-                    elements[i].style = "border:none";
+                    elements[i].style = "border:black ";
                     i++;
                   }
-                  e.target.style = "border-bottom:solid red";
+                  e.target.style = "border-bottom:solid black";
                   setSelectedTab("Project");
                 }}
               >
@@ -37,11 +40,10 @@ const HomePage = () => {
                   let elements = e.target.parentElement.children;
                   let i = 0;
                   while (i < elements.length) {
-                    elements[i].style = "border:none";
+                    elements[i].style = "border:black";
                     i++;
                   }
-                  e.target.style = "border-bottom:solid red";
-                  // holidayGrouping(holidayList);
+                  e.target.style = "border-bottom:solid black";
                   setSelectedTab("Calendar");
                 }}
               >
@@ -54,10 +56,10 @@ const HomePage = () => {
                     let elements = e.target.parentElement.children;
                     let i = 0;
                     while (i < elements.length) {
-                      elements[i].style = "border:none";
+                      elements[i].style = "border:black";
                       i++;
                     }
-                    e.target.style = "border-bottom:solid red";
+                    e.target.style = "border-bottom:solid black";
                     setSelectedTab("ProjectManager");
                   }}
                 >
@@ -68,18 +70,21 @@ const HomePage = () => {
               )}
             </ul>
           </div>
-        </div>
-
-        <div className="card-body">
-          {selectedTab === "Calendar" ? (
+        </Row>
+        {selectedTab === "Calendar" ? (
+          
             <Holiday></Holiday>
-          ) : selectedTab === "ProjectManager" ? (
+          
+        ) : selectedTab === "ProjectManager" ? (
+          <Row>
             <ProjectManager></ProjectManager>
-          ) : (
+          </Row>
+        ) : (
+          <Row>
             <Project></Project>
-          )}
-        </div>
-      </div>
+          </Row>
+        )}
+      </Container>
     </>
   );
 };

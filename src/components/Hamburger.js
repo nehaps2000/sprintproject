@@ -7,7 +7,6 @@ const Hamburger = () => {
   let projectId=localStorage.getItem("id")
   return (
     <>
-      <div>
         <div className="Hamburger">
           <Menu>
             <Link to="/project">
@@ -26,7 +25,6 @@ const Hamburger = () => {
             <Link to={`/Leave/Getleave`}>Leave Settings</Link>
           </Menu>
         </div>
-      </div>
     </>
   );
 };

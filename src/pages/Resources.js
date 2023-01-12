@@ -8,6 +8,7 @@ import Add from "../custom-icons/Add";
 import api from "../utility/api";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { Container, Row, Col } from "react-bootstrap";
 
 const Resource = () => {
   const params = useParams();
@@ -137,61 +138,68 @@ const Resource = () => {
   };
 
   return (
-    <div>
-      {role === "0" || role === "4" ? (
-        <div>
-          <Add
-            className="add"
-            onClick={() => {
-              showHideModal(true);
-            }}
-          />
-        </div>
-      ) : (
-        <></>
-      )}
-      <div className="main">
-        <table className="team">
-          <tr>
-            <th>ID</th>
-            <th>Employee ID</th>
-            <th>Email</th>
-            <th>Name</th>
-            <th>Role</th>
-            {role === "0" || role === "4" ? <th>Actions</th> : <></>}
-          </tr>
-          {resourceList?.map((resources) => {
-            return (
-              <tr key={resources.id}>
-                <td>{resources.id}</td>
-                <td>{resources.employeeId}</td>
-                <td>{resources.email}</td>
-                <td>{resources.name}</td>
-                <td>{resources.role}</td>
+    <Container>
+      <Row>
+        {role === "4" || role === "0" ? (
+          <Col>
+            <div className="add">
+              <Add
+                onClick={() => {
+                  showHideModal(true);
+                }}
+              />
+            </div>
+          </Col>
+        ) : (
+          <div></div>
+        )}
+      </Row>
+      <Row>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Employee ID</th>
+              <th>Email</th>
+              <th>Name</th>
+              <th>Role</th>
+              {role === "0" || role === "4" ? <th>Actions</th> : <></>}
+            </tr>
+          </thead>
+          <tbody>
+            {resourceList?.map((resources) => {
+              return (
+                <tr key={resources.id}>
+                  <td>{resources.id}</td>
+                  <td>{resources.employeeId}</td>
+                  <td>{resources.email}</td>
+                  <td>{resources.name}</td>
+                  <td>{resources.role}</td>
 
-                {role === "0" || role === "4" ? (
-                  <td>
-                    <span>
-                      <Edit
-                        onClick={() => {
-                          editResource(resources);
-                        }}
-                      />
-                    </span>
-                    <span>
-                      <Delete
-                        onClick={() => {
-                          deleteResource(resources);
-                        }}
-                      />
-                    </span>
-                  </td>
-                ) : (
-                  <></>
-                )}
-              </tr>
-            );
-          })}
+                  {role === "0" || role === "4" ? (
+                    <td>
+                      <span>
+                        <Edit
+                          onClick={() => {
+                            editResource(resources);
+                          }}
+                        />
+                      </span>
+                      <span>
+                        <Delete
+                          onClick={() => {
+                            deleteResource(resources);
+                          }}
+                        />
+                      </span>
+                    </td>
+                  ) : (
+                    <></>
+                  )}
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
 
         <Modal show={show} onHide={() => showHideModal(false)}>
@@ -257,10 +265,15 @@ const Resource = () => {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button className="btn btn-dark" variant="secondary" onClick={() => showHideModal(false)}>
+            <Button
+              className="btn btn-dark"
+              variant="secondary"
+              onClick={() => showHideModal(false)}
+            >
               Cancel
             </Button>
-            <Button className="btn btn-dark"
+            <Button
+              className="btn btn-dark"
               variant="primary"
               onClick={() => {
                 addOrEdit(resourceModal);
@@ -281,10 +294,15 @@ const Resource = () => {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button className="btn btn-dark" variant="secondary" onClick={() => showDeleteModal(false)}>
+            <Button
+              className="btn btn-dark"
+              variant="secondary"
+              onClick={() => showDeleteModal(false)}
+            >
               Cancel
             </Button>
-            <Button className="btn btn-dark"
+            <Button
+              className="btn btn-dark"
               variant="primary"
               onClick={() => {
                 deleteOneResource(resourceModal);
@@ -294,8 +312,8 @@ const Resource = () => {
             </Button>
           </Modal.Footer>
         </Modal>
-      </div>
-    </div>
+      </Row>
+    </Container>
   );
 };
 export default Resource;
