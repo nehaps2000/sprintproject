@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Logout from "../custom-icons/Logout";
 import Hamburger from "./Hamburger";
+import { Col, Row } from "react-bootstrap";
 
 const Navbar = () => {
   const params = useParams();
@@ -15,7 +16,7 @@ const Navbar = () => {
   }, [projectName]);
 
   useEffect(() => {
-    setUserName(localStorage.getItem("name"));
+    setUserName(localStorage.getItem("username"));
   }, [username]);
   const logout = (e) => {
     console.log("Logout");
@@ -24,27 +25,23 @@ const Navbar = () => {
     Navigate("/");
   };
   return (
-    <>
+    <Row>
       {params.Id ? (
         <div className="header">
-          <div>
-            <Hamburger></Hamburger>
-          </div>
-          <div className="name">
-            <h1>{projectName}</h1>
-          </div>
-          <div className="username">Welcome {username}</div>
-          <div className="logout">
-            <Logout
-              onClick={() => {
-                logout();
-              }}
-            />
-          </div>
-        </div>
-      ) : (
-        <div className="header">
-          <div>
+          <Col>
+            <div>
+              <Hamburger></Hamburger>
+            </div>
+          </Col>
+          <Col>
+            <div className="name">
+              <h1>{projectName}</h1>
+            </div>
+          </Col>
+          <Col>
+            <div className="username"><h4>{username}</h4></div>
+          </Col>
+          <Col>
             <div className="logout">
               <Logout
                 onClick={() => {
@@ -52,10 +49,25 @@ const Navbar = () => {
                 }}
               />
             </div>
-          </div>
+          </Col>
+        </div>
+      ) : (
+        <div className="header">
+          <Col>
+            <div className="username"><h4>Welcome {username} !</h4></div>
+          </Col>
+          <Col>
+            <div className="logout">
+              <Logout
+                onClick={() => {
+                  logout();
+                }}
+              />
+            </div>
+          </Col>
         </div>
       )}
-    </>
+    </Row>
   );
 };
 

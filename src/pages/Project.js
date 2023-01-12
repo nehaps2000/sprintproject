@@ -7,11 +7,10 @@ import Edit from "../custom-icons/Edit";
 import Delete from "../custom-icons/Delete";
 import Add from "../custom-icons/Add";
 import Card from "react-bootstrap/Card";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import { useNavigate } from "react-router-dom";
 import api from "../utility/api";
 import "react-accessible-accordion/dist/fancy-example.css";
+import { Container, Row, Col } from "react-bootstrap";
 
 const Project = () => {
   const url = "/api/Project/Projects";
@@ -30,7 +29,7 @@ const Project = () => {
     apiCall();
   }, [url]);
   let role = localStorage.getItem("role");
-  
+
   const addOrEdit = (projectModal) => {
     console.log("projectModal" + projectModal);
     const addurl = `/api/Project/addProject`;
@@ -107,61 +106,62 @@ const Project = () => {
 
   return (
     <>
-      <div className="card-text-center">
-        <div>
-          <div className="card">
-            <Row xs={1} md={5} className="g-4">
-              {projectList?.map((project) => {
-                return (
-                  <Col key={project.id}>
-                    <Card style={{ width: "auto" }}>
-                      <Card.Body>
-                        <Card.Title>{project.name}</Card.Title>
-                        <Card.Text
-                          style={{
-                            width: "max content",
-                            height: "max content",
-                            border: "solid 1px black",
-                          }}
-                          onClick={() => projectOpen(project.id, project.name)}
-                        >
-                          Project ID: {project.id}
-                          <br></br>
-                          <br></br>
-                        </Card.Text>
-                        {role === "0" || role === "4" ? (
-                          <div>
-                            <Edit
-                              className="edit"
-                              onClick={() => editProject(project)}
-                            />
-                            <Delete
-                              className="delete"
-                              onClick={() => deleteProject(project)}
-                            />
-                          </div>
-                        ) : (
-                          <></>
-                        )}
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                );
-              })}
-            </Row>
+      <Container>
+          <Row>
             {role === "4" || role === "0" ? (
-              <Add
-                className="add"
-                onClick={() => {
-                  showHideModal(true);
-                }}
-              />
+              <Col>
+                <div className="add">
+                  <Add
+                    onClick={() => {
+                      showHideModal(true);
+                    }}
+                  />
+                </div>
+              </Col>
             ) : (
               <div></div>
             )}
-          </div>
-        </div>
-      </div>
+          </Row>
+          <Row xs={1} md={4} className="g-4">
+            {projectList?.map((project) => {
+              return (
+                <Col key={project.id}>
+                  <Card style={{ width: "auto" }}>
+                    <Card.Body>
+                      <Card.Title>{project.name}</Card.Title>
+                      <Card.Text
+                        style={{
+                          width: "max content",
+                          height: "max content",
+                          border: "solid 1px black",
+                        }}
+                        onClick={() => projectOpen(project.id, project.name)}
+                      >
+                        Project ID: {project.id}
+                        <br></br>
+                        <br></br>
+                      </Card.Text>
+                      {role === "0" || role === "4" ? (
+                        <div>
+                          <Edit
+                            className="edit"
+                            onClick={() => editProject(project)}
+                          />
+                          <Delete
+                            className="delete"
+                            onClick={() => deleteProject(project)}
+                          />
+                        </div>
+                      ) : (
+                        <></>
+                      )}
+                    </Card.Body>
+                  </Card>
+                </Col>
+              );
+            })}
+          </Row>
+      </Container>
 
       <div>
         <Modal show={addProjectModal} onHide={() => showHideModal(false)}>
@@ -184,10 +184,15 @@ const Project = () => {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button className="btn btn-dark" variant="secondary" onClick={() => showHideModal(false)}>
+            <Button
+              className="btn btn-dark"
+              variant="secondary"
+              onClick={() => showHideModal(false)}
+            >
               Cancel
             </Button>
-            <Button className="btn btn-dark"
+            <Button
+              className="btn btn-dark"
               variant="primary"
               onClick={() => {
                 addOrEdit(projectModal);
@@ -213,12 +218,14 @@ const Project = () => {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button className="btn btn-dark"
+            <Button
+              className="btn btn-dark"
               onClick={() => deleteOneProject(projectModal)}
             >
               Yes
             </Button>
-            <Button className="btn btn-dark"
+            <Button
+              className="btn btn-dark"
               onClick={() => showConfirmModal(false)}
             >
               Cancel

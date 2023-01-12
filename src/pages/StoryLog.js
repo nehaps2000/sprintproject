@@ -9,8 +9,9 @@ import Delete from "../custom-icons/Delete";
 import Button from "react-bootstrap/Button";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import Container from "react-bootstrap/Container";
+import { Container, Row, Col } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
+
 const StoryLog = () => {
   const params = useParams();
   const url = `/api/Story/SearchStory/${params.Id}`;
@@ -141,119 +142,116 @@ const StoryLog = () => {
       }
     };
     apiCall();
+    setChecked([]);
   };
 
   return (
     <>
-     <div className="card-header">
-  
-     
+      <div className="card-header">
         <Navbar></Navbar>
       </div>
-  <Container>
-
-        <div className="checkList">
-          
-          <div className="list-container">
-            
-              <h1 className={checked.length > 0 ? "checked" : "notChecked"}>
-                Listed Story
-              </h1>
-              {checked?.map((item) => {
-                console.log(item, "hhh");
-                return (
-                  <div className="list">
-                    <ListGroup>
-                      <ListGroup.Item>
-                        {storyList.find((s) => s.id === item.id)?.name}
-                      </ListGroup.Item>
-                    </ListGroup>
-                  </div>
-                );
-              })}
-
-              {checked.length > 0 ? (
-                <Button
-                  className="btn btn-dark"
-                  onClick={() => {
-                    saveStory();
-                  }}
-                >
-                  Save Story
-                </Button>
-              ) : (
-                <></>
-              )}
-            
-
-            <h1 className="stories">Stories</h1>
-            <div className="story">
-              {storyList?.map((item, index) => {
-                const style = checkuse(item)
-                  ? { display: "none" }
-                  : { display: "block" };
-                console.log(item);
-                return (
-                  <>
-                    <div key={index} className="border" style={style}>
-                      <div className="names">
-                        {item.id} {item.name}
-                        {role === "0" || role === "4" ? (
-                          <div className="click">
-                            <Form.Check
-                              className="clicked"
-                              //disabled={checkuse(item)}
-                              value={` ${item.name}`}
-                              type="checkbox"
-                              onChange={(e) => handleCheck(e, item)}
-                              id={item.id}
-                            ></Form.Check>
-                          </div>
-                        ) : (
-                          <></>
-                        )}
-                      </div>
-                      {role === "0" || role === "4" ? (
-                        <div className="operations">
-                          <span className="option">
-                            <Delete
-                              onClick={() => {
-                                deleteStory(item);
-                              }}
-                            />
-                          </span>
-                          <span className="option">
-                            <Edit
-                              onClick={() => {
-                                editStory(item);
-                              }}
-                            />
-                          </span>
-                        </div>
-                      ) : (
-                        <div></div>
-                      )}
-                    </div>
-                  </>
-                );
-              })}{" "}
-            </div>
-            {role === "0" || role === "4" ? (
-              <div>
+      <Container>
+        <Row>
+          {role === "4" || role === "0" ? (
+            <Col>
+              <div className="add">
                 <Add
-                  className="add"
                   onClick={() => {
                     showHideModal(true);
                   }}
                 />
               </div>
-            ) : (
-              <></>
-            )}
+            </Col>
+          ) : (
+            <div></div>
+          )}
+        </Row>
+        <Row>
+          <h1 className={checked.length > 0 ? "checked" : "notChecked"}>
+            Listed Story
+          </h1>
+          {checked?.map((item) => {
+            console.log(item, "hhh");
+            return (
+              <div className="list">
+                <ListGroup>
+                  <ListGroup.Item>
+                    {storyList.find((s) => s.id === item.id)?.name}
+                  </ListGroup.Item>
+                </ListGroup>
+              </div>
+            );
+          })}
+        </Row>
+        <Row>
+          {checked.length > 0 ? (
+            <Button
+              className="btn btn-dark"
+              onClick={() => {
+                saveStory();
+              }}
+            >
+              Save Story
+            </Button>
+          ) : (
+            <></>
+          )}
+        </Row>
+        <Row>
+          <h1 className="stories">Stories</h1>
+          <div className="story">
+            {storyList?.map((item, index) => {
+              const style = checkuse(item)
+                ? { display: "none" }
+                : { display: "block" };
+              console.log(item);
+              return (
+                <>
+                  <div key={index} className="border" style={style}>
+                    <div className="names">
+                      {item.id} {item.name}
+                      {role === "0" || role === "4" ? (
+                        <div className="click">
+                          <Form.Check
+                            className="clicked"
+                            value={` ${item.name}`}
+                            type="checkbox"
+                            onChange={(e) => handleCheck(e, item)}
+                            id={item.id}
+                          ></Form.Check>
+                        </div>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                    {role === "0" || role === "4" ? (
+                      <div className="operations">
+                        <span className="option">
+                          <Delete
+                            onClick={() => {
+                              deleteStory(item);
+                            }}
+                          />
+                        </span>
+                        <span className="option">
+                          <Edit
+                            onClick={() => {
+                              editStory(item);
+                            }}
+                          />
+                        </span>
+                      </div>
+                    ) : (
+                      <div></div>
+                    )}
+                  </div>
+                </>
+              );
+            })}{" "}
           </div>
-        </div>
-    
-  </Container>
+        </Row>
+      </Container>
+
       <Modal show={show} onHide={() => showHideModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>{isEdit ? "Edit" : "Add new"} Story</Modal.Title>

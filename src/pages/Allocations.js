@@ -8,6 +8,7 @@ import Delete from "../custom-icons/Delete";
 import Add from "../custom-icons/Add";
 import api from "../utility/api";
 import { useParams } from "react-router-dom";
+import { Container, Row, Col } from "react-bootstrap";
 
 const Allocations = () => {
   const params = useParams();
@@ -150,63 +151,74 @@ const Allocations = () => {
   };
 
   return (
-    <div>
-      <table className="allocation">
-        <tr>
-          <th>SL NO</th>
-          <th>ProjectID</th>
-          <th>Name</th>
-          <th>EmployeeId</th>
-          <th>TeamId</th>
-          <th>TeamName</th>
-          <th>Hours</th>
-          {role === "0" || role === "4" ? <th>Actions</th> : <></>}
-        </tr>
-        {allocationList?.map((allocation) => {
-          return (
-            <tr key={allocation.projectId}>
-              <td>{allocation.id}</td>
-              <td>{allocation.projectId}</td>
-              <td> {allocation.name}</td>
-              <td> {allocation.employeeId}</td>
-              <td> {allocation.teamId}</td>
-              <td> {allocation.teamName}</td>
-              <td> {allocation.hoursPerDay}</td>
-              {role === "0" || role === "4" ? (
-                <td>
-                  <span>
-                    <Edit
-                      onClick={() => {
-                        editview(allocation);
-                      }}
-                    />
-                  </span>
-                  <span>
-                    <Delete
-                      onClick={() => {
-                        deleteAllocation(allocation);
-                      }}
-                    />
-                  </span>
-                </td>
-              ) : (
-                <></>
-              )}
+    <Container>
+      <Row>
+        {role === "4" || role === "0" ? (
+          <Col>
+            <div className="add">
+              <Add
+                onClick={() => {
+                  showHideModal(true);
+                }}
+              />
+            </div>
+          </Col>
+        ) : (
+          <div></div>
+        )}
+      </Row>
+      <Row>
+        <table>
+          <thead>
+            <tr>
+              <th>SL NO</th>
+              <th>ProjectID</th>
+              <th>Name</th>
+              <th>EmployeeId</th>
+              <th>TeamId</th>
+              <th>TeamName</th>
+              <th>Hours</th>
+              {role === "0" || role === "4" ? <th>Actions</th> : <></>}
             </tr>
-          );
-        })}
-      </table>
-      {role === "0" || role === "4" ? (
-        <div className="add">
-          <Add
-            onClick={() => {
-              showHideModal(true);
-            }}
-          />
-        </div>
-      ) : (
-        <div></div>
-      )}
+          </thead>
+          <tbody>
+            {allocationList?.map((allocation) => {
+              return (
+                <tr key={allocation.projectId}>
+                  <td>{allocation.id}</td>
+                  <td>{allocation.projectId}</td>
+                  <td> {allocation.name}</td>
+                  <td> {allocation.employeeId}</td>
+                  <td> {allocation.teamId}</td>
+                  <td> {allocation.teamName}</td>
+                  <td> {allocation.hoursPerDay}</td>
+                  {role === "0" || role === "4" ? (
+                    <td>
+                      <span>
+                        <Edit
+                          onClick={() => {
+                            editview(allocation);
+                          }}
+                        />
+                      </span>
+                      <span>
+                        <Delete
+                          onClick={() => {
+                            deleteAllocation(allocation);
+                          }}
+                        />
+                      </span>
+                    </td>
+                  ) : (
+                    <></>
+                  )}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </Row>
+
       <Modal show={show} onHide={() => showHideModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>{isEdit ? "Edit" : "Add new"} Allocations</Modal.Title>
@@ -288,10 +300,15 @@ const Allocations = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button className="btn btn-dark" variant="secondary" onClick={() => showHideModal(false)}>
+          <Button
+            className="btn btn-dark"
+            variant="secondary"
+            onClick={() => showHideModal(false)}
+          >
             Cancel
           </Button>
-          <Button className="btn btn-dark"
+          <Button
+            className="btn btn-dark"
             variant="primary"
             onClick={() => {
               addOrEdit(allocationModal);
@@ -314,17 +331,21 @@ const Allocations = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button className="btn btn-dark"
+          <Button
+            className="btn btn-dark"
             onClick={() => deleteOneAllocation(allocationModal)}
           >
-            yes
+            Yes
           </Button>
-          <Button className="btn btn-dark"  onClick={() => showConfirmModel(false)}>
+          <Button
+            className="btn btn-dark"
+            onClick={() => showConfirmModel(false)}
+          >
             Cancel
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </Container>
   );
 };
 

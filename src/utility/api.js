@@ -15,20 +15,20 @@ const api = async (method, url, body) => {
   } else if (method === "post") {
     const response = await axios.post(newUrl, body, headers);
     if (response.status === 200) {
-      toast.success("Successfull");
+      toast.success("Successful");
     }
     return response.data;
   } else if (method === "delete") {
     const response = await axios.delete(newUrl, headers, body);
     if (response.status === 200) {
-      toast.warning("deleted");
+      toast.warning("Deleted");
     }
 
     return response.data;
   } else if (method === "patch") {
     const response = await axios.patch(newUrl, body, headers);
     if (response.status === 200) {
-      toast.success(" updated");
+      toast.success("Updated");
     }
     return response.data;
   }

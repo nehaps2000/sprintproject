@@ -1,20 +1,14 @@
 import React from "react";
-
 import api from "../utility/api";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-
 import Navbar from "../components/Navbar";
-import Hamburger from "../components/Hamburger";
+import { Container, Row, Col } from "react-bootstrap";
+
 const ListedStory = () => {
   const params = useParams();
-
- // let id = localStorage.getItem("sprintId");
-
   const url = `/api/Story/GetAddedStories/${params.Id}`;
   const [viewList, setViewList] = useState([]);
-
-  console.log(params.Id, "params");
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
@@ -24,26 +18,36 @@ const ListedStory = () => {
   }, [url]);
 
   return (
-    <><Navbar></Navbar>
-    <Hamburger></Hamburger>
-    <div className="selected"><h1>Selected Stories</h1></div>
-        <table className="display">
-   
-      <tr>
-        <th>Name</th>
-        <th>ID</th>
-      </tr>
-      {viewList?.map((story) => {
-            return (
-              <tr key={story.name}>
-                <td> {story.name}</td>
-                <td> {story.id}</td>
-        
+    <>
+      <div className="card-header">
+        <Navbar></Navbar>
+      </div>
+      <Container>
+        <Row>
+          <h1>Selected Stories</h1>
+        </Row>
+        <Row>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>ID</th>
               </tr>
-            );
-          })}
-    </table>
-  
-</>  );
+            </thead>
+            <tbody>
+              {viewList?.map((story) => {
+                return (
+                  <tr key={story.name}>
+                    <td> {story.name}</td>
+                    <td> {story.id}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </Row>
+      </Container>
+    </>
+  );
 };
 export default ListedStory;
