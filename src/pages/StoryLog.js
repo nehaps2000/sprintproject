@@ -9,8 +9,7 @@ import Delete from "../custom-icons/Delete";
 import Button from "react-bootstrap/Button";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
-
-
+import Container from "react-bootstrap/Container";
 import "react-toastify/dist/ReactToastify.css";
 const StoryLog = () => {
   const params = useParams();
@@ -22,7 +21,7 @@ const StoryLog = () => {
   const [storyModal, setStoryModal] = useState({});
   const [show, setShow] = useState(false);
   const [del, setDel] = useState(false);
- const [unusedList, setUnusedList] = useState([]);
+  const [unusedList, setUnusedList] = useState([]);
 
   useEffect(() => {
     const apiCall = async () => {
@@ -30,18 +29,16 @@ const StoryLog = () => {
       let response1 = await api("get", newUrl);
       setStoryList(response);
       setUnusedList(response1);
- 
     };
     apiCall();
   }, [url]);
-
 
   let role = localStorage.getItem("role");
   let sprint = localStorage.getItem("sprintId");
   const addOrEdit = (storyModal) => {
     const addurl = `/api/Story/AddStory`;
     storyModal.projectId = params.Id;
-   
+
     console.log(storyModal.sprintId, "monkey");
     if (!isEdit) {
       const apiCall = async () => {
@@ -119,14 +116,13 @@ const StoryLog = () => {
     var updatedList = [...checked];
     if (e.target.checked) {
       updatedList = [...checked, { sprintId: params.sprintId, id: item.id }];
-     
+
       setChecked(updatedList);
     } else {
       let updated = updatedList.filter((a) => a.id !== item.id);
 
       console.log(updated, "cat");
       setChecked(updated);
-     
     }
   };
 
@@ -149,17 +145,16 @@ const StoryLog = () => {
 
   return (
     <>
-      <div className="card-header">
+     <div className="card-header">
+  
+     
         <Navbar></Navbar>
-       
       </div>
-      <div className="app">
+  <Container>
+
         <div className="checkList">
-          <div className="title">
-            <h1>Story Selected</h1>
-          </div>
+          
           <div className="list-container">
-            <div className="return">
             
               <h1 className={checked.length > 0 ? "checked" : "notChecked"}>
                 Listed Story
@@ -177,9 +172,9 @@ const StoryLog = () => {
                 );
               })}
 
-{checked.length > 0 ? (
-                <Button className="btn btn-dark"
-                 
+              {checked.length > 0 ? (
+                <Button
+                  className="btn btn-dark"
                   onClick={() => {
                     saveStory();
                   }}
@@ -189,24 +184,23 @@ const StoryLog = () => {
               ) : (
                 <></>
               )}
-            </div>
+            
 
-            <h1>Stories</h1>
+            <h1 className="stories">Stories</h1>
             <div className="story">
               {storyList?.map((item, index) => {
-                const style = checkuse(item) ? {display: 'none'} : {display: 'block'};
+                const style = checkuse(item)
+                  ? { display: "none" }
+                  : { display: "block" };
                 console.log(item);
                 return (
                   <>
-                  
                     <div key={index} className="border" style={style}>
-                      
                       <div className="names">
                         {item.id} {item.name}
                         {role === "0" || role === "4" ? (
-                          <div className="click" >
-                            
-                          <Form.Check
+                          <div className="click">
+                            <Form.Check
                               className="clicked"
                               //disabled={checkuse(item)}
                               value={` ${item.name}`}
@@ -220,28 +214,26 @@ const StoryLog = () => {
                         )}
                       </div>
                       {role === "0" || role === "4" ? (
-                      <div className="operations">
-                        <span className="option">
-                          <Delete
-                            onClick={() => {
-                              deleteStory(item);
-                            }}
-                          />
-                        </span>
-                        <span className="option">
-                          <Edit
-                            onClick={() => {
-                              editStory(item);
-                            }}
-                          />
-                        </span>
-                      </div>
-                    ) : (
-                      <div></div>
-                    )}
+                        <div className="operations">
+                          <span className="option">
+                            <Delete
+                              onClick={() => {
+                                deleteStory(item);
+                              }}
+                            />
+                          </span>
+                          <span className="option">
+                            <Edit
+                              onClick={() => {
+                                editStory(item);
+                              }}
+                            />
+                          </span>
+                        </div>
+                      ) : (
+                        <div></div>
+                      )}
                     </div>
-
-               
                   </>
                 );
               })}{" "}
@@ -260,7 +252,8 @@ const StoryLog = () => {
             )}
           </div>
         </div>
-      </div>
+    
+  </Container>
       <Modal show={show} onHide={() => showHideModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>{isEdit ? "Edit" : "Add new"} Story</Modal.Title>
@@ -282,10 +275,15 @@ const StoryLog = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button className="btn btn-dark" variant="secondary" onClick={() => showHideModal(false)}>
+          <Button
+            className="btn btn-dark"
+            variant="secondary"
+            onClick={() => showHideModal(false)}
+          >
             Cancel
           </Button>
-          <Button className="btn btn-dark"
+          <Button
+            className="btn btn-dark"
             variant="primary"
             onClick={() => {
               addOrEdit(storyModal);
@@ -306,10 +304,15 @@ const StoryLog = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button className="btn btn-dark" variant="secondary" onClick={() => showDeleteModal(false)}>
+          <Button
+            className="btn btn-dark"
+            variant="secondary"
+            onClick={() => showDeleteModal(false)}
+          >
             Cancel
           </Button>
-          <Button className="btn btn-dark"
+          <Button
+            className="btn btn-dark"
             variant="primary"
             onClick={() => {
               deleteOneStory(storyModal);
