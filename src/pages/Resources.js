@@ -96,28 +96,13 @@ const Resource = () => {
   };
 
   const handleChange = ({ target: { name, value } }) => {
+    if (name === role && value > -1) {
+      value = parseInt(value);
+    }
     setResourceModal((prev) => {
       return { ...prev, [name]: value };
     });
   };
-
-  // const options = [
-  //   {
-  //     0: "ScrumMaster"
-  //   },
-  //   {
-  //     1: "Lead"
-  //   },
-  //   {
-  //     2: "Developer"
-  //   },
-  //   {
-  //     3: "QA Engineer"
-  //   },
-  //   {
-  //     4: "Admin"
-  //   },
-  // ];
 
   const options = {
     0: {
@@ -155,7 +140,7 @@ const Resource = () => {
         )}
       </Row>
       <Row>
-        <table>
+        <table className="table table-light">
           <thead>
             <tr>
               <th>ID</th>
@@ -245,15 +230,6 @@ const Resource = () => {
                   name="role"
                 >
                   <option selected>Choose...</option>
-                  {/* {options.forEach((option,key) => (
-                  <option
-                    key={key}
-                    id={option.value}
-                    value={key}
-                  >
-                    {option[key].name}
-                  </option>
-                ))} */}
                   {Object.keys(options).map((key) => (
                     <option key={key} value={key}>
                       {options[key].name}
