@@ -5,6 +5,7 @@
   justify-content: center;
   align-items: center;
 
+
 }
 
 .btn-div {
@@ -13,7 +14,7 @@
 }
 
 .btn {
-  width: 100px;
+width:fit-content;
   height: 50px;
   background-color: rgb(255, 255, 255);
   color: black;
@@ -51,10 +52,11 @@ margin-top:0%;
 }
 
   table {
-    border-width: 1px;
+    border-width: 2px;
     border-color: black;
     border-style: solid;
     border-radius: 10px;
+
   }
 
 
@@ -92,6 +94,7 @@ border:transparent;
   margin-right:auto;
   height:50%; 
   width: 50%;
+
 }
 
 .bm-menu-wrap{
@@ -225,11 +228,13 @@ label {
   text-align: center;
   padding-left: 1%;
   padding-right: 1%;
+  
 }
 .username{
   color: white;
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   margin: 15px;
+ 
 }
 h1{
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -350,6 +355,7 @@ margin-left: 5vw;
   margin: 10px 0;
   float:right;
   cursor:pointer;
+ 
  }
 
  .header-actions{
@@ -395,16 +401,16 @@ margin-left: 5vw;
    background-color: rgb(235, 235, 235);
    width: 610px;
    border: #060606;
-   /* padding: 50px; */
+   padding: 15px;
    margin: 20px;
-   height: 150px;
+ 
    color: rgb(0, 0, 0);
    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
    
   }
   
- .options{
-  padding-bottom: 40px;
+ .option{
+ padding: 10px;
  }
  
   .operations{
@@ -547,4 +553,18 @@ html {
 .stories{
   padding-left: 150px;
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.align{
+  padding-left: 350px;
+}
+th{
+  font-size: 20px;
+  color: #05258c;
+}
+.selected{
+  font-size: 50px;
+  font-family:'Times New Roman', Times, serif;
+  font-style: normal;
+  color: #170553;
+  padding-top: 30px;
 }

@@ -139,8 +139,7 @@ const Leaves = () => {
               ></Calendar>
             </Col>
             <Col>
-              <table className="listed-leave">
-                <thead>
+            <table class="table table-light">                <thead>
                   <tr>
                     <th>EmployeeId</th>
                     <th>Leave Date</th>

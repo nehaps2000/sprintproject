@@ -112,8 +112,7 @@ const Team = () => {
         )}
       </Row>
       <Row>
-        <table>
-          <thead>
+      <table class="table table-light">          <thead>
             <tr>
               <th>Name</th>
               <th>ID</th>
