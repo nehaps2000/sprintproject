@@ -24,11 +24,10 @@ const ListedStory = () => {
       </div>
       <Container>
         <Row>
-          <h1>Selected Stories</h1>
+          <h1 className="selected">Selected Stories</h1>
         </Row>
         <Row>
-          <table>
-            <thead>
+        <table class="table table-light">            <thead>
               <tr>
                 <th>Name</th>
                 <th>ID</th>

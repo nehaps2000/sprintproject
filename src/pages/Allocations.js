@@ -168,7 +168,7 @@ const Allocations = () => {
         )}
       </Row>
       <Row>
-        <table>
+      <table class="table table-light">
           <thead>
             <tr>
               <th>SL NO</th>
