@@ -42,10 +42,10 @@ const SprintSettings = () => {
   }, [url, url2]);
 
   useEffect(() => {
-    if (sprintModal?.StartDate && sprintModal?.EndDate) {
-      findDuration(sprintModal.StartDate, sprintModal.EndDate);
+    if (sprintModal?.startDate && sprintModal?.endDate) {
+      findDuration(sprintModal.startDate, sprintModal.endDate);
     }
-  }, [sprintModal?.StartDate, sprintModal?.EndDate]);
+  }, [sprintModal?.startDate, sprintModal?.endDate]);
   console.log(sprintModal);
   let role = localStorage.getItem("role");
 
@@ -102,7 +102,12 @@ const SprintSettings = () => {
   };
 
   const editSprint = (currentSprint) => {
+    let d1 = currentSprint.startDate.toString().split("T")[0];
+    currentSprint.startDate = d1;
+    let d2 = currentSprint.endDate.toString().split("T")[0];
+    currentSprint.endDate = d2;
     setSprintModal({ ...currentSprint });
+    console.log(currentSprint);
     showHideModal(true);
     setIsEdit(true);
   };
@@ -246,13 +251,13 @@ const SprintSettings = () => {
                             {sprint.planningSprint === true ? (
                               <div className="card-button">
                                 <Button
-                                  className="btn btn-dark"
+                                  variant="secondary"
                                   onClick={() => navAddStory(sprint.id)}
                                 >
                                   AddStory
                                 </Button>
                                 <Button
-                                  className="btn btn-dark"
+                                  variant="secondary"
                                   onClick={() => navViewStory(sprint.id)}
                                 >
                                   ViewStory
@@ -261,10 +266,11 @@ const SprintSettings = () => {
                             ) : (
                               <></>
                             )}
-                            {sprint.startDate >= date ? (
+                            {sprint.startDate >= date &&
+                            sprint.planningSprint === false ? (
                               <div className="card-button">
                                 <Button
-                                  className="btn btn-dark"
+                                  variant="secondary"
                                   onClick={() => {
                                     confirmAlert({
                                       title: "Set as Planning Sprint",
@@ -283,7 +289,7 @@ const SprintSettings = () => {
                                     });
                                   }}
                                 >
-                                  PlanSprint
+                                  Set as Planning Sprint
                                 </Button>
                               </div>
                             ) : (
@@ -316,28 +322,28 @@ const SprintSettings = () => {
               >
                 <Form.Label>Name</Form.Label>
                 <input
-                  name="Name"
-                  value={sprintModal.Name || ""}
+                  name="name"
+                  value={sprintModal.name}
                   onChange={handleChange}
                 ></input>
                 <Form.Label>Start date</Form.Label>
                 <input
-                  name="StartDate"
-                  value={sprintModal.StartDate}
+                  name="startDate"
+                  value={sprintModal.startDate}
                   type="date"
                   onChange={handleChange}
                 ></input>
                 <Form.Label>End date</Form.Label>
                 <input
-                  name="EndDate"
-                  value={sprintModal.EndDate}
+                  name="endDate"
+                  value={sprintModal.endDate}
                   type="date"
-                  min={sprintModal.StartDate}
+                  min={sprintModal.startDate}
                   onChange={handleChange}
                 ></input>
                 <Form.Label>ProjectID</Form.Label>
                 <input
-                  name="ProjectId"
+                  name="projectId"
                   value={sprintModal.projectId || params.Id}
                   disabled
                 ></input>
