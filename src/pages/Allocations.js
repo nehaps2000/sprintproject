@@ -195,14 +195,14 @@ const Allocations = () => {
                   {role === "0" || role === "4" ? (
                     <td>
                       <span>
-                        <Edit
+                        <Edit className="custom-icon"
                           onClick={() => {
                             editview(allocation);
                           }}
                         />
                       </span>
                       <span>
-                        <Delete
+                        <Delete className="delete"
                           onClick={() => {
                             deleteAllocation(allocation);
                           }}

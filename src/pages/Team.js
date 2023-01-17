@@ -112,7 +112,9 @@ const Team = () => {
         )}
       </Row>
       <Row>
-      <table class="table table-light">          <thead>
+        <table class="table table-light">
+          {" "}
+          <thead>
             <tr>
               <th>Name</th>
               <th>ID</th>
@@ -129,6 +131,7 @@ const Team = () => {
                     <td>
                       <span>
                         <Edit
+                          className="custom-icon"
                           onClick={() => {
                             editTeam(team);
                           }}
@@ -136,6 +139,7 @@ const Team = () => {
                       </span>
                       <span>
                         <Delete
+                          className="custom-icon"
                           onClick={() => {
                             deleteTeam(team);
                           }}

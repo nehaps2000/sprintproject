@@ -240,11 +240,11 @@ const SprintSettings = () => {
                         {role === "0" || role === "4" ? (
                           <div>
                             <Edit
-                              className="edit"
+                              className="custom-icon"
                               onClick={() => editSprint(sprint)}
                             />
                             <Delete
-                              className="delete"
+                              className="custom-icon"
                               onClick={() => deleteSprint(sprint)}
                             />
 

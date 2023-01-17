@@ -63,7 +63,9 @@ const ProjectManager = () => {
           </Col>
         </Row>
         <Row>
-        <table class="table table-light">            <thead>
+          <table class="table table-light">
+            {" "}
+            <thead>
               <tr>
                 <th>Employee ID</th>
                 <th>Email</th>
