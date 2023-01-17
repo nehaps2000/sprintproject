@@ -258,7 +258,7 @@ const Allocations = () => {
                 className="custom-select"
                 id="inputGroupSelect04"
                 onChange={handleChange1}
-                value={allocationModal?.Id}
+                value={allocationModal?.teamName}
                 name="teamName"
               >
                 <option selected>Choose...</option>

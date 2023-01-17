@@ -138,9 +138,9 @@ const SprintSettings = () => {
     let d2 = Date.parse(eDate);
 
     let difference = (d2 - d1) / (1000 * 3600 * 24) + 1;
-
     holidayList?.forEach((holiday) => {
       let holidayDate = new Date(holiday.date.split("-").reverse().join("-"));
+      holidayDate = Date.parse(holidayDate);
       if (d1 <= holidayDate && d2 >= holidayDate) {
         difference--;
       }
@@ -150,7 +150,6 @@ const SprintSettings = () => {
 
     while (start <= end) {
       console.log("day", start.getDay());
-      let newDate = start.setDate(start.getDate() + 1);
       var dateB = Date.parse(start);
       if (start.getDay() === 0 || start.getDay() === 6) {
         difference--;
@@ -164,7 +163,7 @@ const SprintSettings = () => {
           }
         }
       });
-
+      let newDate = start.setDate(start.getDate() + 1);
       start = new Date(newDate);
     }
 

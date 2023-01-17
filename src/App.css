@@ -228,14 +228,15 @@ label {
   text-align: center;
   padding-left: 1%;
   padding-right: 1%;
+ 
   
 }
 .username{
   color: white;
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  margin: 15px 0px  0px 5px
- 
+  margin: 15px 0px  0px 5px;
 }
+
 h1{
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
@@ -464,7 +465,6 @@ width:90%;
 .name{
   color:#fdfdfd;
   text-align: center;
-  margin: 0 620px;
 }
 .user{
   color: #ffffff;
@@ -581,14 +581,23 @@ th{
   color: rgb(232, 98, 9);
   
 }
-/* .lactive-class{
-  color:yellow;
-}
-.not-active-class{
-  color:#bdc3c7;
-} */
-.nav-link.active {
+
+.ham-link.active {
   color: rgb(232, 98, 9);
+}
+
+.nav-link.active{
+  color:rgb(232, 98, 9) ;
+}
+
+.nav-link{
+  color: #180065;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.nav-link:hover{
+ cursor: pointer;
+ color:rgb(232, 98, 9) ;
 }
 
 

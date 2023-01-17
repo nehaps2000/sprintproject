@@ -29,7 +29,7 @@ const Resource = () => {
     apiCall();
   }, [url]);
 
-  let role = localStorage.getItem("role");
+  let accessRole = localStorage.getItem("role");
 
   const editResource = (currentResource) => {
     setResourceModal({ ...currentResource });
@@ -96,7 +96,7 @@ const Resource = () => {
   };
 
   const handleChange = ({ target: { name, value } }) => {
-    if (name === role && value > -1) {
+    if (name === "role" && value > -1) {
       value = parseInt(value);
     }
     setResourceModal((prev) => {
@@ -125,7 +125,7 @@ const Resource = () => {
   return (
     <Container>
       <Row>
-        {role === "4" || role === "0" ? (
+        {accessRole === "4" || accessRole === "0" ? (
           <Col>
             <div className="add">
               <Add
@@ -148,7 +148,7 @@ const Resource = () => {
               <th>Email</th>
               <th>Name</th>
               <th>Role</th>
-              {role === "0" || role === "4" ? <th>Actions</th> : <></>}
+              {accessRole === "0" || accessRole === "4" ? <th>Actions</th> : <></>}
             </tr>
           </thead>
           <tbody>
@@ -161,7 +161,7 @@ const Resource = () => {
                   <td>{resources.name}</td>
                   <td>{resources.role}</td>
 
-                  {role === "0" || role === "4" ? (
+                  {accessRole === "0" || accessRole === "4" ? (
                     <td>
                       <span>
                         <Edit
