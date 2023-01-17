@@ -17,11 +17,17 @@ const api = async (method, url, body) => {
     if (response.status === 200) {
       toast.success("Successful");
     }
+    else if(response.status ===409){
+      toast.error("failed ");
+    }
     return response.data;
   } else if (method === "delete") {
     const response = await axios.delete(newUrl, headers, body);
     if (response.status === 200) {
       toast.warning("Deleted");
+    }
+    else if(response.status ===409){
+      toast.error("Failed to delete")
     }
 
     return response.data;
@@ -29,6 +35,9 @@ const api = async (method, url, body) => {
     const response = await axios.patch(newUrl, body, headers);
     if (response.status === 200) {
       toast.success("Updated");
+    }
+    else if (response.status ===409){
+      toast.error("Failed to update")
     }
     return response.data;
   }

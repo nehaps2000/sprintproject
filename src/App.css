@@ -40,6 +40,8 @@ margin-top:0%;
   text-align: center;
 
 }
+
+
 .team{
   margin-right: 200px;
  float: right;
@@ -102,6 +104,8 @@ border:transparent;
  top: 0;
  left: 0;
 
+
+
 }
 .bm-overlay{
   position: absolute;
@@ -130,14 +134,10 @@ border:transparent;
   float: right;
   cursor: pointer;
 }
-
-.edit{
+.custom-icon{
   cursor: pointer;
 }
 
-.delete{
-  cursor: pointer;
-}
 
 .card-text{
   cursor: pointer;
@@ -233,7 +233,7 @@ label {
 .username{
   color: white;
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  margin: 15px;
+  margin: 15px 0px  0px 5px
  
 }
 h1{
@@ -278,13 +278,14 @@ h1{
 
 .bm-item {
   display: flex;
-  margin-top: 4vh;
+  padding-top: 20px;
 margin-left: 5vw;
   /* Our sidebar item styling */
   text-decoration: none;
   margin-bottom: 10px;
   color: white;
   transition: color 0.2s;
+ 
 }
 
 .bm-item:hover {
@@ -329,6 +330,8 @@ margin-left: 5vw;
   background: rgb(9, 1, 52);
   padding-right: 40px;
   font-size: 1.15em;
+  
+
 }
 
 /* Morph shape necessary with bubble or elastic */
@@ -567,4 +570,14 @@ th{
   font-style: normal;
   color: #170553;
   padding-top: 30px;
+}
+.hamburger_icon{
+  margin-right: 9px;
+  margin-bottom: 1px;
+  
+}
+
+.bm-item:hover{
+  color: red;
+  
 }
