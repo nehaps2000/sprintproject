@@ -193,7 +193,9 @@ const StoryLog = () => {
           </Row>
           <Row>
             <>
-              <h1 className="stories">Stories</h1>
+              <Col>
+                <h1 className="stories">Stories</h1>
+              </Col>
               <div className="story">
                 {storyList?.map((item, index) => {
                   const style = checkuse(item)
@@ -227,16 +229,19 @@ const StoryLog = () => {
                               {role === "0" || role === "4" ? (
                                 <>
                                   <span className="option">
-                                    <Delete
+                                    <Edit
+                                      className="custom-icon"
                                       onClick={() => {
-                                        deleteStory(item);
+                                        editStory(item);
                                       }}
                                     />
                                   </span>
+
                                   <span className="option">
-                                    <Edit
+                                    <Delete
+                                      className="custom-icon"
                                       onClick={() => {
-                                        editStory(item);
+                                        deleteStory(item);
                                       }}
                                     />
                                   </span>

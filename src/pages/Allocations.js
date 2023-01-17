@@ -195,14 +195,14 @@ const Allocations = () => {
                   {role === "0" || role === "4" ? (
                     <td>
                       <span>
-                        <Edit
+                        <Edit className="custom-icon"
                           onClick={() => {
                             editview(allocation);
                           }}
                         />
                       </span>
                       <span>
-                        <Delete
+                        <Delete className="delete"
                           onClick={() => {
                             deleteAllocation(allocation);
                           }}
@@ -258,7 +258,7 @@ const Allocations = () => {
                 className="custom-select"
                 id="inputGroupSelect04"
                 onChange={handleChange1}
-                value={allocationModal?.Id}
+                value={allocationModal?.teamName}
                 name="teamName"
               >
                 <option selected>Choose...</option>
