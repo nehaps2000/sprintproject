@@ -78,7 +78,7 @@ const Leaves = () => {
   const showConfirmModel = (status) => {
     setAlert(status);
   };
-  const editview = (currentLeave) => {
+  const editLeave = (currentLeave) => {
     setLeaveModal({ ...currentLeave });
     showHideModal(true);
     setIsEdit(true);
@@ -139,9 +139,7 @@ const Leaves = () => {
               ></Calendar>
             </Col>
             <Col>
-              <table class="table table-light">
-                {" "}
-                <thead>
+            <table class="table table-light">                <thead>
                   <tr>
                     <th>EmployeeId</th>
                     <th>Leave Date</th>
@@ -160,16 +158,10 @@ const Leaves = () => {
                         <td>
                           <div>
                             <span>
-                              <Edit
-                                className="custom-icon"
-                                onClick={() => editview(leave)}
-                              />
+                              <Edit onClick={() => editLeave(leave)} />
                             </span>
                             <span>
-                              <Delete
-                                className="custom-icon"
-                                onClick={() => deleteLeave(leave)}
-                              />
+                              <Delete onClick={() => deleteLeave(leave)} />
                             </span>
                           </div>
                         </td>
@@ -206,7 +198,7 @@ const Leaves = () => {
               <Form.Label>Hours</Form.Label>
               <input
                 type="radio"
-                name="Hours"
+                name="hours"
                 defaultChecked
                 value={leaveModal.Hours || 8}
                 onChange={handleChange}
@@ -215,7 +207,7 @@ const Leaves = () => {
 
               <input
                 type="radio"
-                name="Hours"
+                name="hours"
                 value={leaveModal.Hours || 4}
                 onChange={handleChange}
               />

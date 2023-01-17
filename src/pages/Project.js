@@ -101,7 +101,7 @@ const Project = () => {
   const projectOpen = (id, pName) => {
     localStorage.setItem("id", id);
     localStorage.setItem("pName", pName);
-    Navigate(`/${id}/projectSettings`);
+    Navigate(`/${id}/ProjectSettings`);
   };
 
   return (
