@@ -578,6 +578,18 @@ th{
 }
 
 .bm-item:hover{
-  color: red;
+  color: rgb(232, 98, 9);
   
 }
+/* .lactive-class{
+  color:yellow;
+}
+.not-active-class{
+  color:#bdc3c7;
+} */
+.nav-link.active {
+  color: rgb(232, 98, 9);
+}
+
+
+
