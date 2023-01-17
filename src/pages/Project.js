@@ -144,11 +144,11 @@ const Project = () => {
                       {role === "0" || role === "4" ? (
                         <div>
                           <Edit
-                            className="edit"
+                            className="custom-icon"
                             onClick={() => editProject(project)}
                           />
                           <Delete
-                            className="delete"
+                            className="custom-icon"
                             onClick={() => deleteProject(project)}
                           />
                         </div>

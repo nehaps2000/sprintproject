@@ -165,6 +165,7 @@ const Resource = () => {
                     <td>
                       <span>
                         <Edit
+                          className="custom-icon"
                           onClick={() => {
                             editResource(resources);
                           }}
@@ -172,6 +173,7 @@ const Resource = () => {
                       </span>
                       <span>
                         <Delete
+                          className="custom-icon"
                           onClick={() => {
                             deleteResource(resources);
                           }}

@@ -27,7 +27,9 @@ const ListedStory = () => {
           <h1 className="selected">Selected Stories</h1>
         </Row>
         <Row>
-        <table class="table table-light">            <thead>
+          <table class="table table-light">
+            {" "}
+            <thead>
               <tr>
                 <th>Name</th>
                 <th>ID</th>

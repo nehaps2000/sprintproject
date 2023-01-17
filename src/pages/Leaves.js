@@ -139,7 +139,9 @@ const Leaves = () => {
               ></Calendar>
             </Col>
             <Col>
-            <table class="table table-light">                <thead>
+              <table class="table table-light">
+                {" "}
+                <thead>
                   <tr>
                     <th>EmployeeId</th>
                     <th>Leave Date</th>
@@ -158,10 +160,16 @@ const Leaves = () => {
                         <td>
                           <div>
                             <span>
-                              <Edit onClick={() => editview(leave)} />
+                              <Edit
+                                className="custom-icon"
+                                onClick={() => editview(leave)}
+                              />
                             </span>
                             <span>
-                              <Delete onClick={() => deleteLeave(leave)} />
+                              <Delete
+                                className="custom-icon"
+                                onClick={() => deleteLeave(leave)}
+                              />
                             </span>
                           </div>
                         </td>

@@ -9,7 +9,7 @@ import Leaves from "./pages/Leaves";
 import HomePage from "./pages/HomePage";
 import ListedStory from "./pages/ListedStory";
 function App() {
-  localStorage.getItem("sprintId")
+  localStorage.getItem("sprintId");
   return (
     <>
       <Router>
@@ -19,13 +19,14 @@ function App() {
           <Route path="/:Id/ListedStory" element={<ListedStory />} />
           <Route path="/:Id/ProjectSettings" element={<ProjectSettings />} />
           <Route path="/:Id/Sprint/SearchSprint" element={<SprintSettings />} />
-          <Route path="/:Id/Story/SearchStory/:sprintId" element={<StoryLog />} />
+          <Route
+            path="/:Id/Story/SearchStory/:sprintId"
+            element={<StoryLog />}
+          />
           <Route path="/:Id/Leave/Getleave" element={<Leaves />} />
-
         </Routes>
       </Router>
     </>
-  
   );
 }
 
