@@ -78,7 +78,7 @@ const Leaves = () => {
   const showConfirmModel = (status) => {
     setAlert(status);
   };
-  const editview = (currentLeave) => {
+  const editLeave = (currentLeave) => {
     setLeaveModal({ ...currentLeave });
     showHideModal(true);
     setIsEdit(true);
@@ -158,7 +158,7 @@ const Leaves = () => {
                         <td>
                           <div>
                             <span>
-                              <Edit onClick={() => editview(leave)} />
+                              <Edit onClick={() => editLeave(leave)} />
                             </span>
                             <span>
                               <Delete onClick={() => deleteLeave(leave)} />
@@ -198,7 +198,7 @@ const Leaves = () => {
               <Form.Label>Hours</Form.Label>
               <input
                 type="radio"
-                name="Hours"
+                name="hours"
                 defaultChecked
                 value={leaveModal.Hours || 8}
                 onChange={handleChange}
@@ -207,7 +207,7 @@ const Leaves = () => {
 
               <input
                 type="radio"
-                name="Hours"
+                name="hours"
                 value={leaveModal.Hours || 4}
                 onChange={handleChange}
               />
