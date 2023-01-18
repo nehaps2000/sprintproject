@@ -9,6 +9,8 @@ import api from "../utility/api";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
+import Spinner from "../components/Spinner";
+
 
 const Resource = () => {
   const params = useParams();
@@ -21,29 +23,20 @@ const Resource = () => {
   const [show, setShow] = useState(false);
   const [resourceModal, setResourceModal] = useState({});
   const [del, setDel] = useState(false);
-  const [projcetList, setProjectList] = useState([]);
+ const [isLoading,setIsLoading] = useState(true);
   useEffect(() => {
+    setIsLoading(true)
     const apiCall = async () => {
       let response = await api("get", url);
-      // let response1 = await api("get", projecturl);
       setResourceList(response);
-      // setProjectList(response1);
-      // let temp = response1.map((currentValue) => {
-      //   let tempRes = {
-      //     value: currentValue.name,
-      //     label: currentValue.id,
-      //   };
-  
-      //   return tempRes;
-      // });
-      // setProjectList(temp);
+      setIsLoading(false)
     };
     apiCall();
   }, [url]);
 
   let accessRole = localStorage.getItem("role");
-  let pName=localStorage.getItem("pName");
-   const editResource = (currentResource) => {
+  let pName = localStorage.getItem("pName");
+  const editResource = (currentResource) => {
     setResourceModal({ ...currentResource });
     showHideModal(true);
     setIsEdit(true);
@@ -136,6 +129,8 @@ const Resource = () => {
 
   return (
     <Container>
+        <div>
+      {isLoading ? <Spinner /> : (<div>
       <Row>
         {accessRole === "4" || accessRole === "0" ? (
           <Col>
@@ -170,6 +165,7 @@ const Resource = () => {
           <tbody>
             {resourceList?.map((resources) => {
               return (
+                
                 <tr key={resources.id}>
                   <td>{resources.id}</td>
                   <td>{resources.employeeId}</td>
@@ -204,6 +200,11 @@ const Resource = () => {
             })}
           </tbody>
         </table>
+        </Row>
+        </div>)}
+    </div>
+      
+        <Row>
 
         <Modal show={show} onHide={() => showHideModal(false)}>
           <Modal.Header closeButton>

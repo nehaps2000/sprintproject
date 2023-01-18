@@ -6,17 +6,18 @@ import Add from "../custom-icons/Add";
 import api from "../utility/api";
 import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-
+import Spinner from "../components/Spinner";
 const ProjectManager = () => {
   const url = `/api/Resource/GetScrumMasters`;
   const [managerList, setManagerList] = useState([]);
   const [show, setShow] = useState(false);
   const [managerModal, setManagerModal] = useState({});
-
+const[isLoading,setIsLoading]=useState(true)
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
       setManagerList(response);
+      setIsLoading(false)
     };
     apiCall();
   }, [url]);
@@ -51,7 +52,8 @@ const ProjectManager = () => {
   return (
     <>
       <Container>
-        <Row>
+      {isLoading ? <Spinner /> : <div>
+      <Row>
           <Col>
             <div className="add">
               <Add
@@ -82,7 +84,8 @@ const ProjectManager = () => {
               })}
             </tbody>
           </table>
-        </Row>
+        </Row></div>}
+       
       </Container>
 
       <Modal show={show} onHide={() => showHideModal(false)}>

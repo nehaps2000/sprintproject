@@ -14,7 +14,7 @@ import {
 } from "react-accessible-accordion";
 import "react-accessible-accordion/dist/fancy-example.css";
 import { Container, Row, Col } from "react-bootstrap";
-
+import Spinner from "../components/Spinner";
 const Holiday = () => {
   const url = "/api/Calendar/GetHoliday";
   const [holidayList, setHolidayList] = useState([]);
@@ -24,12 +24,14 @@ const Holiday = () => {
     list: {},
     keys: [],
   });
+  const[isLoading,setIsLoading]=useState(true)
 
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
       setHolidayList(response);
       holidayGrouping(holidayList);
+      setIsLoading(false)
     };
     apiCall();
   }, [url, holidayList]);
@@ -85,7 +87,8 @@ const Holiday = () => {
   return (
     <>
       <Container>
-        <Row>
+      {isLoading ? <Spinner /> : <div>
+      <Row>
           {localStorage.getItem("role") === "4" ? (
             <Col>
               <div className="add">
@@ -124,7 +127,8 @@ const Holiday = () => {
               })}
             </Accordion>
           
-        </Row>
+        </Row></div>}
+       
       </Container>
 
       <Modal show={addHolidayModal} onHide={() => showHolidayModal(false)}>

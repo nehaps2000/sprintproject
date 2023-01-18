@@ -9,7 +9,7 @@ import api from "../utility/api";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
-
+import Spinner from "../components/Spinner";
 const Team = () => {
   const params = useParams();
   const url = `/api/Team/SearchTeam/${params.Id}`;
@@ -18,16 +18,17 @@ const Team = () => {
   const [show, setShow] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [del, setDel] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
       setTeamList(response);
+      setIsLoading(false);
     };
     apiCall();
   }, [url]);
   let role = localStorage.getItem("role");
-  let pName=localStorage.getItem("pName");
+  let pName = localStorage.getItem("pName");
   const addOrEdit = (teamModal) => {
     const addurl = `/api/Team/AddTeam`;
     teamModal.projectId = params.Id;
@@ -97,65 +98,73 @@ const Team = () => {
   };
   return (
     <Container>
-      <Row>
-        {role === "4" || role === "0" ? (
-          <Col>
-            <div className="add">
-              <Add
-                onClick={() => {
-                  showHideModal(true);
-                }}
-              />
-            </div>
-          </Col>
+      <div>
+        {isLoading ? (
+          <Spinner />
         ) : (
-          <div></div>
+          <div>
+            <Row>
+              {role === "4" || role === "0" ? (
+                <Col>
+                  <div className="add">
+                    <Add
+                      onClick={() => {
+                        showHideModal(true);
+                      }}
+                    />
+                  </div>
+                </Col>
+              ) : (
+                <div></div>
+              )}
+            </Row>
+            <Row>
+              <table class="table table-light">
+                {" "}
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>ID</th>
+                    {role === "0" || role === "4" ? <th>Actions</th> : <></>}
+                  </tr>
+                </thead>
+                <tbody>
+                  {teamList?.map((team) => {
+                    return (
+                      <tr key={team.projectId}>
+                        <td> {team.name}</td>
+                        <td> {team.projectId}</td>
+                        {role === "0" || role === "4" ? (
+                          <td>
+                            <span>
+                              <Edit
+                                className="custom-icon"
+                                onClick={() => {
+                                  editTeam(team);
+                                }}
+                              />
+                            </span>
+                            <span>
+                              <Delete
+                                className="custom-icon"
+                                onClick={() => {
+                                  deleteTeam(team);
+                                }}
+                              />
+                            </span>
+                          </td>
+                        ) : (
+                          <></>
+                        )}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </Row>
+          </div>
         )}
-      </Row>
-      <Row>
-        <table class="table table-light">
-          {" "}
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>ID</th>
-              {role === "0" || role === "4" ? <th>Actions</th> : <></>}
-            </tr>
-          </thead>
-          <tbody>
-            {teamList?.map((team) => {
-              return (
-                <tr key={team.projectId}>
-                  <td> {team.name}</td>
-                  <td> {team.projectId}</td>
-                  {role === "0" || role === "4" ? (
-                    <td>
-                      <span>
-                        <Edit
-                          className="custom-icon"
-                          onClick={() => {
-                            editTeam(team);
-                          }}
-                        />
-                      </span>
-                      <span>
-                        <Delete
-                          className="custom-icon"
-                          onClick={() => {
-                            deleteTeam(team);
-                          }}
-                        />
-                      </span>
-                    </td>
-                  ) : (
-                    <></>
-                  )}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </Row>
+      </div>
 
       <Modal show={show} onHide={() => showHideModal(false)}>
         <Modal.Header closeButton>
