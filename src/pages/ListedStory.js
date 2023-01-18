@@ -3,20 +3,23 @@ import api from "../utility/api";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
+import Spinner from "../components/Spinner";
 
 const ListedStory = () => {
   const params = useParams();
   const url = `/api/Story/GetAddedStories/${params.Id}`;
   const [viewList, setViewList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
       setViewList(response);
+      setIsLoading(false);
     };
     apiCall();
   }, [url]);
- 
 
   return (
     <>
@@ -24,33 +27,43 @@ const ListedStory = () => {
         <Navbar></Navbar>
       </div>
       <Container>
-        <Row>
-          <h1 className="selected">Selected Stories</h1>
-        </Row>
-      
-        
-        <Row>
-          <table class="table table-light">
-            {" "}
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>ID</th>
-              </tr>
-            </thead>
-            <tbody>
-              {viewList?.map((story) => {
-                return (
-                  <tr key={story.name}>
-                    <td> {story.name}</td>
-                    <td> {story.id}</td>
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div>
+            <Row>
+              <h1 className="selected">Selected Stories</h1>
+            </Row>
+
+            <Row>
+              <table class="table table-light">
+                {" "}
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>ID</th>
                   </tr>
-                );
-              })}
-              
-            </tbody>
-          </table>
-        </Row>
+                </thead>
+                <tbody>
+                  {viewList.length > 0 ? (
+                    viewList?.map((story) => {
+                      return (
+                        <tr key={story.name}>
+                          <td> {story.name}</td>
+                          <td> {story.id}</td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <h5>No records found</h5>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </Row>
+          </div>
+        )}
       </Container>
     </>
   );
