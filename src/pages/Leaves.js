@@ -17,12 +17,12 @@ import Col from "react-bootstrap/Col";
 const Leaves = () => {
   const url = `/api/Leave/GetLeaves`;
   const [leaveList, setLeaveList] = useState([]);
-  const [leaveModal, setLeaveModal] = useState({ Hours: 8 });
+  const [leaveModal, setLeaveModal] = useState({ hours: 8 });
   const [addLeaveModal, setAddLeaveModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isLeave, setIsLeave] = useState(false);
-
   const [alert, setAlert] = useState(false);
+
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
@@ -30,8 +30,7 @@ const Leaves = () => {
     };
     apiCall();
   }, [url]);
-  console.log(leaveList, "here");
-
+  let empId = localStorage.getItem("userId");
   const addOrEdit = (leaveModal) => {
     console.log(leaveModal);
     const addurl = `/api/Leave/AddLeave`;
@@ -96,15 +95,21 @@ const Leaves = () => {
   };
 
   const handleChange = ({ target: { name, value } }) => {
-    setLeaveModal((prev) => {
-      return { ...prev, [name]: value };
-    });
+    if (name === "hours") {
+      setLeaveModal((prev) => {
+        return { ...prev, [name]: parseInt(value) };
+      });
+    } else {
+      setLeaveModal((prev) => {
+        return { ...prev, [name]: value };
+      });
+    }
   };
 
   const handleDateChange = (value) => {
     value = format(value, "yyyy-MM-dd");
     setLeaveModal((prev) => {
-      return { ...prev, leaveDate: value };
+      return { ...prev, leaveDate: value, hours: 8 };
     });
     addLeave();
   };
@@ -139,7 +144,9 @@ const Leaves = () => {
               ></Calendar>
             </Col>
             <Col>
-            <table class="table table-light">                <thead>
+              <table class="table table-light">
+                {" "}
+                <thead>
                   <tr>
                     <th>EmployeeId</th>
                     <th>Leave Date</th>
@@ -185,7 +192,7 @@ const Leaves = () => {
               <Form.Label>Employee ID</Form.Label>
               <input
                 name="employeeId"
-                value={leaveModal.employeeId || ""}
+                value={empId}
                 onChange={handleChange}
               ></input>
               <Form.Label>Leave Date</Form.Label>
@@ -200,7 +207,8 @@ const Leaves = () => {
                 type="radio"
                 name="hours"
                 defaultChecked
-                value={leaveModal.Hours || 8}
+                value={8}
+                checked={leaveModal.hours === 8}
                 onChange={handleChange}
               />
               <span>Full day</span>
@@ -208,7 +216,8 @@ const Leaves = () => {
               <input
                 type="radio"
                 name="hours"
-                value={leaveModal.Hours || 4}
+                value={4}
+                checked={leaveModal.hours === 4}
                 onChange={handleChange}
               />
               <span>Half day</span>

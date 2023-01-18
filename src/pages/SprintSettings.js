@@ -20,12 +20,14 @@ const SprintSettings = () => {
   const params = useParams();
   const url = `/api/Sprint/SearchSprint/${params.Id}`;
   const url2 = `/api/Calendar/GetHoliday`;
+  const projectUrl = "/api/Project/Projects";
   const [sprintList, setSprintList] = useState([]);
   const [sprintModal, setSprintModal] = useState({});
   const [isEdit, setIsEdit] = useState(false);
   const [addSprintModal, setAddSprintModal] = useState(false);
   const [deleteSprintModal, setDeleteSprintModal] = useState(false);
   const [holidayList, setHolidayList] = useState([]);
+  const [projectList, setProjectList] = useState([]);
   const Navigate = useNavigate();
   const current = new Date();
   const date = current.toISOString();
@@ -35,11 +37,13 @@ const SprintSettings = () => {
     const apiCall = async () => {
       let response = await api("get", url);
       let response2 = await api("get", url2);
+      let projectRes = await api("get", projectUrl);
       setSprintList(response);
       setHolidayList(response2);
+      setProjectList(projectRes);
     };
     apiCall();
-  }, [url, url2]);
+  }, []);
 
   useEffect(() => {
     if (sprintModal?.startDate && sprintModal?.endDate) {
@@ -48,6 +52,7 @@ const SprintSettings = () => {
   }, [sprintModal?.startDate, sprintModal?.endDate]);
   console.log(sprintModal);
   let role = localStorage.getItem("role");
+  let pName = localStorage.getItem("pName");
 
   const addOrEdit = (sprintModal) => {
     const addurl = `/api/Sprint/AddSprint`;
@@ -103,10 +108,8 @@ const SprintSettings = () => {
 
   const editSprint = (currentSprint) => {
     let d1 = currentSprint.startDate.toString().split("T")[0];
-    currentSprint.startDate = d1;
     let d2 = currentSprint.endDate.toString().split("T")[0];
-    currentSprint.endDate = d2;
-    setSprintModal({ ...currentSprint });
+    setSprintModal({ ...currentSprint, startDate: d1, endDate: d2 });
     console.log(currentSprint);
     showHideModal(true);
     setIsEdit(true);
@@ -340,10 +343,10 @@ const SprintSettings = () => {
                   min={sprintModal.startDate}
                   onChange={handleChange}
                 ></input>
-                <Form.Label>ProjectID</Form.Label>
+                <Form.Label>Project Name</Form.Label>
                 <input
                   name="projectId"
-                  value={sprintModal.projectId || params.Id}
+                  value={pName}
                   disabled
                 ></input>
               </Form.Group>
