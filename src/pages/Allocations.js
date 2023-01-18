@@ -59,7 +59,7 @@ const Allocations = () => {
   console.log("list", employeeList);
 
   let role = localStorage.getItem("role");
-
+let pName=localStorage.getItem("pName");
   const addOrEdit = (allocationModal) => {
     if (!isEdit) {
       const addUrl = `/api/Allocation/AddAllocation`;
@@ -293,7 +293,7 @@ const Allocations = () => {
               <br></br>
 
               <Form.Label>ProjectID</Form.Label>
-              <input name="projectId" value={params.Id} disabled></input>
+              <input name={pName} value={pName} disabled></input>
 
               <br></br>
             </Form.Group>

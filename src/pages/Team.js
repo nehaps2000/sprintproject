@@ -27,6 +27,7 @@ const Team = () => {
     apiCall();
   }, [url]);
   let role = localStorage.getItem("role");
+  let pName=localStorage.getItem("pName");
   const addOrEdit = (teamModal) => {
     const addurl = `/api/Team/AddTeam`;
     teamModal.projectId = params.Id;
@@ -170,7 +171,7 @@ const Team = () => {
                 onChange={handleChange}
               ></input>
               <Form.Label>ProjectID</Form.Label>
-              <input name="projectId" value={params.Id} disabled></input>
+              <input name={pName} value={pName} disabled></input>
             </Form.Group>
           </Form>
         </Modal.Body>

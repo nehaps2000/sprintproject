@@ -14,24 +14,36 @@ const Resource = () => {
   const params = useParams();
   console.log(params);
   const url = `/api/Resource/SearchResource/${params.Id}`;
+  const projecturl = "/api/Project/Projects";
   console.log(params.Id);
   const [resourceList, setResourceList] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [show, setShow] = useState(false);
   const [resourceModal, setResourceModal] = useState({});
   const [del, setDel] = useState(false);
-
+  const [projcetList, setProjectList] = useState([]);
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
+      // let response1 = await api("get", projecturl);
       setResourceList(response);
+      // setProjectList(response1);
+      // let temp = response1.map((currentValue) => {
+      //   let tempRes = {
+      //     value: currentValue.name,
+      //     label: currentValue.id,
+      //   };
+  
+      //   return tempRes;
+      // });
+      // setProjectList(temp);
     };
     apiCall();
   }, [url]);
 
   let accessRole = localStorage.getItem("role");
-
-  const editResource = (currentResource) => {
+  let pName=localStorage.getItem("pName");
+   const editResource = (currentResource) => {
     setResourceModal({ ...currentResource });
     showHideModal(true);
     setIsEdit(true);
@@ -148,7 +160,11 @@ const Resource = () => {
               <th>Email</th>
               <th>Name</th>
               <th>Role</th>
-              {accessRole === "0" || accessRole === "4" ? <th>Actions</th> : <></>}
+              {accessRole === "0" || accessRole === "4" ? (
+                <th>Actions</th>
+              ) : (
+                <></>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -221,7 +237,7 @@ const Resource = () => {
                 ></input>
                 <br></br>
                 <Form.Label>ProjectID</Form.Label>
-                <input name="projectId" value={params.Id} disabled></input>
+                <input name={pName} value={pName} disabled></input>
                 <br></br>
                 <Form.Label>Role</Form.Label>
                 <select
