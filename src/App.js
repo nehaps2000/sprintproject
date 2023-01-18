@@ -8,6 +8,7 @@ import StoryLog from "./pages/StoryLog";
 import Leaves from "./pages/Leaves";
 import HomePage from "./pages/HomePage";
 import ListedStory from "./pages/ListedStory";
+import Spinner from "./components/Spinner";
 function App() {
   localStorage.getItem("sprintId");
   return (

@@ -9,7 +9,7 @@ import Add from "../custom-icons/Add";
 import api from "../utility/api";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
-
+import Spinner from "../components/Spinner";
 const Allocations = () => {
   const params = useParams();
   const url = `/api/Allocation/SearchAllocation/${params.Id}`;
@@ -24,6 +24,7 @@ const Allocations = () => {
   const [teamList, setTeamList] = useState([]);
   const [allEmployees, setAllEmployees] = useState([]);
   const [allTeam, setAllTeam] = useState([]);
+  const [isLoading,setIsLoading] = useState(true);
   console.log(allocationModal);
 
   const hoursPerDay = useRef("");
@@ -35,6 +36,7 @@ const Allocations = () => {
       setAllocationList(response);
       setAllEmployees(response2);
       setAllTeam(response3);
+      setIsLoading(false)
       let temp = response2.map((currentValue) => {
         let tempRes = {
           value: currentValue.name.trim(),
@@ -152,7 +154,8 @@ let pName=localStorage.getItem("pName");
 
   return (
     <Container>
-      <Row>
+         <div>
+      {isLoading ? <Spinner /> : <div>  <Row>
         {role === "4" || role === "0" ? (
           <Col>
             <div className="add">
@@ -217,7 +220,9 @@ let pName=localStorage.getItem("pName");
             })}
           </tbody>
         </table>
-      </Row>
+      </Row></div>}
+    </div>
+    
 
       <Modal show={show} onHide={() => showHideModal(false)}>
         <Modal.Header closeButton>
