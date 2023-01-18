@@ -28,35 +28,39 @@ const Navbar = () => {
     <Row>
       {params.Id ? (
         <div className="header">
-          <Col>
+          <div>
             <div>
               <Hamburger></Hamburger>
             </div>
-          </Col>
-          <Col>
+          </div>
+          <div>
             <div className="name">
               <h1>{projectName}</h1>
             </div>
-          </Col>
-          <Col>
-            <div className="username"><h4>{username}</h4></div>
-          </Col>
-          <Col>
-            <div className="logout">
-              <Logout
-                onClick={() => {
-                  logout();
-                }}
-              />
+          </div>
+          
+            <div className="gap10 flex">
+              <span className="username">
+                <h4>{username}</h4>
+              </span>
+              <span className="logout">
+                <Logout
+                  onClick={() => {
+                    logout();
+                  }}
+                />
+              </span>
             </div>
-          </Col>
-        </div>
+          </div>
+       
       ) : (
         <div className="header">
-          <Col>
-            <div className="username"><h4>Welcome {username} !</h4></div>
-          </Col>
-          <Col>
+          <div>
+            <div className="username">
+              <h4>Welcome {username} !</h4>
+            </div>
+          </div>
+          <div>
             <div className="logout">
               <Logout
                 onClick={() => {
@@ -64,7 +68,7 @@ const Navbar = () => {
                 }}
               />
             </div>
-          </Col>
+          </div>
         </div>
       )}
     </Row>

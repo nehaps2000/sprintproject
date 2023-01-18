@@ -357,9 +357,7 @@ margin-left: 5vw;
 
  .logout{
   margin: 10px 0;
-  float:right;
   cursor:pointer;
- 
  }
 
  .header-actions{
@@ -470,6 +468,14 @@ width:90%;
   color: #ffffff;
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   text-align: right;
+}
+
+.flex{
+  display:flex;
+}
+
+.gap10{
+  gap: 10px;
 }
 
 .calendar {
