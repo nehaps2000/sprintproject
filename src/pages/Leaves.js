@@ -13,24 +13,31 @@ import Edit from "../custom-icons/Edit";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Spinner from "../components/Spinner";
 
 const Leaves = () => {
   const url = `/api/Leave/GetLeaves`;
+  const holidayUrl = `/api/Calendar/GetHoliday`;
   const [leaveList, setLeaveList] = useState([]);
+  const [holidayList, setHolidayList] = useState([]);
   const [leaveModal, setLeaveModal] = useState({ hours: 8 });
   const [addLeaveModal, setAddLeaveModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [isLeave, setIsLeave] = useState(false);
   const [alert, setAlert] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
       setLeaveList(response);
+      setIsLoading(false);
+      let holRes = await api("get", holidayUrl);
+      setHolidayList(holRes);
     };
     apiCall();
   }, [url]);
   let empId = localStorage.getItem("userId");
+  console.log(holidayList);
   const addOrEdit = (leaveModal) => {
     console.log(leaveModal);
     const addurl = `/api/Leave/AddLeave`;
@@ -120,20 +127,32 @@ const Leaves = () => {
         <Navbar></Navbar>
       </div>
       <Container>
-        <div className="wrapper">
+      {isLoading ? <Spinner /> : <div><div className="wrapper">
           <Row>
             <Col>
               <Calendar
                 onClickDay={handleDateChange}
                 tileClassName={({ date }) => {
                   {
-                    let isHighlighted = false;
+                    let isLeave = false;
                     leaveList?.forEach((l) => {
                       if (Date.parse(l.leaveDate) === Date.parse(date))
-                        isHighlighted = true;
+                        isLeave = true;
                     });
-                    if (isHighlighted) {
-                      setIsLeave(true);
+                    if (isLeave) {
+                      return "highlight";
+                    }
+
+                    let isHoliday = false;
+                    holidayList?.forEach((h) => {
+                      var cDate = h.date.split("-").reverse().join("-");
+                      cDate = new Date(cDate);
+                      if (Date.parse(cDate) == Date.parse(date)) {
+                        console.log("inside if");
+                        isHoliday = true;
+                      }
+                    });
+                    if (isHoliday) {
                       return "highlight";
                     }
                   }
@@ -179,7 +198,8 @@ const Leaves = () => {
               </table>
             </Col>
           </Row>
-        </div>
+        </div></div>}
+        
       </Container>
 
       <Modal show={addLeaveModal} onHide={() => showHideModal(false)}>
@@ -196,7 +216,6 @@ const Leaves = () => {
                 onChange={handleChange}
               ></input>
               <Form.Label>Leave Date</Form.Label>
-
               <input
                 name="leaveDate"
                 value={leaveModal.leaveDate}
