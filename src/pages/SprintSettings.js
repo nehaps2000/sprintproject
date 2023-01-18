@@ -343,7 +343,7 @@ const SprintSettings = () => {
                   min={sprintModal.startDate}
                   onChange={handleChange}
                 ></input>
-                <Form.Label>Project Name</Form.Label>
+                <Form.Label>Project</Form.Label>
                 <input
                   name="projectId"
                   value={pName}

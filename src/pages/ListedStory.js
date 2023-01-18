@@ -16,6 +16,7 @@ const ListedStory = () => {
     };
     apiCall();
   }, [url]);
+ 
 
   return (
     <>
@@ -26,6 +27,8 @@ const ListedStory = () => {
         <Row>
           <h1 className="selected">Selected Stories</h1>
         </Row>
+      
+        
         <Row>
           <table class="table table-light">
             {" "}
@@ -44,6 +47,7 @@ const ListedStory = () => {
                   </tr>
                 );
               })}
+              
             </tbody>
           </table>
         </Row>
