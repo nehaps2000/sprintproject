@@ -274,8 +274,8 @@ const StoryLog = () => {
                 value={storyModal.name || " "}
                 onChange={handleChange}
               ></input>
-              <Form.Label>ProjectID</Form.Label>
-              <input name={pName} value={pName} disabled></input>
+              <Form.Label>Project</Form.Label>
+              <input name="projectId" value={pName} disabled></input>
 
               <br></br>
             </Form.Group>

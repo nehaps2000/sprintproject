@@ -340,7 +340,7 @@ const SprintSettings = () => {
                   min={sprintModal.startDate}
                   onChange={handleChange}
                 ></input>
-                <Form.Label>ProjectID</Form.Label>
+                <Form.Label>Project</Form.Label>
                 <input
                   name="projectId"
                   value={sprintModal.projectId || params.Id}

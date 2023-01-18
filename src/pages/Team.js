@@ -170,8 +170,8 @@ const Team = () => {
                 value={teamModal.name || ""}
                 onChange={handleChange}
               ></input>
-              <Form.Label>ProjectID</Form.Label>
-              <input name={pName} value={pName} disabled></input>
+              <Form.Label>Project Name</Form.Label>
+              <input name="projectId" value={pName} disabled></input>
             </Form.Group>
           </Form>
         </Modal.Body>

@@ -236,8 +236,8 @@ const Resource = () => {
                   onChange={handleChange}
                 ></input>
                 <br></br>
-                <Form.Label>ProjectID</Form.Label>
-                <input name={pName} value={pName} disabled></input>
+                <Form.Label>Project</Form.Label>
+                <input name="projectId" value={pName} disabled></input>
                 <br></br>
                 <Form.Label>Role</Form.Label>
                 <select
