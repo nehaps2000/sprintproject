@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../utility/api";
 import "react-accessible-accordion/dist/fancy-example.css";
 import { Container, Row, Col } from "react-bootstrap";
-
+import Spinner from "../components/Spinner";
 const Project = () => {
   const url = "/api/Project/Projects";
   const [projectList, setProjectList] = useState([]);
@@ -19,12 +19,14 @@ const Project = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [addProjectModal, setAddProjectModal] = useState(false);
   const [deleteProjectModal, setDeleteProjectModal] = useState(false);
+  const[isLoading,setIsLoading]=useState(true)
   const Navigate = useNavigate();
 
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
       setProjectList(response);
+      setIsLoading(false)
     };
     apiCall();
   }, [url]);
@@ -107,7 +109,8 @@ const Project = () => {
   return (
     <>
       <Container>
-          <Row>
+      {isLoading ? <Spinner /> : <div>
+      <Row>
             {role === "4" || role === "0" ? (
               <Col>
                 <div className="add">
@@ -160,7 +163,10 @@ const Project = () => {
                 </Col>
               );
             })}
-          </Row>
+          </Row></div>}
+
+
+        
       </Container>
 
       <div>

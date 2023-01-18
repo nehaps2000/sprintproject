@@ -15,19 +15,19 @@ import { useNavigate } from "react-router-dom";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { Container, Row, Col } from "react-bootstrap";
-
+import Spinner from "../components/Spinner";
 const SprintSettings = () => {
   const params = useParams();
   const url = `/api/Sprint/SearchSprint/${params.Id}`;
   const url2 = `/api/Calendar/GetHoliday`;
-  const projectUrl = "/api/Project/Projects";
+  
   const [sprintList, setSprintList] = useState([]);
   const [sprintModal, setSprintModal] = useState({});
   const [isEdit, setIsEdit] = useState(false);
   const [addSprintModal, setAddSprintModal] = useState(false);
   const [deleteSprintModal, setDeleteSprintModal] = useState(false);
   const [holidayList, setHolidayList] = useState([]);
-  const [projectList, setProjectList] = useState([]);
+  const[isLoading,setIsLoading]=useState(true)
   const Navigate = useNavigate();
   const current = new Date();
   const date = current.toISOString();
@@ -37,10 +37,10 @@ const SprintSettings = () => {
     const apiCall = async () => {
       let response = await api("get", url);
       let response2 = await api("get", url2);
-      let projectRes = await api("get", projectUrl);
+     
       setSprintList(response);
       setHolidayList(response2);
-      setProjectList(projectRes);
+      setIsLoading(false)
     };
     apiCall();
   }, []);
@@ -194,7 +194,8 @@ const SprintSettings = () => {
         <Navbar></Navbar>
       </div>
       <Container>
-        <Row>
+      {isLoading ? <Spinner /> : <div>
+      <Row>
           {role === "4" || role === "0" ? (
             <Col>
               <div className="add">
@@ -308,7 +309,8 @@ const SprintSettings = () => {
               })}
             </Row>
           </div>
-        </Row>
+        </Row></div>}
+      
       </Container>
 
       <div>
