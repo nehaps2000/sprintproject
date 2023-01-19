@@ -19,14 +19,14 @@ const Project = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [addProjectModal, setAddProjectModal] = useState(false);
   const [deleteProjectModal, setDeleteProjectModal] = useState(false);
-  const[isLoading,setIsLoading]=useState(true)
+  const [isLoading, setIsLoading] = useState(true);
   const Navigate = useNavigate();
 
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
       setProjectList(response);
-      setIsLoading(false)
+      setIsLoading(false);
     };
     apiCall();
   }, [url]);
@@ -109,64 +109,66 @@ const Project = () => {
   return (
     <>
       <Container>
-      {isLoading ? <Spinner /> : <div>
-      <Row>
-            {role === "4" || role === "0" ? (
-              <Col>
-                <div className="add">
-                  <Add
-                    onClick={() => {
-                      showHideModal(true);
-                    }}
-                  />
-                </div>
-              </Col>
-            ) : (
-              <div></div>
-            )}
-          </Row>
-          <Row xs={1} md={4} className="g-4">
-            {projectList?.map((project) => {
-              return (
-                <Col key={project.id}>
-                  <Card style={{ width: "auto" }}>
-                    <Card.Body>
-                      <Card.Title>{project.name}</Card.Title>
-                      <Card.Text
-                        style={{
-                          width: "max content",
-                          height: "max content",
-                          border: "solid 1px black",
-                        }}
-                        onClick={() => projectOpen(project.id, project.name)}
-                      >
-                        Project ID: {project.id}
-                        <br></br>
-                        <br></br>
-                      </Card.Text>
-                      {role === "0" || role === "4" ? (
-                        <div>
-                          <Edit
-                            className="custom-icon"
-                            onClick={() => editProject(project)}
-                          />
-                          <Delete
-                            className="custom-icon"
-                            onClick={() => deleteProject(project)}
-                          />
-                        </div>
-                      ) : (
-                        <></>
-                      )}
-                    </Card.Body>
-                  </Card>
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div>
+            <Row>
+              {role === "4" || role === "0" ? (
+                <Col>
+                  <div className="add">
+                    <Add
+                      onClick={() => {
+                        showHideModal(true);
+                      }}
+                    />
+                  </div>
                 </Col>
-              );
-            })}
-          </Row></div>}
-
-
-        
+              ) : (
+                <div></div>
+              )}
+            </Row>
+            <Row xs={1} md={4} className="g-4">
+              {projectList?.map((project) => {
+                return (
+                  <Col key={project.id}>
+                    <Card style={{ width: "auto" }}>
+                      <Card.Body>
+                        <Card.Title>{project.name}</Card.Title>
+                        <Card.Text
+                          style={{
+                            width: "max content",
+                            height: "max content",
+                            border: "solid 1px black",
+                          }}
+                          onClick={() => projectOpen(project.id, project.name)}
+                        >
+                          Project ID: {project.id}
+                          <br></br>
+                          <br></br>
+                        </Card.Text>
+                        {role === "0" || role === "4" ? (
+                          <div>
+                            <Edit
+                              className="custom-icon"
+                              onClick={() => editProject(project)}
+                            />
+                            <Delete
+                              className="custom-icon"
+                              onClick={() => deleteProject(project)}
+                            />
+                          </div>
+                        ) : (
+                          <></>
+                        )}
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                );
+              })}
+            </Row>
+          </div>
+        )}
       </Container>
 
       <div>

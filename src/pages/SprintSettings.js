@@ -20,14 +20,14 @@ const SprintSettings = () => {
   const params = useParams();
   const url = `/api/Sprint/SearchSprint/${params.Id}`;
   const url2 = `/api/Calendar/GetHoliday`;
-  
+
   const [sprintList, setSprintList] = useState([]);
   const [sprintModal, setSprintModal] = useState({});
   const [isEdit, setIsEdit] = useState(false);
   const [addSprintModal, setAddSprintModal] = useState(false);
   const [deleteSprintModal, setDeleteSprintModal] = useState(false);
   const [holidayList, setHolidayList] = useState([]);
-  const[isLoading,setIsLoading]=useState(true)
+  const [isLoading, setIsLoading] = useState(true);
   const Navigate = useNavigate();
   const current = new Date();
   const date = current.toISOString();
@@ -37,10 +37,10 @@ const SprintSettings = () => {
     const apiCall = async () => {
       let response = await api("get", url);
       let response2 = await api("get", url2);
-     
+
       setSprintList(response);
       setHolidayList(response2);
-      setIsLoading(false)
+      setIsLoading(false);
     };
     apiCall();
   }, []);
@@ -194,123 +194,127 @@ const SprintSettings = () => {
         <Navbar></Navbar>
       </div>
       <Container>
-      {isLoading ? <Spinner /> : <div>
-      <Row>
-          {role === "4" || role === "0" ? (
-            <Col>
-              <div className="add">
-                <Add
-                  onClick={() => {
-                    showHideModal(true);
-                  }}
-                />
-              </div>
-            </Col>
-          ) : (
-            <div></div>
-          )}
-        </Row>
-        <Row>
-          <div className="card-body">
-            <Row xs={1} md={3} className="g-4">
-              {sprintList?.map((sprint) => {
-                return (
-                  <Col key={sprint.id}>
-                    <Card
-                      style={{ width: "auto" }}
-                      className={
-                        sprint.planningSprint === true
-                          ? "planned"
-                          : sprint.startDate <= date
-                          ? "unplanned"
-                          : ""
-                      }
-                    >
-                      <Card.Body>
-                        <Card.Title>{sprint.name}</Card.Title>
-                        <Card.Text
-                          style={{
-                            width: "max content",
-                            height: "max content",
-                            border: "solid 1px black",
-                          }}
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div>
+            <Row>
+              {role === "4" || role === "0" ? (
+                <Col>
+                  <div className="add">
+                    <Add
+                      onClick={() => {
+                        showHideModal(true);
+                      }}
+                    />
+                  </div>
+                </Col>
+              ) : (
+                <div></div>
+              )}
+            </Row>
+            <Row>
+              <div className="card-body">
+                <Row xs={1} md={3} className="g-4">
+                  {sprintList?.map((sprint) => {
+                    return (
+                      <Col key={sprint.id}>
+                        <Card
+                          style={{ width: "auto" }}
+                          className={
+                            sprint.planningSprint === true
+                              ? "planned"
+                              : sprint.startDate <= date
+                              ? "unplanned"
+                              : ""
+                          }
                         >
-                          Sprint ID: {sprint.id}
-                          <br></br>
-                          Duration: {sprint.duration}
-                          <br></br>
-                        </Card.Text>
-                        {role === "0" || role === "4" ? (
-                          <div>
-                            <Edit
-                              className="custom-icon"
-                              onClick={() => editSprint(sprint)}
-                            />
-                            <Delete
-                              className="custom-icon"
-                              onClick={() => deleteSprint(sprint)}
-                            />
+                          <Card.Body>
+                            <Card.Title>{sprint.name}</Card.Title>
+                            <Card.Text
+                              style={{
+                                width: "max content",
+                                height: "max content",
+                                border: "solid 1px black",
+                              }}
+                            >
+                              Sprint ID: {sprint.id}
+                              <br></br>
+                              Duration: {sprint.duration}
+                              <br></br>
+                            </Card.Text>
+                            {role === "0" || role === "4" ? (
+                              <div>
+                                <Edit
+                                  className="custom-icon"
+                                  onClick={() => editSprint(sprint)}
+                                />
+                                <Delete
+                                  className="custom-icon"
+                                  onClick={() => deleteSprint(sprint)}
+                                />
 
-                            {sprint.planningSprint === true ? (
-                              <div className="card-button">
-                                <Button
-                                  variant="secondary"
-                                  onClick={() => navAddStory(sprint.id)}
-                                >
-                                  AddStory
-                                </Button>
-                                <Button
-                                  variant="secondary"
-                                  onClick={() => navViewStory(sprint.id)}
-                                >
-                                  ViewStory
-                                </Button>
+                                {sprint.planningSprint === true ? (
+                                  <div className="card-button">
+                                    <Button
+                                      variant="secondary"
+                                      onClick={() => navAddStory(sprint.id)}
+                                    >
+                                      AddStory
+                                    </Button>
+                                    <Button
+                                      variant="secondary"
+                                      onClick={() => navViewStory(sprint.id)}
+                                    >
+                                      ViewStory
+                                    </Button>
+                                  </div>
+                                ) : (
+                                  <></>
+                                )}
+                                {sprint.startDate >= date &&
+                                sprint.planningSprint === false ? (
+                                  <div className="card-button">
+                                    <Button
+                                      variant="secondary"
+                                      onClick={() => {
+                                        confirmAlert({
+                                          title: "Set as Planning Sprint",
+                                          message: "Are you sure to do this?",
+                                          buttons: [
+                                            {
+                                              label: "Yes",
+                                              onClick: () => {
+                                                handlePlan(sprint.id);
+                                              },
+                                            },
+                                            {
+                                              label: "No",
+                                            },
+                                          ],
+                                        });
+                                      }}
+                                    >
+                                      Set as Planning Sprint
+                                    </Button>
+                                  </div>
+                                ) : (
+                                  <></>
+                                )}
                               </div>
                             ) : (
                               <></>
                             )}
-                            {sprint.startDate >= date &&
-                            sprint.planningSprint === false ? (
-                              <div className="card-button">
-                                <Button
-                                  variant="secondary"
-                                  onClick={() => {
-                                    confirmAlert({
-                                      title: "Set as Planning Sprint",
-                                      message: "Are you sure to do this?",
-                                      buttons: [
-                                        {
-                                          label: "Yes",
-                                          onClick: () => {
-                                            handlePlan(sprint.id);
-                                          },
-                                        },
-                                        {
-                                          label: "No",
-                                        },
-                                      ],
-                                    });
-                                  }}
-                                >
-                                  Set as Planning Sprint
-                                </Button>
-                              </div>
-                            ) : (
-                              <></>
-                            )}
-                          </div>
-                        ) : (
-                          <></>
-                        )}
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                );
-              })}
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    );
+                  })}
+                </Row>
+              </div>
             </Row>
           </div>
-        </Row></div>}
-      
+        )}
       </Container>
 
       <div>
@@ -346,11 +350,7 @@ const SprintSettings = () => {
                   onChange={handleChange}
                 ></input>
                 <Form.Label>Project</Form.Label>
-                <input
-                  name="projectId"
-                  value={pName}
-                  disabled
-                ></input>
+                <input name="projectId" value={pName} disabled></input>
               </Form.Group>
             </Form>
           </Modal.Body>
