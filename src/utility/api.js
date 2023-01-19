@@ -10,36 +10,47 @@ const api = async (method, url, body) => {
   let newUrl = baseUrl + url;
 
   if (method === "get") {
+    
     const response = await axios.get(newUrl, headers);
+    console.log(response,"pack")
     return response.data;
   } else if (method === "post") {
+    try{
     const response = await axios.post(newUrl, body, headers);
     if (response.status === 200) {
       toast.success("Successful");
-    }
-    else if(response.status ===409){
+      return response.data;
+    }}
+     catch {
+     
       toast.error("failed ");
     }
-    return response.data;
+     
   } else if (method === "delete") {
+    try{
     const response = await axios.delete(newUrl, headers, body);
     if (response.status === 200) {
       toast.warning("Deleted");
-    }
-    else if(response.status ===409){
+        return response.data;
+    }}
+    catch {
       toast.error("Failed to delete")
     }
 
-    return response.data;
+   
   } else if (method === "patch") {
-    const response = await axios.patch(newUrl, body, headers);
-    if (response.status === 200) {
-      toast.success("Updated");
+    try{
+      const response = await axios.patch(newUrl, body, headers);
+      if (response.status === 200) {
+        toast.success("Updated");
+        return response.data;
     }
-    else if (response.status ===409){
+  
+    }
+    catch{
       toast.error("Failed to update")
     }
-    return response.data;
+    
   }
 };
 
