@@ -7,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import jwtDecode from "jwt-decode";
 import { Container, Row, Col, Button } from "react-bootstrap";
-
+import GadgEonLogo from "../custom-icons/GadgeonLogo";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -84,10 +84,11 @@ const Login = () => {
               </form>
             </Col>
             <Col>
+            <div className="logoo"><GadgEonLogo></GadgEonLogo></div>
               <div className="branding">
                 <ToastContainer />
-                <h1>GadgEon</h1>
-                <h3>Sprint planner</h3>
+               
+                <h1>Sprint planner</h1>
               </div>
             </Col>
           </Row>
