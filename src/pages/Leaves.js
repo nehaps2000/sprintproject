@@ -16,8 +16,9 @@ import Col from "react-bootstrap/Col";
 import Spinner from "../components/Spinner";
 
 const Leaves = () => {
-  const url = `/api/Leave/GetLeaves`;
-  const holidayUrl = `/api/Calendar/GetHoliday`;
+  let empId = localStorage.getItem("userId");
+  const url = `/api/Leave/Getleave/${empId}`;
+  const holidayUrl = `/api/Calendar/GetHoliday/`;
   const [leaveList, setLeaveList] = useState([]);
   const [holidayList, setHolidayList] = useState([]);
   const [leaveModal, setLeaveModal] = useState({ hours: 8 });
@@ -36,7 +37,6 @@ const Leaves = () => {
     };
     apiCall();
   }, [url]);
-  let empId = localStorage.getItem("userId");
   console.log(holidayList);
   const addOrEdit = (leaveModal) => {
     const addurl = `/api/Leave/AddLeave`;
@@ -170,33 +170,39 @@ const Leaves = () => {
                   <table class="table table-light">
                     <thead>
                       <tr>
-                        <th>EmployeeId</th>
                         <th>Leave Date</th>
                         <th>Hours</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {leaveList?.map((leave) => {
-                        return (
-                          <tr key={leave.employeeId}>
-                            <td> {leave.employeeId}</td>
-                            <td> {leave.leaveDate.toString().split("T")[0]}</td>
-                            <td>{leave.hours}</td>
+                      {leaveList.length > 0 ? (
+                        leaveList?.map((leave) => {
+                          return (
+                            <tr key={leave.employeeId}>
+                              <td>
+                                {leave.leaveDate.toString().split("T")[0]}
+                              </td>
+                              <td>{leave.hours}</td>
 
-                            <td>
-                              <div>
-                                <span>
-                                  <Edit onClick={() => editLeave(leave)} />
-                                </span>
-                                <span>
-                                  <Delete onClick={() => deleteLeave(leave)} />
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
+                              <td>
+                                <div>
+                                  <span>
+                                    <Edit onClick={() => editLeave(leave)} />
+                                  </span>
+                                  <span>
+                                    <Delete
+                                      onClick={() => deleteLeave(leave)}
+                                    />
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      ) : (
+                        <td>No records found</td>
+                      )}
                     </tbody>
                   </table>
                 </Col>

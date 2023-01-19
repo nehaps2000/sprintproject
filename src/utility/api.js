@@ -23,7 +23,7 @@ const api = async (method, url, body) => {
     }}
      catch {
      
-      toast.error("failed ");
+      toast.error("Failed ");
     }
      
   } else if (method === "delete") {

@@ -4,8 +4,6 @@
   display:flex;
   justify-content: center;
   align-items: center;
-
-
 }
 
 .btn-div {
@@ -14,12 +12,13 @@
 }
 
 .btn {
-width:fit-content;
+  width:fit-content;
   height: 50px;
   background-color: rgb(255, 255, 255);
   color: black;
   margin-right: 10px;
 }
+
 .btn-btn-primary{
   width:25%;
   margin-left:22px;
@@ -32,36 +31,30 @@ width:fit-content;
 
 .listed-leave{
   margin-right: 200px;
- float: right;
-margin-top:0%;
+  float: right;
+  margin-top:0%;
   width: 30vmax;
   border: 1px solid black;
   border-collapse: collapse;
   text-align: center;
-
 }
-
 
 .team{
   margin-right: 200px;
- float: right;
-margin-top:0%;
+  float: right;
+  margin-top:0%;
   width: 30vmax;
   border: 1px solid black;
   border-collapse: collapse;
   text-align: center;
-
 }
 
-  table {
-    border-width: 2px;
-    border-color: black;
-    border-style: solid;
-    border-radius: 10px;
-
-  }
-
-
+table {
+  border-width: 2px;
+  border-color: black;
+  border-style: solid;
+  border-radius: 10px;
+}
 
 th{
   border: 1px solid black;
@@ -82,11 +75,11 @@ tr{
 }
 
 .btn-round{
-text-align: center;
-margin-top: auto;
-color:brown;
-background-color: white;
-border:transparent;
+ text-align: center;
+ margin-top: auto;
+ color:brown;
+ background-color: white;
+ border:transparent;
 }
 
 .main {
@@ -96,22 +89,20 @@ border:transparent;
   margin-right:auto;
   height:50%; 
   width: 50%;
-
 }
 
 .bm-menu-wrap{
  position: absolute;
  top: 0;
  left: 0;
-
-
-
 }
+
 .bm-overlay{
   position: absolute;
   top: 0;
   left: 0;
 }
+
 .primary{
   background-color: #000000;
   text-align: center;
@@ -134,10 +125,10 @@ border:transparent;
   float: right;
   cursor: pointer;
 }
+
 .custom-icon{
   cursor: pointer;
 }
-
 
 .card-text{
   cursor: pointer;
@@ -280,7 +271,7 @@ h1{
 .bm-item {
   display: flex;
   padding-top: 20px;
-margin-left: 5vw;
+  margin-left: 5vw;
   /* Our sidebar item styling */
   text-decoration: none;
   margin-bottom: 10px;
@@ -300,15 +291,12 @@ margin-left: 5vw;
   left: 36px;
   top: 15px;
   color: rgb(240, 245, 248);
-  
 }
 
 .form-group-mt-3{
   padding-right: 5%;
   padding-left: 5%;
 }
-
-
 
 /* Color/shape of burger icon bars */
 .bm-burger-bars {
@@ -354,7 +342,6 @@ margin-left: 5vw;
   color:rgb(13, 11, 11);
  }
 
-
  .logout{
   margin: 10px 0;
   cursor:pointer;
@@ -364,7 +351,6 @@ margin-left: 5vw;
   display: flex;
   justify-content: end;
   align-items: center;
-  
  }
 
  .menu-item1{
@@ -405,10 +391,8 @@ margin-left: 5vw;
    border: #060606;
    padding: 15px;
    margin: 20px;
- 
    color: rgb(0, 0, 0);
    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-   
   }
   
  .option{
@@ -416,9 +400,9 @@ margin-left: 5vw;
  }
  
   .operations{
-    border-color: rgb(9, 9, 9);
-    border-width: 40px;
-    padding-bottom: 0px;
+  border-color: rgb(9, 9, 9);
+  border-width: 40px;
+  padding-bottom: 0px;
   margin-left: 300px;
  } 
 
@@ -442,8 +426,7 @@ margin-left: 5vw;
   margin-right: auto;
 }
 
-.accList
-{
+.accList{
   list-style-type: none;
   display: flex;
   flex-direction: row;
@@ -453,17 +436,19 @@ margin-left: 5vw;
 .d-grid-gap-2-mt-3{
   padding-left: 40%;
 }
-.form-control-mt-1{
-margin-left: 5%;
-margin-right: 5%;
-/* padding-left: 45%; */
-width:90%;
 
+.form-control-mt-1{
+ margin-left: 5%;
+ margin-right: 5%;
+ /* padding-left: 45%; */
+ width:90%;
 }
+
 .name{
   color:#fdfdfd;
   text-align: center;
 }
+
 .user{
   color: #ffffff;
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -479,7 +464,6 @@ width:90%;
 }
 
 .calendar {
-
   float:left;
   /* flex-direction: column; */
   gap: 20px;
@@ -489,9 +473,9 @@ width:90%;
 }
 
 .highlight-leave{
- 
   color: rgb(243, 3, 3) !important;
 }
+
 .highlight-holiday{
   background-color: red !important;
   color: white !important;
@@ -519,6 +503,7 @@ html {
 
 .planned{
   background-color: rgb(7, 207, 7);
+  color: green;
 }
 
 .unplanned{
@@ -635,5 +620,6 @@ th{
   100% { transform: rotate(360deg); }
 }
 
-
-
+.empty-table{
+  text-align: center;
+}

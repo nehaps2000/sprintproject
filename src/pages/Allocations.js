@@ -24,7 +24,7 @@ const Allocations = () => {
   const [teamList, setTeamList] = useState([]);
   const [allEmployees, setAllEmployees] = useState([]);
   const [allTeam, setAllTeam] = useState([]);
-  const [isLoading,setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   console.log(allocationModal);
 
   const hoursPerDay = useRef("");
@@ -36,7 +36,7 @@ const Allocations = () => {
       setAllocationList(response);
       setAllEmployees(response2);
       setAllTeam(response3);
-      setIsLoading(false)
+      setIsLoading(false);
       let temp = response2.map((currentValue) => {
         let tempRes = {
           value: currentValue.name.trim(),
@@ -61,7 +61,7 @@ const Allocations = () => {
   console.log("list", employeeList);
 
   let role = localStorage.getItem("role");
-let pName=localStorage.getItem("pName");
+  let pName = localStorage.getItem("pName");
   const addOrEdit = (allocationModal) => {
     if (!isEdit) {
       const addUrl = `/api/Allocation/AddAllocation`;
@@ -154,75 +154,87 @@ let pName=localStorage.getItem("pName");
 
   return (
     <Container>
-         <div>
-      {isLoading ? <Spinner /> : <div>  <Row>
-        {role === "4" || role === "0" ? (
-          <Col>
-            <div className="add">
-              <Add
-                onClick={() => {
-                  showHideModal(true);
-                }}
-              />
-            </div>
-          </Col>
+      <div>
+        {isLoading ? (
+          <Spinner />
         ) : (
-          <div></div>
-        )}
-      </Row>
-      <Row>
-      <table class="table table-light">
-          <thead>
-            <tr>
-              <th>SL NO</th>
-              <th>ProjectID</th>
-              <th>Name</th>
-              <th>EmployeeId</th>
-              <th>TeamId</th>
-              <th>TeamName</th>
-              <th>Hours</th>
-              {role === "0" || role === "4" ? <th>Actions</th> : <></>}
-            </tr>
-          </thead>
-          <tbody>
-            {allocationList?.map((allocation) => {
-              return (
-                <tr key={allocation.projectId}>
-                  <td>{allocation.id}</td>
-                  <td>{allocation.projectId}</td>
-                  <td> {allocation.name}</td>
-                  <td> {allocation.employeeId}</td>
-                  <td> {allocation.teamId}</td>
-                  <td> {allocation.teamName}</td>
-                  <td> {allocation.hoursPerDay}</td>
-                  {role === "0" || role === "4" ? (
-                    <td>
-                      <span>
-                        <Edit className="custom-icon"
-                          onClick={() => {
-                            editview(allocation);
-                          }}
-                        />
-                      </span>
-                      <span>
-                        <Delete className="delete"
-                          onClick={() => {
-                            deleteAllocation(allocation);
-                          }}
-                        />
-                      </span>
-                    </td>
+          <div>
+            {" "}
+            <Row>
+              {role === "4" || role === "0" ? (
+                <Col>
+                  <div className="add">
+                    <Add
+                      onClick={() => {
+                        showHideModal(true);
+                      }}
+                    />
+                  </div>
+                </Col>
+              ) : (
+                <div></div>
+              )}
+            </Row>
+            <Row>
+              <table class="table table-light">
+                <thead>
+                  <tr>
+                    <th>SL NO</th>
+                    <th>ProjectID</th>
+                    <th>Name</th>
+                    <th>EmployeeId</th>
+                    <th>TeamId</th>
+                    <th>TeamName</th>
+                    <th>Hours</th>
+                    {role === "0" || role === "4" ? <th>Actions</th> : <></>}
+                  </tr>
+                </thead>
+                <tbody>
+                  {allocationList.length > 0 ? (
+                    allocationList?.map((allocation) => {
+                      return (
+                        <tr key={allocation.projectId}>
+                          <td>{allocation.id}</td>
+                          <td>{allocation.projectId}</td>
+                          <td> {allocation.name}</td>
+                          <td> {allocation.employeeId}</td>
+                          <td> {allocation.teamId}</td>
+                          <td> {allocation.teamName}</td>
+                          <td> {allocation.hoursPerDay}</td>
+                          {role === "0" || role === "4" ? (
+                            <td>
+                              <span>
+                                <Edit
+                                  className="custom-icon"
+                                  onClick={() => {
+                                    editview(allocation);
+                                  }}
+                                />
+                              </span>
+                              <span>
+                                <Delete
+                                  className="delete"
+                                  onClick={() => {
+                                    deleteAllocation(allocation);
+                                  }}
+                                />
+                              </span>
+                            </td>
+                          ) : (
+                            <></>
+                          )}
+                        </tr>
+                      );
+                    })
                   ) : (
-                    <></>
+                    <tr className="empty-table">No records found</tr>
                   )}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </Row></div>}
-    </div>
-    
+                </tbody>
+              </table>
+            </Row>
+          </div>
+        )}
+      </div>
 
       <Modal show={show} onHide={() => showHideModal(false)}>
         <Modal.Header closeButton>
