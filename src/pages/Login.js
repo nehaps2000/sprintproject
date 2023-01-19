@@ -34,7 +34,7 @@ const Login = () => {
       localStorage.setItem("role", decoded.role);
       localStorage.setItem("username", decoded.Name);
       localStorage.setItem("userId", decoded.EmpId);
-      console.log(decoded.Id,"love")
+      console.log(decoded.Id, "love");
       Navigate("/project");
     } else {
       toast.error("wrong credentials !", {
@@ -86,6 +86,13 @@ const Login = () => {
             <Col>
               <div className="branding">
                 <ToastContainer />
+                <img 
+        // src={require('E:\sprintproject\src\pages\Gadgeon-logo.png')}
+        src="https://www.google.com/imgres?imgurl=https%3A%2F%2Fusercontent.one%2Fwp%2Fwww.gadgeon.eu%2Fwp-content%2Fuploads%2F2021%2F04%2Flogo.svg&imgrefurl=https%3A%2F%2Fwww.gadgeon.eu%2F&tbnid=za0BAQ2ZpE1keM&vet=12ahUKEwjW9ofGqNP8AhUsKbcAHX1yBBMQMygAegUIARCrAQ..i&docid=D14aGhRGkI6QjM&w=800&h=283&q=gadgeon%20logo&ved=2ahUKEwjW9ofGqNP8AhUsKbcAHX1yBBMQMygAegUIARCrAQ"
+        // width={200}
+        // height={200}
+        className="image-style"
+      />
                 <h1>GadgEon</h1>
                 <h3>Sprint planner</h3>
               </div>

@@ -120,45 +120,48 @@ const Team = () => {
             </Row>
             <Row>
               <table class="table table-light">
-                {" "}
                 <thead>
                   <tr>
                     <th>Name</th>
                     <th>ID</th>
-                    {role === "0" || role === "4" ? <th>Actions</th> : <></>}
+                    {role === "0" || role === "4" ? <th>Actions</th> : null}
                   </tr>
                 </thead>
                 <tbody>
-                  {teamList?.map((team) => {
-                    return (
-                      <tr key={team.projectId}>
-                        <td> {team.name}</td>
-                        <td> {team.projectId}</td>
-                        {role === "0" || role === "4" ? (
-                          <td>
-                            <span>
-                              <Edit
-                                className="custom-icon"
-                                onClick={() => {
-                                  editTeam(team);
-                                }}
-                              />
-                            </span>
-                            <span>
-                              <Delete
-                                className="custom-icon"
-                                onClick={() => {
-                                  deleteTeam(team);
-                                }}
-                              />
-                            </span>
-                          </td>
-                        ) : (
-                          <></>
-                        )}
-                      </tr>
-                    );
-                  })}
+                  {teamList.length > 0 ? (
+                    teamList?.map((team) => {
+                      return (
+                        <tr key={team.projectId}>
+                          <td> {team.name}</td>
+                          <td> {team.projectId}</td>
+                          {role === "0" || role === "4" ? (
+                            <td>
+                              <span>
+                                <Edit
+                                  className="custom-icon"
+                                  onClick={() => {
+                                    editTeam(team);
+                                  }}
+                                />
+                              </span>
+                              <span>
+                                <Delete
+                                  className="custom-icon"
+                                  onClick={() => {
+                                    deleteTeam(team);
+                                  }}
+                                />
+                              </span>
+                            </td>
+                          ) : (
+                            <></>
+                          )}
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <td>No records found</td>
+                  )}
                 </tbody>
               </table>
             </Row>
