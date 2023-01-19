@@ -39,8 +39,8 @@ const Leaves = () => {
   let empId = localStorage.getItem("userId");
   console.log(holidayList);
   const addOrEdit = (leaveModal) => {
-    console.log(leaveModal);
     const addurl = `/api/Leave/AddLeave`;
+    leaveModal.employeeId = empId;
     if (!isEdit) {
       const apiCall = async () => {
         let response = await api("post", addurl, leaveModal);
@@ -127,79 +127,83 @@ const Leaves = () => {
         <Navbar></Navbar>
       </div>
       <Container>
-      {isLoading ? <Spinner /> : <div><div className="wrapper">
-          <Row>
-            <Col>
-              <Calendar
-                onClickDay={handleDateChange}
-                tileClassName={({ date }) => {
-                  {
-                    let isLeave = false;
-                    leaveList?.forEach((l) => {
-                      if (Date.parse(l.leaveDate) === Date.parse(date))
-                        isLeave = true;
-                    });
-                    if (isLeave) {
-                      return "highlight";
-                    }
-
-                    let isHoliday = false;
-                    holidayList?.forEach((h) => {
-                      var cDate = h.date.split("-").reverse().join("-");
-                      cDate = new Date(cDate);
-                      if (Date.parse(cDate) == Date.parse(date)) {
-                        console.log("inside if");
-                        isHoliday = true;
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div>
+            <div className="wrapper">
+              <Row>
+                <Col>
+                  <Calendar
+                    onClickDay={handleDateChange}
+                    tileClassName={({ date }) => {
+                      let isLeave = false;
+                      leaveList?.forEach((l) => {
+                        if (Date.parse(l.leaveDate) === Date.parse(date))
+                          isLeave = true;
+                      });
+                      if (isLeave) {
+                        return "highlight-leave";
                       }
-                    });
-                    if (isHoliday) {
-                      return "highlight";
-                    }
-                  }
-                }}
-                tileDisabled={({ date }) =>
-                  date.getDay() === 0 || date.getDay() === 6
-                }
-              ></Calendar>
-            </Col>
-            <Col>
-              <table class="table table-light">
-                {" "}
-                <thead>
-                  <tr>
-                    <th>EmployeeId</th>
-                    <th>Leave Date</th>
-                    <th>Hours</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {leaveList?.map((leave) => {
-                    return (
-                      <tr key={leave.employeeId}>
-                        <td> {leave.employeeId}</td>
-                        <td> {leave.leaveDate.toString().split("T")[0]}</td>
-                        <td>{leave.hours}</td>
 
-                        <td>
-                          <div>
-                            <span>
-                              <Edit onClick={() => editLeave(leave)} />
-                            </span>
-                            <span>
-                              <Delete onClick={() => deleteLeave(leave)} />
-                            </span>
-                          </div>
-                        </td>
+                      let isHoliday = false;
+                      holidayList?.forEach((h) => {
+                        var cDate =
+                          h.date.split("-").reverse().join("-") + " 00:00:00";
+                        cDate = new Date(cDate);
+
+                        if (Date.parse(cDate) === Date.parse(date)) {
+                          console.log("inside if");
+                          isHoliday = true;
+                        }
+                      });
+                      if (isHoliday) {
+                        return "highlight-holiday";
+                      }
+                    }}
+                    tileDisabled={({ date }) =>
+                      date.getDay() === 0 || date.getDay() === 6
+                    }
+                  ></Calendar>
+                </Col>
+                <Col>
+                  <table class="table table-light">
+                    <thead>
+                      <tr>
+                        <th>EmployeeId</th>
+                        <th>Leave Date</th>
+                        <th>Hours</th>
+                        <th>Actions</th>
                       </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </Col>
-          </Row>
-        </div></div>}
-        
+                    </thead>
+                    <tbody>
+                      {leaveList?.map((leave) => {
+                        return (
+                          <tr key={leave.employeeId}>
+                            <td> {leave.employeeId}</td>
+                            <td> {leave.leaveDate.toString().split("T")[0]}</td>
+                            <td>{leave.hours}</td>
+
+                            <td>
+                              <div>
+                                <span>
+                                  <Edit onClick={() => editLeave(leave)} />
+                                </span>
+                                <span>
+                                  <Delete onClick={() => deleteLeave(leave)} />
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </Col>
+              </Row>
+            </div>
+          </div>
+        )}
       </Container>
 
       <Modal show={addLeaveModal} onHide={() => showHideModal(false)}>
@@ -214,6 +218,7 @@ const Leaves = () => {
                 name="employeeId"
                 value={empId}
                 onChange={handleChange}
+                disabled
               ></input>
               <Form.Label>Leave Date</Form.Label>
               <input

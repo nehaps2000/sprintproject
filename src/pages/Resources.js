@@ -11,25 +11,23 @@ import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "../components/Spinner";
 
-
 const Resource = () => {
   const params = useParams();
   console.log(params);
   const url = `/api/Resource/SearchResource/${params.Id}`;
-  const projecturl = "/api/Project/Projects";
   console.log(params.Id);
   const [resourceList, setResourceList] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [show, setShow] = useState(false);
   const [resourceModal, setResourceModal] = useState({});
   const [del, setDel] = useState(false);
- const [isLoading,setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     const apiCall = async () => {
       let response = await api("get", url);
       setResourceList(response);
-      setIsLoading(false)
+      setIsLoading(false);
     };
     apiCall();
   }, [url]);
@@ -129,83 +127,85 @@ const Resource = () => {
 
   return (
     <Container>
-        <div>
-      {isLoading ? <Spinner /> : (<div>
-      <Row>
-        {accessRole === "4" || accessRole === "0" ? (
-          <Col>
-            <div className="add">
-              <Add
-                onClick={() => {
-                  showHideModal(true);
-                }}
-              />
-            </div>
-          </Col>
+      <div>
+        {isLoading ? (
+          <Spinner />
         ) : (
-          <div></div>
-        )}
-      </Row>
-      <Row>
-        <table className="table table-light">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Employee ID</th>
-              <th>Email</th>
-              <th>Name</th>
-              <th>Role</th>
-              {accessRole === "0" || accessRole === "4" ? (
-                <th>Actions</th>
+          <div>
+            <Row>
+              {accessRole === "4" || accessRole === "0" ? (
+                <Col>
+                  <div className="add">
+                    <Add
+                      onClick={() => {
+                        showHideModal(true);
+                      }}
+                    />
+                  </div>
+                </Col>
               ) : (
-                <></>
+                <div></div>
               )}
-            </tr>
-          </thead>
-          <tbody>
-            {resourceList?.map((resources) => {
-              return (
-                
-                <tr key={resources.id}>
-                  <td>{resources.id}</td>
-                  <td>{resources.employeeId}</td>
-                  <td>{resources.email}</td>
-                  <td>{resources.name}</td>
-                  <td>{resources.role}</td>
+            </Row>
+            <Row>
+              <table className="table table-light">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Employee ID</th>
+                    <th>Email</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    {accessRole === "0" || accessRole === "4" ? (
+                      <th>Actions</th>
+                    ) : (
+                      <></>
+                    )}
+                  </tr>
+                </thead>
+                <tbody>
+                  {resourceList?.map((resources) => {
+                    return (
+                      <tr key={resources.id}>
+                        <td>{resources.id}</td>
+                        <td>{resources.employeeId}</td>
+                        <td>{resources.email}</td>
+                        <td>{resources.name}</td>
+                        <td>{resources.role}</td>
 
-                  {accessRole === "0" || accessRole === "4" ? (
-                    <td>
-                      <span>
-                        <Edit
-                          className="custom-icon"
-                          onClick={() => {
-                            editResource(resources);
-                          }}
-                        />
-                      </span>
-                      <span>
-                        <Delete
-                          className="custom-icon"
-                          onClick={() => {
-                            deleteResource(resources);
-                          }}
-                        />
-                      </span>
-                    </td>
-                  ) : (
-                    <></>
-                  )}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        </Row>
-        </div>)}
-    </div>
-      
-        <Row>
+                        {accessRole === "0" || accessRole === "4" ? (
+                          <td>
+                            <span>
+                              <Edit
+                                className="custom-icon"
+                                onClick={() => {
+                                  editResource(resources);
+                                }}
+                              />
+                            </span>
+                            <span>
+                              <Delete
+                                className="custom-icon"
+                                onClick={() => {
+                                  deleteResource(resources);
+                                }}
+                              />
+                            </span>
+                          </td>
+                        ) : (
+                          <></>
+                        )}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </Row>
+          </div>
+        )}
+      </div>
 
+      <Row>
         <Modal show={show} onHide={() => showHideModal(false)}>
           <Modal.Header closeButton>
             <Modal.Title>{isEdit ? "Edit" : "Add"} resources</Modal.Title>
