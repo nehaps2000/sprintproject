@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
+
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Calendar from "react-calendar";
@@ -14,19 +15,22 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Spinner from "../components/Spinner";
-
+import { useParams } from "react-router-dom";
 const Leaves = () => {
-  let empId = localStorage.getItem("userId");
-  const url = `/api/Leave/Getleave/${empId}`;
-  const holidayUrl = `/api/Calendar/GetHoliday/`;
+  const params = useParams();
+  const url = `/api/Leave/GetLeaves`;
+  const holidayUrl = `/api/Calendar/GetHoliday`;
+
   const [leaveList, setLeaveList] = useState([]);
   const [holidayList, setHolidayList] = useState([]);
   const [leaveModal, setLeaveModal] = useState({ hours: 8 });
   const [addLeaveModal, setAddLeaveModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [alert, setAlert] = useState(false);
+  const [sprintalert, setSprintAlert] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [sprintList, setSprintList] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
@@ -37,6 +41,8 @@ const Leaves = () => {
     };
     apiCall();
   }, [url]);
+  let role = localStorage.getItem("role");
+  let empId = localStorage.getItem("userId");
   console.log(holidayList);
   const addOrEdit = (leaveModal) => {
     const addurl = `/api/Leave/AddLeave`;
@@ -76,6 +82,20 @@ const Leaves = () => {
     setAlert(false);
     setLeaveModal({});
   };
+  const handleButtonClick = () => {
+    const sprinturl = `/api/Sprint/SearchSprint/${params.Id}`;
+    const apiCall = async () => {
+      const sprintres = await api("get", sprinturl);
+      setSprintList(sprintres);
+      console.log(sprintList, "jj");
+      //  console.log(sprintres.name,"lk")
+    };
+    apiCall();
+    setIsModalVisible(true);
+  };
+  const handleModalCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const deleteLeave = (currentLeave) => {
     setLeaveModal({ ...currentLeave });
@@ -83,6 +103,9 @@ const Leaves = () => {
   };
   const showConfirmModel = (status) => {
     setAlert(status);
+  };
+  const sprintConfirmModel = (status) => {
+    setIsModalVisible(status);
   };
   const editLeave = (currentLeave) => {
     setLeaveModal({ ...currentLeave });
@@ -165,44 +188,72 @@ const Leaves = () => {
                       date.getDay() === 0 || date.getDay() === 6
                     }
                   ></Calendar>
+
+                  <Col>
+                    <Row>
+                      <Button onClick={handleButtonClick}>
+                        Get all Sprint
+                      </Button>
+
+                      <Modal
+                        show={isModalVisible}
+                        onHide={() => sprintConfirmModel(false)}
+                      >
+                        <Modal.Header closeButton>
+                          <Modal.Title>Total Leaves</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <Form>Select Sprint
+                            <select> 
+                            {sprintList.map((sprint) => {
+                              return <option>{sprint.name}</option>;
+                            })}
+                            </select>
+                          </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button
+                            className="btn btn-dark"
+                            onClick={() => handleModalCancel(false)}
+                          >
+                            Cancel
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
+                    </Row>
+                  </Col>
                 </Col>
                 <Col>
                   <table class="table table-light">
                     <thead>
                       <tr>
+                        <th>EmployeeId</th>
                         <th>Leave Date</th>
                         <th>Hours</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {leaveList.length > 0 ? (
-                        leaveList?.map((leave) => {
-                          return (
-                            <tr key={leave.employeeId}>
-                              <td>
-                                {leave.leaveDate.toString().split("T")[0]}
-                              </td>
-                              <td>{leave.hours}</td>
+                      {leaveList?.map((leave) => {
+                        return (
+                          <tr key={leave.employeeId}>
+                            <td> {leave.employeeId}</td>
+                            <td> {leave.leaveDate.toString().split("T")[0]}</td>
+                            <td>{leave.hours}</td>
 
-                              <td>
-                                <div>
-                                  <span>
-                                    <Edit onClick={() => editLeave(leave)} />
-                                  </span>
-                                  <span>
-                                    <Delete
-                                      onClick={() => deleteLeave(leave)}
-                                    />
-                                  </span>
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })
-                      ) : (
-                        <td>No records found</td>
-                      )}
+                            <td>
+                              <div>
+                                <span>
+                                  <Edit onClick={() => editLeave(leave)} />
+                                </span>
+                                <span>
+                                  <Delete onClick={() => deleteLeave(leave)} />
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </Col>
