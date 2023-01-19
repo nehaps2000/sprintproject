@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import Edit from "../custom-icons/Edit";
 import Delete from "../custom-icons/Delete";
 import Add from "../custom-icons/Add";
-import Card from "react-bootstrap/Card";
+import { Backdrop, Card, Text } from "@nextui-org/react";
 import api from "../utility/api";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
@@ -16,6 +16,10 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "../components/Spinner";
+import Planning from "../custom-icons/Planning";
+import Unplanned from "../custom-icons/Unplanned";
+import Unavailable from "../custom-icons/Unavailable";
+
 const SprintSettings = () => {
   const params = useParams();
   const url = `/api/Sprint/SearchSprint/${params.Id}`;
@@ -219,7 +223,7 @@ const SprintSettings = () => {
                   {sprintList?.map((sprint) => {
                     return (
                       <Col key={sprint.id}>
-                        <Card
+                        {/* <Card
                           style={{ width: "auto" }}
                           className={
                             sprint.planningSprint === true
@@ -306,6 +310,92 @@ const SprintSettings = () => {
                               <></>
                             )}
                           </Card.Body>
+                        </Card> */}
+                        <Card css={{ mw: "430px" }}>
+                          <Card.Header>
+                            <Text b>{sprint.name}</Text>
+                            {sprint.planningSprint === true ? (
+                              <Planning></Planning>
+                            ) : sprint.startDate <= date?(
+                              <Unavailable/>
+                            ):(<Unplanned></Unplanned>)}
+                          </Card.Header>
+                          <Card.Divider />
+                          <Card.Body css={{ py: "$10" }}>
+                            <Text>
+                              Sprint ID: {sprint.id}
+                              <br></br>
+                              Duration: {sprint.duration}
+                              <br></br>
+                            </Text>
+                          </Card.Body>
+                          <Card.Divider />
+                          <Card.Footer>
+                            <Row justify="flex-end">
+                              {role === "0" || role === "4" ? (
+                                <div>
+                                  <Edit
+                                    className="custom-icon"
+                                    onClick={() => editSprint(sprint)}
+                                  />
+                                  <Delete
+                                    className="custom-icon"
+                                    onClick={() => deleteSprint(sprint)}
+                                  />
+
+                                  {sprint.planningSprint === true ? (
+                                    <div className="card-button">
+                                      <Button
+                                        variant="secondary"
+                                        onClick={() => navAddStory(sprint.id)}
+                                      >
+                                        AddStory
+                                      </Button>
+                                      <Button
+                                        variant="secondary"
+                                        onClick={() => navViewStory(sprint.id)}
+                                      >
+                                        ViewStory
+                                      </Button>
+                                    </div>
+                                  ) : (
+                                    <></>
+                                  )}
+                                  {sprint.startDate >= date &&
+                                  sprint.planningSprint === false ? (
+                                    <div className="card-button">
+                                      <Button
+                                        variant="secondary"
+                                        onClick={() => {
+                                          confirmAlert({
+                                            title: "Set as Planning Sprint",
+                                            message: "Are you sure to do this?",
+                                            buttons: [
+                                              {
+                                                label: "Yes",
+                                                onClick: () => {
+                                                  handlePlan(sprint.id);
+                                                },
+                                              },
+                                              {
+                                                label: "No",
+                                              },
+                                            ],
+                                          });
+                                        }}
+                                      >
+                                        Set as Planning Sprint
+                                      </Button>
+                                    </div>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </div>
+                              ) : (
+                                <></>
+                              )}
+                            </Row>
+                          </Card.Footer>
                         </Card>
                       </Col>
                     );

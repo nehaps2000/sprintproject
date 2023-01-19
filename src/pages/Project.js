@@ -6,12 +6,13 @@ import { useState, useEffect } from "react";
 import Edit from "../custom-icons/Edit";
 import Delete from "../custom-icons/Delete";
 import Add from "../custom-icons/Add";
-import Card from "react-bootstrap/Card";
+import { Card,Text } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import api from "../utility/api";
 import "react-accessible-accordion/dist/fancy-example.css";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "../components/Spinner";
+
 const Project = () => {
   const url = "/api/Project/Projects";
   const [projectList, setProjectList] = useState([]);
@@ -132,7 +133,7 @@ const Project = () => {
               {projectList?.map((project) => {
                 return (
                   <Col key={project.id}>
-                    <Card style={{ width: "auto" }}>
+                    {/* <Card style={{ width: "auto" }}>
                       <Card.Body>
                         <Card.Title>{project.name}</Card.Title>
                         <Card.Text
@@ -162,6 +163,36 @@ const Project = () => {
                           <></>
                         )}
                       </Card.Body>
+                    </Card> */}
+                    <Card css={{ mw: "430px" }}>
+                      <Card.Header>
+                        <Text b>{project.name}</Text>
+                      </Card.Header>
+                      <Card.Divider />
+                      <Card.Body css={{ py: "$10" }}  onClick={() => projectOpen(project.id, project.name)} className="custom-icon">
+                        <Text>
+                        Project ID: {project.id}
+                        </Text>
+                      </Card.Body>
+                      <Card.Divider />
+                      <Card.Footer>
+                        <Row justify="flex-end">
+                        {role === "0" || role === "4" ? (
+                          <div>
+                            <Edit
+                              className="custom-icon"
+                              onClick={() => editProject(project)}
+                            />
+                            <Delete
+                              className="custom-icon"
+                              onClick={() => deleteProject(project)}
+                            />
+                          </div>
+                        ) : (
+                          <></>
+                        )}
+                        </Row>
+                      </Card.Footer>
                     </Card>
                   </Col>
                 );

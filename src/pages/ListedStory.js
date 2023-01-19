@@ -55,9 +55,7 @@ const ListedStory = () => {
                       );
                     })
                   ) : (
-                    <tr>
-                      <h5>No records found</h5>
-                    </tr>
+                    <td>No records found</td>
                   )}
                 </tbody>
               </table>

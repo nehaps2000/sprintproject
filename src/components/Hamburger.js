@@ -44,7 +44,8 @@ const Hamburger = () => {
             to={`/${projectId}/Sprint/SearchSprint`}
             className={`ham-link ${
               activeLink === `/${projectId}/Sprint/SearchSprint` ||
-              activeLink === `/${projectId}/Story/SearchStory/${sprintId}`
+              activeLink === `/${projectId}/Story/SearchStory/${sprintId}` ||
+              activeLink === `/${sprintId}/ListedStory`
                 ? "active"
                 : ""
             }`}

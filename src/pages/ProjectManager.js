@@ -7,17 +7,19 @@ import api from "../utility/api";
 import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "../components/Spinner";
+import { Card,Grid,Text } from "@nextui-org/react";
+
 const ProjectManager = () => {
   const url = `/api/Resource/GetScrumMasters`;
   const [managerList, setManagerList] = useState([]);
   const [show, setShow] = useState(false);
   const [managerModal, setManagerModal] = useState({});
-const[isLoading,setIsLoading]=useState(true)
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
       setManagerList(response);
-      setIsLoading(false)
+      setIsLoading(false);
     };
     apiCall();
   }, [url]);
@@ -52,40 +54,50 @@ const[isLoading,setIsLoading]=useState(true)
   return (
     <>
       <Container>
-      {isLoading ? <Spinner /> : <div>
-      <Row>
-          <Col>
-            <div className="add">
-              <Add
-                onClick={() => {
-                  showHideModal(true);
-                }}
-              />
-            </div>
-          </Col>
-        </Row>
-        <Row>
-        <table class="table table-light"><thead>
-              <tr>
-                <th>Employee ID</th>
-                <th>Email</th>
-                <th>Name</th>
-              </tr>
-            </thead>
-            <tbody>
-              {managerList?.map((manager) => {
-                return (
-                  <tr key={manager.projectId}>
-                    <td>{manager.employeeId}</td>
-                    <td>{manager.email}</td>
-                    <td>{manager.name}</td>
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div>
+            <Row>
+              <Col>
+                <div className="add">
+                  <Add
+                    onClick={() => {
+                      showHideModal(true);
+                    }}
+                  />
+                </div>
+              </Col>
+            </Row>
+            <Row>
+              <table class="table table-light">
+                <thead>
+                  <tr>
+                    <th>Employee ID</th>
+                    <th>Email</th>
+                    <th>Name</th>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </Row></div>}
-       
+                </thead>
+                <tbody>
+                  {managerList.length > 0 ? (
+                    managerList?.map((manager) => {
+                      return (
+                        <tr key={manager.projectId}>
+                          <td>{manager.employeeId}</td>
+                          <td>{manager.email}</td>
+                          <td>{manager.name}</td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <td>No records found</td>
+                  )}
+                  {}
+                </tbody>
+              </table>
+            </Row>
+          </div>
+        )}
       </Container>
 
       <Modal show={show} onHide={() => showHideModal(false)}>

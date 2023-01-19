@@ -164,40 +164,44 @@ const Resource = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {resourceList?.map((resources) => {
-                    return (
-                      <tr key={resources.id}>
-                        <td>{resources.id}</td>
-                        <td>{resources.employeeId}</td>
-                        <td>{resources.email}</td>
-                        <td>{resources.name}</td>
-                        <td>{resources.role}</td>
+                  {resourceList.length > 0 ? (
+                    resourceList?.map((resources) => {
+                      return (
+                        <tr key={resources.id}>
+                          <td>{resources.id}</td>
+                          <td>{resources.employeeId}</td>
+                          <td>{resources.email}</td>
+                          <td>{resources.name}</td>
+                          <td>{resources.role}</td>
 
-                        {accessRole === "0" || accessRole === "4" ? (
-                          <td>
-                            <span>
-                              <Edit
-                                className="custom-icon"
-                                onClick={() => {
-                                  editResource(resources);
-                                }}
-                              />
-                            </span>
-                            <span>
-                              <Delete
-                                className="custom-icon"
-                                onClick={() => {
-                                  deleteResource(resources);
-                                }}
-                              />
-                            </span>
-                          </td>
-                        ) : (
-                          <></>
-                        )}
-                      </tr>
-                    );
-                  })}
+                          {accessRole === "0" || accessRole === "4" ? (
+                            <td>
+                              <span>
+                                <Edit
+                                  className="custom-icon"
+                                  onClick={() => {
+                                    editResource(resources);
+                                  }}
+                                />
+                              </span>
+                              <span>
+                                <Delete
+                                  className="custom-icon"
+                                  onClick={() => {
+                                    deleteResource(resources);
+                                  }}
+                                />
+                              </span>
+                            </td>
+                          ) : (
+                            <></>
+                          )}
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <td>No records found</td>
+                  )}
                 </tbody>
               </table>
             </Row>
