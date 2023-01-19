@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Logout from "../custom-icons/Logout";
 import Hamburger from "./Hamburger";
-import { Col, Row } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 
 const Navbar = () => {
   const params = useParams();
@@ -20,7 +20,7 @@ const Navbar = () => {
   }, [username]);
   const logout = (e) => {
     console.log("Logout");
-    const confirm = alert("are you sure you want to logout?");
+    alert("are you sure you want to logout?");
     localStorage.clear();
     Navigate("/");
   };
@@ -38,21 +38,20 @@ const Navbar = () => {
               <h1>{projectName}</h1>
             </div>
           </div>
-          
-            <div className="gap10 flex">
-              <span className="username">
-                <h4>{username}</h4>
-              </span>
-              <span className="logout">
-                <Logout
-                  onClick={() => {
-                    logout();
-                  }}
-                />
-              </span>
-            </div>
+
+          <div className="gap10 flex">
+            <span className="username">
+              <h4>{username}</h4>
+            </span>
+            <span className="logout">
+              <Logout
+                onClick={() => {
+                  logout();
+                }}
+              />
+            </span>
           </div>
-       
+        </div>
       ) : (
         <div className="header">
           <div>

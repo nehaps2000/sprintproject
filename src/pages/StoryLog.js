@@ -41,7 +41,6 @@ const StoryLog = () => {
   };
 
   let role = localStorage.getItem("role");
-  let sprint = localStorage.getItem("sprintId");
   let pName = localStorage.getItem("pName")
   const addOrEdit = async (storyModal) => {
     storyModal.projectId = params.Id;
