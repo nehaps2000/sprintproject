@@ -623,3 +623,25 @@ th{
 .empty-table{
   text-align: center;
 }
+
+.status{
+  margin-left: 300px;
+}
+
+.sprint-name{
+  margin-left: 10px;
+}
+
+.branding{
+  text-align: center;
+  justify-content: center;
+  align-items:center;
+  margin: 15px 170px 10px 10px;
+  color: #180065;
+ 
+}
+.logoo{
+  height: 100px;
+  width: 450px;
+margin-right: 210px;
+ }

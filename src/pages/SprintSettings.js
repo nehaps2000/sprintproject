@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import Edit from "../custom-icons/Edit";
 import Delete from "../custom-icons/Delete";
 import Add from "../custom-icons/Add";
-import { Backdrop, Card, Text } from "@nextui-org/react";
+import { Card, Text } from "@nextui-org/react";
 import api from "../utility/api";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
@@ -312,14 +312,22 @@ const SprintSettings = () => {
                           </Card.Body>
                         </Card> */}
                         <Card css={{ mw: "430px" }}>
-                          <Card.Header>
-                            <Text b>{sprint.name}</Text>
-                            {sprint.planningSprint === true ? (
-                              <Planning></Planning>
-                            ) : sprint.startDate <= date?(
-                              <Unavailable/>
-                            ):(<Unplanned></Unplanned>)}
-                          </Card.Header>
+                          <Row>
+                            <Card.Header>
+                              <Col className="sprint-name">
+                                <Text b>{sprint.name}</Text>
+                              </Col>
+                              <Col className="status">
+                              {sprint.planningSprint === true ? (
+                                <Planning></Planning>
+                              ) : sprint.startDate <= date ? (
+                                <Unavailable />
+                              ) : (
+                                <Unplanned></Unplanned>
+                              )}
+                              </Col>
+                            </Card.Header>
+                          </Row>
                           <Card.Divider />
                           <Card.Body css={{ py: "$10" }}>
                             <Text>

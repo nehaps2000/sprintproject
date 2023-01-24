@@ -24,14 +24,14 @@ const Holiday = () => {
     list: {},
     keys: [],
   });
-  const[isLoading,setIsLoading]=useState(true)
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
       setHolidayList(response);
       holidayGrouping(holidayList);
-      setIsLoading(false)
+      setIsLoading(false);
     };
     apiCall();
   }, [url, holidayList]);
@@ -87,48 +87,51 @@ const Holiday = () => {
   return (
     <>
       <Container>
-      {isLoading ? <Spinner /> : <div>
-      <Row>
-          {localStorage.getItem("role") === "4" ? (
-            <Col>
-              <div className="add">
-                <Add
-                  onClick={() => {
-                    showHolidayModal(true);
-                  }}
-                />
-              </div>
-            </Col>
-          ) : (
-            <div></div>
-          )}
-        </Row>
-        <Row>
-            <Accordion allowMultipleExpanded={true} allowZeroExpanded={true}>
-              {holidaySet.keys.map((key) => {
-                return (
-                  <AccordionItem>
-                    <AccordionItemHeading>
-                      <AccordionItemButton>{key}</AccordionItemButton>
-                    </AccordionItemHeading>
-                    <AccordionItemPanel>
-                      <ul>
-                        {holidaySet.list[`${key}`].map((data) => {
-                          return (
-                            <li className="accList" key={Math.random()}>
-                              <b>{data.name}</b> <i>{data.date}</i>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </AccordionItemPanel>
-                  </AccordionItem>
-                );
-              })}
-            </Accordion>
-          
-        </Row></div>}
-       
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div>
+            <Row>
+              {localStorage.getItem("role") === "4" ? (
+                <Col>
+                  <div className="add">
+                    <Add
+                      onClick={() => {
+                        showHolidayModal(true);
+                      }}
+                    />
+                  </div>
+                </Col>
+              ) : (
+                <div></div>
+              )}
+            </Row>
+            <Row>
+              <Accordion allowMultipleExpanded={true} allowZeroExpanded={true}>
+                {holidaySet.keys.map((key) => {
+                  return (
+                    <AccordionItem>
+                      <AccordionItemHeading>
+                        <AccordionItemButton>{key}</AccordionItemButton>
+                      </AccordionItemHeading>
+                      <AccordionItemPanel>
+                        <ul>
+                          {holidaySet.list[`${key}`].map((data) => {
+                            return (
+                              <li className="accList" key={Math.random()}>
+                                <b>{data.name}</b> <i>{data.date}</i>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </AccordionItemPanel>
+                    </AccordionItem>
+                  );
+                })}
+              </Accordion>
+            </Row>
+          </div>
+        )}
       </Container>
 
       <Modal show={addHolidayModal} onHide={() => showHolidayModal(false)}>
