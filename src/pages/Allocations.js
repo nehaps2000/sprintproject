@@ -58,7 +58,6 @@ const Allocations = () => {
     };
     apiCall();
   }, [url]);
-  console.log("list", employeeList);
 
   let role = localStorage.getItem("role");
   let pName = localStorage.getItem("pName");
@@ -147,9 +146,6 @@ const Allocations = () => {
       [name]: value,
       employeeId: allEmployees.find((e) => e.name.trim() === value)?.employeeId,
     }));
-
-    console.log(allEmployees, "hai");
-    console.log(allTeam, "helloo");
   };
 
   return (
