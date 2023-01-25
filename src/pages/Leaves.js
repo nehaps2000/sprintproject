@@ -16,12 +16,14 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Spinner from "../components/Spinner";
 import { useParams } from "react-router-dom";
+import { holidayUrl } from "../utility/constants";
+import { Totalurl } from "../utility/constants";
+
 const Leaves = () => {
   const params = useParams();
   let empId = localStorage.getItem("userId");
   const url = `/api/Leave/GetLeave/${empId}`;
-  const holidayUrl = `/api/Calendar/GetHoliday`;
-  const Totalurl = `/api/Leave/GetLeaves`;
+  const sprintUrl = `/api/Sprint/SearchSprint/${params.Id}`;
   const [leaveList, setLeaveList] = useState([]);
   const [holidayList, setHolidayList] = useState([]);
   const [leaveModal, setLeaveModal] = useState({ hours: 8 });
@@ -31,7 +33,6 @@ const Leaves = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [sprintList, setSprintList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  // const [selectedSprint, setSelectedSprint] = useState("");
   const [sumList, setSumList] = useState();
   const [totalLeaves, setTotalLeaves] = useState({});
   const [nameList, setNameList] = useState([]);
@@ -43,23 +44,18 @@ const Leaves = () => {
       setIsLoading(false);
       let holRes = await api("get", holidayUrl);
       setHolidayList(holRes);
-      // let leaveRes=await api("get",Totalurl)
-      // setTotalLeaves(leaveRes);
+      const sprintRes = await api("get", sprintUrl);
+      setSprintList(sprintRes);
     };
     apiCall();
-  }, [url]);
+  }, []);
 
   const apiCall1 = async () => {
-    let leaveRes = await api("get", Totalurl);
-
+    let leaveRes = await api("get", TotalUrl);
     setTotalLeaves(leaveRes);
-
     console.log(leaveRes, "total Leave");
   };
-  // console.log(totalLeaves,"total leaves")
   let role = localStorage.getItem("role");
-
-  // console.log(holidayList);
   const addOrEdit = (leaveModal) => {
     const addurl = `/api/Leave/AddLeave`;
     console.log("hello my dear");
@@ -80,17 +76,6 @@ const Leaves = () => {
         let response = await api("patch", updateurl, leaveModal);
         response = await api("get", url);
         console.log(response, "hello my dear2");
-        // let responseObj=[]
-        // response.forEach( (data) =>{
-        //   if(!data.employeeId in responseObj){
-        //     responseObj.push(data)
-        //   }
-        //   else{
-        //     response
-        //   }
-        // })
-
-        // })
         setLeaveList(response);
       };
       apiCall();
@@ -113,15 +98,6 @@ const Leaves = () => {
     setLeaveModal({});
   };
   const handleButtonClick = () => {
-    const sprinturl = `/api/Sprint/SearchSprint/${params.Id}`;
-    const apiCall = async () => {
-      const sprintres = await api("get", sprinturl);
-      setSprintList(sprintres);
-      // console.log(sprintList, "sprintList");
-      // console.log(sprintres, "sprintres");
-      //  console.log(sprintres.name,"lk")
-    };
-    apiCall();
     apiCall1();
     setIsModalVisible(true);
   };
@@ -133,9 +109,11 @@ const Leaves = () => {
     setLeaveModal({ ...currentLeave });
     showConfirmModel(true);
   };
+
   const showConfirmModel = (status) => {
     setAlert(status);
   };
+
   const sprintConfirmModel = (status) => {
     setIsModalVisible(status);
   };
@@ -175,87 +153,39 @@ const Leaves = () => {
     });
     addLeave();
   };
-  // const handleSprintSelection=(e)=>{
-  //   const selectedSprint =e.target.value;
-  //    const sprintLeaves= totalLeaves.reduce((acc,leave))
-  //    if(leave.sprint===selectedSprint){
-  //     acc+=leave.hours;
-  //    }
-  //    return acc;
-  // }
+
+  const defaultSprint = () => {
+    console.log("button clicked");
+    sprintList.forEach((sprint) => {
+      if (sprint.planningSprint) {
+        console.log(sprint);
+        displayTotalLeaves(sprint);
+      }
+    });
+  };
+
   const displayTotalLeaves = (e) => {
+    console.log("inside leave calculation");
     setNameList(() => []);
     setHoursList(() => []);
     setSumList(() => []);
-    const data = sprintList.find((sprint) => sprint.name === e.target.value)?.name;
+    const data = sprintList.find(
+      (sprint) => sprint.name === e.target.value
+    )?.name;
     let getdata = data;
-    const startDate = sprintList.find((sprint) => sprint.name === getdata)?.startDate.toString().split("T")[0];
-    const endDate = sprintList.find((sprint) => sprint.name === getdata)?.endDate.toString().split("T")[0];
+    const startDate = sprintList
+      .find((sprint) => sprint.name === getdata)
+      ?.startDate.toString()
+      .split("T")[0];
+    const endDate = sprintList
+      .find((sprint) => sprint.name === getdata)
+      ?.endDate.toString()
+      .split("T")[0];
     console.log("startDate", startDate);
     console.log("endDate", endDate);
     const sprintName = getdata;
     console.log("sprint name", sprintName);
     let sum = 0;
-    // totalLeaves.map((item) => {
-    //   const leaveDate = item.leaveDate.toString().split("T")[0];
-    //   const flag = leaveDate > startDate && leaveDate < endDate;
-    //   console.log(totalLeaves, "avc");
-    //   if (flag === true) {
-    //     console.log("name", item.name);
-    //     console.log("hours", item.hours);
-    //     console.log("empId", item.employeeId);
-    //     // setNameList(item.name);
-    //     const EmpName = [{ name: item.name, hours: item.hours }];
-    //     EmpName.forEach((item) => {
-    //       let EmpHours = (item.hours)/8;
-    //       setNameList((prevNames) => [...prevNames, item.name]);
-
-    //       setHoursList((prevHours) => [...prevHours, EmpHours]);
-    //       // setNameList[]
-    //     });
-    //     console.log("EmpName", EmpName);
-    //     // console.log("namek", nameList);
-    //     // setHoursList(item.hours);
-
-    //     if (item.hours === 4) sum = sum + 0.5;
-    //     else if (item.hours === 8) sum = sum + 1;
-    //     setSumList(sum);
-    //   }
-    // });
-    // let employeeData = {};
-    // totalLeaves.map((item) => {
-    //   const leaveDate = item.leaveDate.toString().split("T")[0];
-    //   const flag = leaveDate > startDate && leaveDate < endDate;
-    //   console.log(totalLeaves, "avc");
-    //   if (flag === true) {
-    //     console.log("name", item.name);
-    //     console.log("hours", item.hours);
-    //     console.log("empId", item.employeeId);
-
-    //     let EmpName = item.name;
-    //     let EmpHours = item.hours / 8;
-    //     let EmpId = item.employeeId;
-    //      let index = nameList.indexOf((name) => name.emplyId === EmpId);
-
-    //     console.log(nameList, "index");
-    //     if (index === -1) {
-    //       setNameList((prevNames) => [...prevNames, EmpName]);
-    //       setHoursList((prevHours) => [...prevHours, EmpHours]);
-    //     } else {
-    //       setHoursList((prevHours) => {
-    //         let newHoursList = [...prevHours];
-    //         newHoursList[index] += EmpHours;
-    //         return newHoursList;
-    //       });
-    //     }
-
-    //     if (item.hours === 4) sum = sum + 0.5;
-    //     else if (item.hours === 8) sum = sum + 1;
-    //   }
-    // });
-    // setSumList(sum);
-
-    // console.log("sum", sum);
     let employeeData = {};
 
     totalLeaves.map((item) => {
@@ -319,7 +249,6 @@ const Leaves = () => {
                         cDate = new Date(cDate);
 
                         if (Date.parse(cDate) === Date.parse(date)) {
-                          // console.log("inside if");
                           isHoliday = true;
                         }
                       });
@@ -331,18 +260,24 @@ const Leaves = () => {
                       date.getDay() === 0 || date.getDay() === 6
                     }
                   ></Calendar>
-
-                  <Col>
-                    <Row>
-                      {role === "0" ? (
-                        <Button onClick={handleButtonClick}>
-                          Get all Sprint
-                        </Button>
-                      ) : (
-                        <></>
-                      )}
-                    </Row>
-                  </Col>
+                  <div className="m8">
+                    <Col>
+                      <Row>
+                        {role === "0" ? (
+                          <Button variant="secondary"
+                            onClick={() => {
+                              handleButtonClick();
+                              defaultSprint();
+                            }}
+                          >
+                            Get all Sprint
+                          </Button>
+                        ) : (
+                          <></>
+                        )}
+                      </Row>
+                    </Col>
+                  </div>
                 </Col>
                 <Col>
                   <table class="table table-light">
@@ -478,40 +413,44 @@ const Leaves = () => {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            {/* <select onChange={e=>setSelectedSprint(e.target.value)}>
-          
-              {sprintList.map((sprint) => {
-                return <option key={sprint.id} value={sprint.name}>{sprint.name}</option>;
-              })}
-            </select> */}
             <div>
-              <select onChange={(e) => displayTotalLeaves(e)}>
-                <option>select sprint</option>
-
-                {sprintList.map((sprint) => (
-                  <option key={sprint.id} value={sprint.name}>
-                    {sprint.name}
-                  </option>
-                ))}
+              <select onChange={(e) => displayTotalLeaves(e)} className="sprint_select">
+                {sprintList.map((sprint) =>
+                  sprint.planningSprint === true ? (
+                    <>
+                      <option selected>{sprint.name}</option>{" "}
+                    </>
+                  ) : (
+                    <>
+                      <option key={sprint.id} value={sprint.name}>
+                        {sprint.name}
+                      </option>
+                    </>
+                  )
+                )}
               </select>
-              <table>
+              <table className="table table-light">
                 <tr>
                   <th>Name</th>
-                  <th>Hours</th>
+                  <th>Days</th>
                 </tr>
 
-                {nameList.map((name, index) => (
+                {nameList.length>0?(
+                nameList.map((name, index) => (
                   <tr key={index}>
                     <td>{name}</td>
                     <td>{hoursList[index]} day</td>
                   </tr>
-                ))}
-
-                {/* <td>{EmpHours}</td> */}
+                ))):(
+                  <td>No leave Found</td>
+                )}
               </table>
 
               {sumList !== null ? (
-                <p>Total leaves for selected sprint: {sumList}</p>
+                <p>
+                  Total leaves for selected sprint: {sumList} day
+                  {sumList > 1 ? "s" : ""}
+                </p>
               ) : (
                 <p>Select a sprint to see total leaves</p>
               )}
