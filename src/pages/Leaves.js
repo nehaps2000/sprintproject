@@ -51,7 +51,7 @@ const Leaves = () => {
   }, []);
 
   const apiCall1 = async () => {
-    let leaveRes = await api("get", TotalUrl);
+    let leaveRes = await api("get", Totalurl);
     setTotalLeaves(leaveRes);
     console.log(leaveRes, "total Leave");
   };
@@ -270,7 +270,7 @@ const Leaves = () => {
                               defaultSprint();
                             }}
                           >
-                            Get all Sprint
+                            Sprint wise leaves
                           </Button>
                         ) : (
                           <></>
