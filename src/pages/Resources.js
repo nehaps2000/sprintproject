@@ -125,6 +125,7 @@ const Resource = () => {
     },
   };
 
+
   return (
     <Container>
       <div>
@@ -172,7 +173,7 @@ const Resource = () => {
                           <td>{resources.employeeId}</td>
                           <td>{resources.email}</td>
                           <td>{resources.name}</td>
-                          <td>{resources.role}</td>
+                          <td>{options[resources.role].name}</td>
 
                           {accessRole === "0" || accessRole === "4" ? (
                             <td>
@@ -258,6 +259,7 @@ const Resource = () => {
                       {options[key].name}
                     </option>
                   ))}
+               
                 </select>
                 <br></br>
               </Form.Group>
