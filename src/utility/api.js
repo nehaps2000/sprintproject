@@ -6,13 +6,11 @@ const headers = { headers: { authorization: `Bearer ${token}` } };
 let baseUrl = "http://192.168.20.124";
 
 const api = async (method, url, body) => {
-  console.log(headers);
   let newUrl = baseUrl + url;
 
   if (method === "get") {
     
     const response = await axios.get(newUrl, headers);
-    console.log(response,"pack")
     return response.data;
   } else if (method === "post") {
     try{

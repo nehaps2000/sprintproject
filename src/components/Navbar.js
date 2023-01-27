@@ -6,7 +6,6 @@ import { Row } from "react-bootstrap";
 
 const Navbar = () => {
   const params = useParams();
-  console.log(params);
   const [username, setUserName] = useState("");
   const [projectName, setProjectName] = useState("");
   const Navigate = useNavigate();
@@ -19,7 +18,6 @@ const Navbar = () => {
     setUserName(localStorage.getItem("username"));
   }, [username]);
   const logout = (e) => {
-    console.log("Logout");
     alert("are you sure you want to logout?");
     localStorage.clear();
     Navigate("/");
