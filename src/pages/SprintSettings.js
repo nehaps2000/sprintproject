@@ -341,8 +341,8 @@ const SprintSettings = () => {
                           <Card.Footer>
                             <Row justify="flex-end">
                               {role === "0" || role === "4" ? (
-                                <div>
-                                  <Edit
+                              <div style={{display: "flex"}}> <Col>
+                               <Edit
                                     className="custom-icon"
                                     onClick={() => editSprint(sprint)}
                                   />
@@ -350,8 +350,10 @@ const SprintSettings = () => {
                                     className="custom-icon"
                                     onClick={() => deleteSprint(sprint)}
                                   />
-
-                                  {sprint.planningSprint === true ? (
+                              </Col> 
+                               <div className="Vadd">
+                                
+                               {sprint.planningSprint === true ? (
                                     <div className="card-button">
                                       <Button
                                         variant="secondary"
@@ -369,6 +371,9 @@ const SprintSettings = () => {
                                   ) : (
                                     <></>
                                   )}
+                                
+                                </div>  
+
                                   {sprint.startDate >= date &&
                                   sprint.planningSprint === false ? (
                                     <div className="card-button">
