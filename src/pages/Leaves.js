@@ -51,7 +51,7 @@ const Leaves = () => {
   }, []);
 
   const apiCall1 = async () => {
-    let leaveRes = await api("get", TotalUrl);
+    let leaveRes = await api("get", Totalurl);
     setTotalLeaves(leaveRes);
     console.log(leaveRes, "total Leave");
   };
@@ -158,14 +158,15 @@ const Leaves = () => {
     console.log("button clicked");
     sprintList.forEach((sprint) => {
       if (sprint.planningSprint) {
-        console.log(sprint);
+        console.log(sprint.name);
         displayTotalLeaves(sprint);
       }
     });
   };
 
   const displayTotalLeaves = (e) => {
-    console.log("inside leave calculation");
+    handleButtonClick();
+    console.log("inside leave calculation", e);
     setNameList(() => []);
     setHoursList(() => []);
     setSumList(() => []);
@@ -264,13 +265,17 @@ const Leaves = () => {
                     <Col>
                       <Row>
                         {role === "0" ? (
-                          <Button variant="secondary"
-                            onClick={() => {
-                              handleButtonClick();
-                              defaultSprint();
+                          <Button
+                            variant="secondary"
+                            // onClick={() => {
+                            //   handleButtonClick();
+                            //   defaultSprint();
+                            // }}
+                            onClick={(e) => {
+                              displayTotalLeaves(e);
                             }}
                           >
-                            Get all Sprint
+                            Sprintwise Leaves
                           </Button>
                         ) : (
                           <></>
@@ -414,7 +419,10 @@ const Leaves = () => {
         <Modal.Body>
           <Form>
             <div>
-              <select onChange={(e) => displayTotalLeaves(e)} className="sprint_select">
+              <select
+                onChange={(e) => displayTotalLeaves(e)}
+                className="sprint_select"
+              >
                 {sprintList.map((sprint) =>
                   sprint.planningSprint === true ? (
                     <>
@@ -435,13 +443,14 @@ const Leaves = () => {
                   <th>Days</th>
                 </tr>
 
-                {nameList.length>0?(
-                nameList.map((name, index) => (
-                  <tr key={index}>
-                    <td>{name}</td>
-                    <td>{hoursList[index]} day</td>
-                  </tr>
-                ))):(
+                {nameList.length > 0 ? (
+                  nameList.map((name, index) => (
+                    <tr key={index}>
+                      <td>{name}</td>
+                      <td>{hoursList[index]} day</td>
+                    </tr>
+                  ))
+                ) : (
                   <td>No leave Found</td>
                 )}
               </table>
