@@ -60,7 +60,6 @@ const Holiday = () => {
 
   const holidayGrouping = (holidayList) => {
     let d = {};
-    console.log(holidayList);
     holidayList.forEach((holiday) => {
       var date = holiday.date;
       var year = date.split("-")[date.split("-").length - 1];
@@ -118,7 +117,7 @@ const Holiday = () => {
                         <ul>
                           {holidaySet.list[`${key}`].map((data) => {
                             return (
-                              <li className="accList" key={Math.random()}>
+                              <li className="accList" key={data.date}>
                                 <b>{data.name}</b> <i>{data.date}</i>
                               </li>
                             );

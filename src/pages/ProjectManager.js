@@ -26,7 +26,6 @@ const ProjectManager = () => {
 
   const addOrEdit = (managerModal) => {
     const addurl = `/api/Resource/AddScrumMaster`;
-    console.log(managerModal);
     const apiCall = async () => {
       let response = await api("post", addurl, managerModal);
       if (response) {
@@ -70,7 +69,7 @@ const ProjectManager = () => {
               </Col>
             </Row>
             <Row>
-              <table class="table table-light">
+              <table className="table table-light">
                 <thead>
                   <tr>
                     <th>Employee ID</th>
@@ -80,9 +79,9 @@ const ProjectManager = () => {
                 </thead>
                 <tbody>
                   {managerList.length > 0 ? (
-                    managerList?.map((manager) => {
+                    managerList?.map((manager,i) => {
                       return (
-                        <tr key={manager.projectId}>
+                        <tr key={i}>
                           <td>{manager.employeeId}</td>
                           <td>{manager.email}</td>
                           <td>{manager.name}</td>

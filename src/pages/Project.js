@@ -34,7 +34,6 @@ const Project = () => {
   let role = localStorage.getItem("role");
 
   const addOrEdit = (projectModal) => {
-    console.log("projectModal" + projectModal);
     const addurl = `/api/Project/addProject`;
 
     if (!isEdit) {

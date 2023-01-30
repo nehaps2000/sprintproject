@@ -25,7 +25,6 @@ const Allocations = () => {
   const [allEmployees, setAllEmployees] = useState([]);
   const [allTeam, setAllTeam] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  console.log(allocationModal);
 
   const hoursPerDay = useRef("");
   useEffect(() => {
@@ -66,7 +65,6 @@ const Allocations = () => {
       const addUrl = `/api/Allocation/AddAllocation`;
       allocationModal.projectId = params.Id;
       allocationModal.hoursPerDay = parseInt(hoursPerDay.current.value);
-      console.log(allocationModal);
 
       const apiCall = async () => {
         let response = await api("post", addUrl, allocationModal);
@@ -124,8 +122,6 @@ const Allocations = () => {
     showConfirmModel(true);
   };
   const handleChange1 = ({ target: { name, value } }) => {
-    console.log(allTeam);
-    console.log(value, "value");
     setAllocationModal((prev) => ({
       ...prev,
       [name]: value,
@@ -139,8 +135,6 @@ const Allocations = () => {
   };
 
   const handleChange = ({ target: { name, value } }) => {
-    console.log(allTeam);
-    console.log(value, "value");
     setAllocationModal((prev) => ({
       ...prev,
       [name]: value,
@@ -172,7 +166,7 @@ const Allocations = () => {
               )}
             </Row>
             <Row>
-              <table class="table table-light">
+              <table className="table table-light">
                 <thead>
                   <tr>
                     <th>SL NO</th>
@@ -189,7 +183,7 @@ const Allocations = () => {
                   {allocationList.length > 0 ? (
                     allocationList?.map((allocation) => {
                       return (
-                        <tr key={allocation.projectId}>
+                        <tr key={allocation.id}>
                           <td>{allocation.id}</td>
                           <td>{allocation.projectId}</td>
                           <td> {allocation.name}</td>

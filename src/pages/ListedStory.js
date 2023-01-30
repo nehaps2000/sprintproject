@@ -36,8 +36,7 @@ const ListedStory = () => {
             </Row>
 
             <Row>
-              <table class="table table-light">
-                {" "}
+              <table className="table table-light">
                 <thead>
                   <tr>
                     <th>Name</th>
@@ -55,7 +54,7 @@ const ListedStory = () => {
                       );
                     })
                   ) : (
-                    <td>No records found</td>
+                    <td colSpan={2}>No records found</td>
                   )}
                 </tbody>
               </table>

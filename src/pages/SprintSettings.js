@@ -35,7 +35,6 @@ const SprintSettings = () => {
   const Navigate = useNavigate();
   const current = new Date();
   const date = current.toISOString();
-  console.log(date);
 
   useEffect(() => {
     const apiCall = async () => {
@@ -54,7 +53,6 @@ const SprintSettings = () => {
       findDuration(sprintModal.startDate, sprintModal.endDate);
     }
   }, [sprintModal?.startDate, sprintModal?.endDate]);
-  console.log(sprintModal);
   let role = localStorage.getItem("role");
   let pName = localStorage.getItem("pName");
 
@@ -114,7 +112,6 @@ const SprintSettings = () => {
     let d1 = currentSprint.startDate.toString().split("T")[0];
     let d2 = currentSprint.endDate.toString().split("T")[0];
     setSprintModal({ ...currentSprint, startDate: d1, endDate: d2 });
-    console.log(currentSprint);
     showHideModal(true);
     setIsEdit(true);
   };
@@ -140,7 +137,6 @@ const SprintSettings = () => {
   };
 
   const findDuration = (sDate, eDate) => {
-    console.log(sDate, eDate);
     let d1 = Date.parse(sDate);
     let d2 = Date.parse(eDate);
 
@@ -156,7 +152,6 @@ const SprintSettings = () => {
     const end = new Date(eDate);
 
     while (start <= end) {
-      console.log("day", start.getDay());
       var dateB = Date.parse(start);
       if (start.getDay() === 0 || start.getDay() === 6) {
         difference--;
@@ -174,7 +169,6 @@ const SprintSettings = () => {
       start = new Date(newDate);
     }
 
-    console.log(difference);
     setSprintModal((prev) => {
       return { ...prev, duration: difference };
     });
@@ -187,7 +181,6 @@ const SprintSettings = () => {
       let response = await api("patch", planUrl, id);
       response = await api("get", url);
       setSprintList(response);
-      console.log(sprintList);
     };
     apiCall();
   };
@@ -223,94 +216,6 @@ const SprintSettings = () => {
                   {sprintList?.map((sprint) => {
                     return (
                       <Col key={sprint.id}>
-                        {/* <Card
-                          style={{ width: "auto" }}
-                          className={
-                            sprint.planningSprint === true
-                              ? "planned"
-                              : sprint.startDate <= date
-                              ? "unplanned"
-                              : ""
-                          }
-                        >
-                          <Card.Body>
-                            <Card.Title>{sprint.name}</Card.Title>
-                            <Card.Text
-                              style={{
-                                width: "max content",
-                                height: "max content",
-                                border: "solid 1px black",
-                              }}
-                            >
-                              Sprint ID: {sprint.id}
-                              <br></br>
-                              Duration: {sprint.duration}
-                              <br></br>
-                            </Card.Text>
-                            {role === "0" || role === "4" ? (
-                              <div>
-                                <Edit
-                                  className="custom-icon"
-                                  onClick={() => editSprint(sprint)}
-                                />
-                                <Delete
-                                  className="custom-icon"
-                                  onClick={() => deleteSprint(sprint)}
-                                />
-
-                                {sprint.planningSprint === true ? (
-                                  <div className="card-button">
-                                    <Button
-                                      variant="secondary"
-                                      onClick={() => navAddStory(sprint.id)}
-                                    >
-                                      AddStory
-                                    </Button>
-                                    <Button
-                                      variant="secondary"
-                                      onClick={() => navViewStory(sprint.id)}
-                                    >
-                                      ViewStory
-                                    </Button>
-                                  </div>
-                                ) : (
-                                  <></>
-                                )}
-                                {sprint.startDate >= date &&
-                                sprint.planningSprint === false ? (
-                                  <div className="card-button">
-                                    <Button
-                                      variant="secondary"
-                                      onClick={() => {
-                                        confirmAlert({
-                                          title: "Set as Planning Sprint",
-                                          message: "Are you sure to do this?",
-                                          buttons: [
-                                            {
-                                              label: "Yes",
-                                              onClick: () => {
-                                                handlePlan(sprint.id);
-                                              },
-                                            },
-                                            {
-                                              label: "No",
-                                            },
-                                          ],
-                                        });
-                                      }}
-                                    >
-                                      Set as Planning Sprint
-                                    </Button>
-                                  </div>
-                                ) : (
-                                  <></>
-                                )}
-                              </div>
-                            ) : (
-                              <></>
-                            )}
-                          </Card.Body>
-                        </Card> */}
                         <Card css={{ mw: "430px" }}>
                           <Row>
                             <Card.Header>

@@ -1,6 +1,5 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Calendar from "react-calendar";
@@ -34,9 +33,11 @@ const Leaves = () => {
   const [sprintList, setSprintList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [sumList, setSumList] = useState();
-  const [totalLeaves, setTotalLeaves] = useState({});
+  const [totalLeaves, setTotalLeaves] = useState([]);
   const [nameList, setNameList] = useState([]);
   const [hoursList, setHoursList] = useState([]);
+  const [selectedSprint, setSelectedSprint] = useState("");
+
   useEffect(() => {
     const apiCall = async () => {
       let response = await api("get", url);
@@ -53,19 +54,16 @@ const Leaves = () => {
   const apiCall1 = async () => {
     let leaveRes = await api("get", Totalurl);
     setTotalLeaves(leaveRes);
-    console.log(leaveRes, "total Leave");
   };
   let role = localStorage.getItem("role");
   const addOrEdit = (leaveModal) => {
     const addurl = `/api/Leave/AddLeave`;
-    console.log("hello my dear");
     leaveModal.employeeId = empId;
     if (!isEdit) {
       const apiCall = async () => {
         let response = await api("post", addurl, leaveModal);
         if (response) {
           let res = await api("get", url);
-          console.log(res, "hello my dear1");
           setLeaveList(res);
         }
       };
@@ -75,7 +73,6 @@ const Leaves = () => {
       const apiCall = async () => {
         let response = await api("patch", updateurl, leaveModal);
         response = await api("get", url);
-        console.log(response, "hello my dear2");
         setLeaveList(response);
       };
       apiCall();
@@ -155,69 +152,56 @@ const Leaves = () => {
   };
 
   const defaultSprint = () => {
-    console.log("button clicked");
     sprintList.forEach((sprint) => {
       if (sprint.planningSprint) {
-        console.log(sprint.name);
-        displayTotalLeaves(sprint);
+        setSelectedSprint(sprint.name);
       }
     });
   };
 
-  const displayTotalLeaves = (e) => {
-    handleButtonClick();
-    console.log("inside leave calculation", e);
-    setNameList(() => []);
-    setHoursList(() => []);
-    setSumList(() => []);
-    const data = sprintList.find(
-      (sprint) => sprint.name === e.target.value
-    )?.name;
-    let getdata = data;
-    const startDate = sprintList
-      .find((sprint) => sprint.name === getdata)
-      ?.startDate.toString()
-      .split("T")[0];
-    const endDate = sprintList
-      .find((sprint) => sprint.name === getdata)
-      ?.endDate.toString()
-      .split("T")[0];
-    console.log("startDate", startDate);
-    console.log("endDate", endDate);
-    const sprintName = getdata;
-    console.log("sprint name", sprintName);
-    let sum = 0;
-    let employeeData = {};
+  useEffect(() => {
+    if (totalLeaves.length > 0) {
+      setNameList(() => []);
+      setHoursList(() => []);
+      setSumList(() => []);
+      let getdata = selectedSprint;
+      const startDate = sprintList
+        .find((sprint) => sprint.name === getdata)
+        ?.startDate.toString()
+        .split("T")[0];
+      const endDate = sprintList
+        .find((sprint) => sprint.name === getdata)
+        ?.endDate.toString()
+        .split("T")[0];
+      const sprintName = getdata;
+      let sum = 0;
+      let employeeData = {};
 
-    totalLeaves.map((item) => {
-      const leaveDate = item.leaveDate.toString().split("T")[0];
-      const flag = leaveDate > startDate && leaveDate < endDate;
-      console.log(totalLeaves, "avc");
-      if (flag === true) {
-        console.log("name", item.name);
-        console.log("hours", item.hours);
-        console.log("empId", item.employeeId);
+      totalLeaves.map((item) => {
+        const leaveDate = item.leaveDate.toString().split("T")[0];
+        const flag = leaveDate > startDate && leaveDate < endDate;
+        if (flag === true) {
+          const empId = item.employeeId;
+          if (!employeeData[empId]) {
+            employeeData[empId] = {
+              name: item.name,
+              hours: item.hours / 8,
+              employeeId: item.employeeId,
+            };
+          } else {
+            employeeData[empId].hours += item.hours / 8;
+          }
 
-        const empId = item.employeeId;
-        if (!employeeData[empId]) {
-          employeeData[empId] = {
-            name: item.name,
-            hours: item.hours / 8,
-            employeeId: item.employeeId,
-          };
-        } else {
-          employeeData[empId].hours += item.hours / 8;
+          if (item.hours === 4) sum = sum + 0.5;
+          else if (item.hours === 8) sum = sum + 1;
         }
+      });
 
-        if (item.hours === 4) sum = sum + 0.5;
-        else if (item.hours === 8) sum = sum + 1;
-      }
-    });
-
-    setNameList(Object.values(employeeData).map((item) => item.name));
-    setHoursList(Object.values(employeeData).map((item) => item.hours));
-    setSumList(sum);
-  };
+      setNameList(Object.values(employeeData).map((item) => item.name));
+      setHoursList(Object.values(employeeData).map((item) => item.hours));
+      setSumList(sum);
+    }
+  }, [selectedSprint, totalLeaves, sprintList]);
   return (
     <div>
       <div className="card-header">
@@ -267,12 +251,9 @@ const Leaves = () => {
                         {role === "0" ? (
                           <Button
                             variant="secondary"
-                            // onClick={() => {
-                            //   handleButtonClick();
-                            //   defaultSprint();
-                            // }}
-                            onClick={(e) => {
-                              displayTotalLeaves(e);
+                            onClick={() => {
+                              handleButtonClick();
+                              defaultSprint();
                             }}
                           >
                             Sprintwise Leaves
@@ -285,7 +266,7 @@ const Leaves = () => {
                   </div>
                 </Col>
                 <Col>
-                  <table class="table table-light">
+                  <table className="table table-light">
                     <thead>
                       <tr>
                         <th>EmployeeId</th>
@@ -297,7 +278,7 @@ const Leaves = () => {
                     <tbody>
                       {leaveList?.map((leave) => {
                         return (
-                          <tr key={leave.employeeId}>
+                          <tr key={leave.leaveDate}>
                             <td> {leave.employeeId}</td>
                             <td> {leave.leaveDate.toString().split("T")[0]}</td>
                             <td>{leave.hours}</td>
@@ -420,39 +401,37 @@ const Leaves = () => {
           <Form>
             <div>
               <select
-                onChange={(e) => displayTotalLeaves(e)}
+                onChange={(e) => setSelectedSprint(e.target.value)}
                 className="sprint_select"
+                value={selectedSprint}
               >
-                {sprintList.map((sprint) =>
-                  sprint.planningSprint === true ? (
-                    <>
-                      <option selected>{sprint.name}</option>{" "}
-                    </>
-                  ) : (
-                    <>
-                      <option key={sprint.id} value={sprint.name}>
-                        {sprint.name}
-                      </option>
-                    </>
-                  )
-                )}
+                {sprintList.map((sprint) => (
+                  <option key={sprint.id} value={sprint.name}>
+                    {sprint.name}
+                  </option>
+                ))}
               </select>
               <table className="table table-light">
-                <tr>
-                  <th>Name</th>
-                  <th>Days</th>
-                </tr>
-
-                {nameList.length > 0 ? (
-                  nameList.map((name, index) => (
-                    <tr key={index}>
-                      <td>{name}</td>
-                      <td>{hoursList[index]} day</td>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Days</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {nameList.length > 0 ? (
+                    nameList.map((name, index) => (
+                      <tr key={index}>
+                        <td>{name}</td>
+                        <td>{hoursList[index]} day</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={2}>No leave Found</td>
                     </tr>
-                  ))
-                ) : (
-                  <td>No leave Found</td>
-                )}
+                  )}
+                </tbody>
               </table>
 
               {sumList !== null ? (

@@ -10,7 +10,6 @@ import { useLocation } from "react-router-dom";
 const ProjectSettings = () => {
   const [selectedTab, setSelectedTab] = useState();
   const params = useParams();
-  console.log(params.Id);
   let location = useLocation();
 
   useEffect(() => {
