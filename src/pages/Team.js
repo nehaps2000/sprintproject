@@ -119,7 +119,7 @@ const Team = () => {
               )}
             </Row>
             <Row>
-              <table class="table table-light">
+              <table className="table table-light">
                 <thead>
                   <tr>
                     <th>Name</th>
@@ -131,7 +131,7 @@ const Team = () => {
                   {teamList.length > 0 ? (
                     teamList?.map((team) => {
                       return (
-                        <tr key={team.projectId}>
+                        <tr key={team.name}>
                           <td> {team.name}</td>
                           <td> {team.projectId}</td>
                           {role === "0" || role === "4" ? (

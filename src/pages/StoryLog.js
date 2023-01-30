@@ -102,7 +102,7 @@ const StoryLog = () => {
       return { ...prev, [name]: value };
     });
   };
-  const checkuse = (item) => {
+  const checkUse = (item) => {
     for (let story of unusedList) {
       if (item.id === story.id) {
         return false;
@@ -198,7 +198,7 @@ const StoryLog = () => {
               </Col>
               <div className="story">
                 {storyList?.map((item, index) => {
-                  const style = checkuse(item)
+                  const style = checkUse(item)
                     ? { display: "none" }
                     : { display: "block" };
                   return (

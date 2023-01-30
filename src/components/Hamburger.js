@@ -15,7 +15,6 @@ const Hamburger = () => {
 
   useEffect(() => {
     const path = location.pathname;
-    console.log(path);
     setActiveLink(path);
   }, [location]);
 

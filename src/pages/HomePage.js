@@ -13,7 +13,6 @@ const HomePage = () => {
 
   useEffect(() => {
     const path = location.pathname;
-    console.log(path);
     setSelectedTab(path);
   }, [location]);
 
@@ -31,14 +30,6 @@ const HomePage = () => {
                   selectedTab === "/project" ? "active" : ""
                 }`}
                 onClick={() => {
-                  // let elements = e.target.parentElement.children;
-                  // console.log(elements);
-                  // let i = 0;
-                  // while (i < elements.length) {
-                  //   elements[i].style = "border:black ";
-                  //   i++;
-                  // }
-                  // e.target.style = "border-bottom:solid black";
                   setSelectedTab("/project");
                 }}
               >
@@ -49,13 +40,6 @@ const HomePage = () => {
                   selectedTab === "Calendar" ? "active" : ""
                 }`}
                 onClick={() => {
-                  // let elements = e.target.parentElement.children;
-                  // let i = 0;
-                  // while (i < elements.length) {
-                  //   elements[i].style = "border:black";
-                  //   i++;
-                  // }
-                  // e.target.style = "border-bottom:solid black";
                   setSelectedTab("Calendar");
                 }}
               >
@@ -67,13 +51,6 @@ const HomePage = () => {
                     selectedTab === "ProjectManager" ? "active" : ""
                   }`}
                   onClick={() => {
-                    // let elements = e.target.parentElement.children;
-                    // let i = 0;
-                    // while (i < elements.length) {
-                    //   elements[i].style = "border:black";
-                    //   i++;
-                    // }
-                    // e.target.style = "border-bottom:solid black";
                     setSelectedTab("ProjectManager");
                   }}
                 >

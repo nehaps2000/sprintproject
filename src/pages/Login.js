@@ -20,14 +20,11 @@ const Login = () => {
     setPassword(e.target.value);
   };
   const handleApi = async () => {
-    console.log({ email, password });
     let response = await api("post", "/api/Auth/Login", {
       username: email,
       password: password,
     });
     var decoded = jwtDecode(response);
-    console.log(decoded, "token decoded");
-    console.log(decoded.role);
 
     if (response !== "Wrong Credentials!") {
       localStorage.setItem("token", response);
