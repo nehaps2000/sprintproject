@@ -173,7 +173,7 @@ const Leaves = () => {
         .find((sprint) => sprint.name === getdata)
         ?.endDate.toString()
         .split("T")[0];
-      const sprintName = getdata;
+     
       let sum = 0;
       let employeeData = {};
 

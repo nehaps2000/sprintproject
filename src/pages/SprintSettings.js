@@ -42,8 +42,10 @@ const SprintSettings = () => {
       let response2 = await api("get", url2);
 
       setSprintList(response);
+      console.log(response,"sprintres")
       setHolidayList(response2);
       setIsLoading(false);
+     
     };
     apiCall();
   }, []);
@@ -55,7 +57,7 @@ const SprintSettings = () => {
   }, [sprintModal?.startDate, sprintModal?.endDate]);
   let role = localStorage.getItem("role");
   let pName = localStorage.getItem("pName");
-
+  
   const addOrEdit = (sprintModal) => {
     const addurl = `/api/Sprint/AddSprint`;
     sprintModal.projectId = params.Id;
@@ -132,7 +134,10 @@ const SprintSettings = () => {
     localStorage.setItem("sprintId", id);
   };
 
-  const navViewStory = (id) => {
+  const navViewStory = (id,duration,start,end) => {
+    localStorage.setItem("sprintDuration", duration)
+    localStorage.setItem("sprintStart", start)
+    localStorage.setItem("sprintEnd", end)
     Navigate(`/${id}/ListedStory`);
   };
 
@@ -181,6 +186,7 @@ const SprintSettings = () => {
       let response = await api("patch", planUrl, id);
       response = await api("get", url);
       setSprintList(response);
+   
     };
     apiCall();
   };
@@ -268,7 +274,7 @@ const SprintSettings = () => {
                                       </Button>
                                       <Button
                                         variant="secondary"
-                                        onClick={() => navViewStory(sprint.id)}
+                                        onClick={() => navViewStory(sprint.id,sprint.duration,sprint.startDate,sprint.endDate)}
                                       >
                                         ViewStory
                                       </Button>
