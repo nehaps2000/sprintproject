@@ -315,9 +315,20 @@ const SprintSettings = () => {
                                     <></>
                                   )}
                                 </div>
-                              ) : (
-                                <></>
-                              )}
+                              ) : (<>
+                                {sprint.planningSprint === true ? (
+                                  <div className="card-button">
+                                    <Button
+                                      variant="secondary"
+                                      onClick={() => navViewStory(sprint.id,sprint.duration,sprint.startDate,sprint.endDate)}
+                                    >
+                                      ViewStory
+                                    </Button>
+                                  </div>
+                                ) : (
+                                  <></>
+                                )}
+                              </>)}
                             </Row>
                           </Card.Footer>
                         </Card>
