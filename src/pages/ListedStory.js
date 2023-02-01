@@ -18,7 +18,7 @@ const ListedStory = () => {
   const [viewList, setViewList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [allocatedEmployees, setAllocatedEmployees] = useState([]);
-  const [sprintData, setSprintData] = useState([]);
+  
   const [leaveList, setLeaveList] = useState([]);
   useEffect(() => {
     const apiCall = async () => {
@@ -81,7 +81,8 @@ const ListedStory = () => {
                   <>
                     {[
                       ...new Set(
-                        allocatedEmployees.map(({ teamName }) => teamName)
+                        allocatedEmployees .filter(({ name }) => name === localStorage.getItem("username"))
+                        .map(({ teamName }) => teamName)
                       ),
                     ].map((teamName) => {
                       let totalHours = 0;
