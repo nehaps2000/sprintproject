@@ -42,10 +42,8 @@ const SprintSettings = () => {
       let response2 = await api("get", url2);
 
       setSprintList(response);
-      console.log(response,"sprintres")
       setHolidayList(response2);
       setIsLoading(false);
-     
     };
     apiCall();
   }, []);
@@ -57,7 +55,7 @@ const SprintSettings = () => {
   }, [sprintModal?.startDate, sprintModal?.endDate]);
   let role = localStorage.getItem("role");
   let pName = localStorage.getItem("pName");
-  
+
   const addOrEdit = (sprintModal) => {
     const addurl = `/api/Sprint/AddSprint`;
     sprintModal.projectId = params.Id;
@@ -134,10 +132,10 @@ const SprintSettings = () => {
     localStorage.setItem("sprintId", id);
   };
 
-  const navViewStory = (id,duration,start,end) => {
-    localStorage.setItem("sprintDuration", duration)
-    localStorage.setItem("sprintStart", start)
-    localStorage.setItem("sprintEnd", end)
+  const navViewStory = (id, duration, start, end) => {
+    localStorage.setItem("sprintDuration", duration);
+    localStorage.setItem("sprintStart", start);
+    localStorage.setItem("sprintEnd", end);
     Navigate(`/${id}/ListedStory`);
   };
 
@@ -186,7 +184,6 @@ const SprintSettings = () => {
       let response = await api("patch", planUrl, id);
       response = await api("get", url);
       setSprintList(response);
-   
     };
     apiCall();
   };
@@ -229,13 +226,13 @@ const SprintSettings = () => {
                                 <Text b>{sprint.name}</Text>
                               </Col>
                               <Col className="status">
-                              {sprint.planningSprint === true ? (
-                                <Planning></Planning>
-                              ) : sprint.startDate <= date ? (
-                                <Unavailable />
-                              ) : (
-                                <Unplanned></Unplanned>
-                              )}
+                                {sprint.planningSprint === true ? (
+                                  <Planning></Planning>
+                                ) : sprint.startDate <= date ? (
+                                  <Unavailable />
+                                ) : (
+                                  <Unplanned></Unplanned>
+                                )}
                               </Col>
                             </Card.Header>
                           </Row>
@@ -252,39 +249,45 @@ const SprintSettings = () => {
                           <Card.Footer>
                             <Row justify="flex-end">
                               {role === "0" || role === "4" ? (
-                              <div style={{display: "flex"}}> <Col>
-                               <Edit
-                                    className="custom-icon"
-                                    onClick={() => editSprint(sprint)}
-                                  />
-                                  <Delete
-                                    className="custom-icon"
-                                    onClick={() => deleteSprint(sprint)}
-                                  />
-                              </Col> 
-                               <div className="Vadd">
-                                
-                               {sprint.planningSprint === true ? (
-                                    <div className="card-button">
-                                      <Button
-                                        variant="secondary"
-                                        onClick={() => navAddStory(sprint.id)}
-                                      >
-                                        AddStory
-                                      </Button>
-                                      <Button
-                                        variant="secondary"
-                                        onClick={() => navViewStory(sprint.id,sprint.duration,sprint.startDate,sprint.endDate)}
-                                      >
-                                        ViewStory
-                                      </Button>
-                                    </div>
-                                  ) : (
-                                    <></>
-                                  )}
-                                
-                                </div>  
-
+                                <div style={{ display: "flex" }}>
+                                  {" "}
+                                  <Col>
+                                    <Edit
+                                      className="custom-icon"
+                                      onClick={() => editSprint(sprint)}
+                                    />
+                                    <Delete
+                                      className="custom-icon"
+                                      onClick={() => deleteSprint(sprint)}
+                                    />
+                                  </Col>
+                                  <div className="Vadd">
+                                    {sprint.planningSprint === true ? (
+                                      <div className="card-button">
+                                        <Button
+                                          variant="secondary"
+                                          onClick={() => navAddStory(sprint.id)}
+                                        >
+                                          AddStory
+                                        </Button>
+                                        <Button
+                                          variant="secondary"
+                                          onClick={() =>
+                                            navViewStory(
+                                              sprint.id,
+                                              sprint.duration,
+                                              sprint.startDate,
+                                              sprint.endDate
+                                            )
+                                          }
+                                        >
+                                          ViewStory
+                                        </Button>
+                                      </div>
+                                    ) : (
+                                      <></>
+                                    )}
+                                  </div>
                                   {sprint.startDate >= date &&
                                   sprint.planningSprint === false ? (
                                     <div className="card-button">
@@ -315,20 +318,29 @@ const SprintSettings = () => {
                                     <></>
                                   )}
                                 </div>
-                              ) : (<>
-                                {sprint.planningSprint === true ? (
-                                  <div className="card-button">
-                                    <Button
-                                      variant="secondary"
-                                      onClick={() => navViewStory(sprint.id,sprint.duration,sprint.startDate,sprint.endDate)}
-                                    >
-                                      ViewStory
-                                    </Button>
-                                  </div>
-                                ) : (
-                                  <></>
-                                )}
-                              </>)}
+                              ) : (
+                                <>
+                                  {sprint.planningSprint === true ? (
+                                    <div className="card-button">
+                                      <Button
+                                        variant="secondary"
+                                        onClick={() =>
+                                          navViewStory(
+                                            sprint.id,
+                                            sprint.duration,
+                                            sprint.startDate,
+                                            sprint.endDate
+                                          )
+                                        }
+                                      >
+                                        ViewStory
+                                      </Button>
+                                    </div>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </>
+                              )}
                             </Row>
                           </Card.Footer>
                         </Card>
