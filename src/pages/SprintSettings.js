@@ -24,7 +24,6 @@ const SprintSettings = () => {
   const params = useParams();
   const url = `/api/Sprint/SearchSprint/${params.Id}`;
   const url2 = `/api/Calendar/GetHoliday`;
-
   const [sprintList, setSprintList] = useState([]);
   const [sprintModal, setSprintModal] = useState({});
   const [isEdit, setIsEdit] = useState(false);
@@ -219,7 +218,15 @@ const SprintSettings = () => {
                   {sprintList?.map((sprint) => {
                     return (
                       <Col key={sprint.id}>
-                        <Card css={{ mw: "430px" }}>
+                        <Card
+                          css={
+                            sprint.planningSprint === true
+                              ? { mw: "430px", background: "#B6DF82" }
+                              : sprint.startDate <= date
+                              ? { mw: "430px", background: "#E7E7E7" }
+                              : { mw: "430px", background: "#FFFFFF" }
+                          }
+                        >
                           <Row>
                             <Card.Header>
                               <Col className="sprint-name">
