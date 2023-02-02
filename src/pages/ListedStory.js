@@ -18,7 +18,7 @@ const ListedStory = () => {
   const [viewList, setViewList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [allocatedEmployees, setAllocatedEmployees] = useState([]);
-  
+
   const [leaveList, setLeaveList] = useState([]);
   useEffect(() => {
     const apiCall = async () => {
@@ -32,6 +32,7 @@ const ListedStory = () => {
     };
     apiCall();
   }, []);
+  let role = localStorage.getItem("role");
   return (
     <>
       <div className="card-header">
@@ -77,12 +78,11 @@ const ListedStory = () => {
                 </table>
               </Col>
               <Col>
-                {allocatedEmployees.length > 0 ? (
+                {role === "4" || role === "0" ? (
                   <>
                     {[
                       ...new Set(
-                        allocatedEmployees .filter(({ name }) => name === localStorage.getItem("username"))
-                        .map(({ teamName }) => teamName)
+                        allocatedEmployees.map(({ teamName }) => teamName)
                       ),
                     ].map((teamName) => {
                       let totalHours = 0;
@@ -126,7 +126,62 @@ const ListedStory = () => {
                     })}
                   </>
                 ) : (
-                  <tr className="empty-table">No records found</tr>
+                  <>
+                    {[
+                      ...new Set(
+                        allocatedEmployees
+                          .filter(
+                            ({ name }) =>
+                              name === localStorage.getItem("username")
+                          )
+                          .map(({ teamName }) => teamName)
+                      ),
+                    ].map((teamName) => {
+                      let totalHours = 0;
+                      let employeeCount = 0;
+                      return (
+                        <>
+                          <div key={teamName}>
+                            <h3>{teamName}</h3>
+                            <ul>
+                              {[
+                                ...new Set(
+                                  allocatedEmployees
+                                    .filter(
+                                      ({
+                                        name,
+                                        teamName: allocationTeamName,
+                                      }) =>
+                                        name ===
+                                          localStorage.getItem("username") &&
+                                        allocationTeamName === teamName
+                                    )
+                                    .map(({ name }) => name)
+                                ),
+                              ].map((employee) => {
+                                let leaveHours = 0;
+
+                                leaveList.forEach((leave) => {
+                                  if (employee === leave.name)
+                                    if (
+                                      leave.leaveDate >= startDate &&
+                                      leave.leaveDate <= endDate
+                                    )
+                                      leaveHours = leave.hours;
+                                });
+                                totalHours = totalHours + leaveHours;
+                                employeeCount++;
+                              })}
+                            </ul>
+                            <p>
+                              Total available hours:
+                              {duration * employeeCount * 8 - totalHours}
+                            </p>
+                          </div>
+                        </>
+                      );
+                    })}
+                  </>
                 )}
               </Col>
             </Row>
