@@ -5,16 +5,11 @@ import Modal from "react-bootstrap/Modal";
 import { useState, useEffect } from "react";
 import Add from "../custom-icons/Add";
 import api from "../utility/api";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionItemHeading,
-  AccordionItemButton,
-  AccordionItemPanel,
-} from "react-accessible-accordion";
 import "react-accessible-accordion/dist/fancy-example.css";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "../components/Spinner";
+import { Collapse, Text, Grid } from "@nextui-org/react";
+
 const Holiday = () => {
   const url = "/api/Calendar/GetHoliday";
   const [holidayList, setHolidayList] = useState([]);
@@ -106,28 +101,27 @@ const Holiday = () => {
               )}
             </Row>
             <Row>
-              <Accordion allowMultipleExpanded={true} allowZeroExpanded={true}>
-                {holidaySet.keys.map((key) => {
-                  return (
-                    <AccordionItem>
-                      <AccordionItemHeading>
-                        <AccordionItemButton>{key}</AccordionItemButton>
-                      </AccordionItemHeading>
-                      <AccordionItemPanel>
-                        <ul>
-                          {holidaySet.list[`${key}`].map((data) => {
-                            return (
-                              <li className="accList" key={data.date}>
-                                <b>{data.name}</b> <i>{data.date}</i>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </AccordionItemPanel>
-                    </AccordionItem>
-                  );
-                })}
-              </Accordion>
+              <Grid>
+                <Collapse.Group shadow>
+                  {holidaySet.keys.map((key) => {
+                    return (
+                      <Collapse title={key}>
+                        <Text>
+                          <ul>
+                            {holidaySet.list[`${key}`].map((data) => {
+                              return (
+                                <li className="accList" key={data.date}>
+                                  <b>{data.name}</b> <i>{data.date}</i>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </Text>
+                      </Collapse>
+                    );
+                  })}
+                </Collapse.Group>
+              </Grid>
             </Row>
           </div>
         )}

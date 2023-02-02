@@ -132,37 +132,6 @@ const Project = () => {
               {projectList?.map((project) => {
                 return (
                   <Col key={project.id}>
-                    {/* <Card style={{ width: "auto" }}>
-                      <Card.Body>
-                        <Card.Title>{project.name}</Card.Title>
-                        <Card.Text
-                          style={{
-                            width: "max content",
-                            height: "max content",
-                            border: "solid 1px black",
-                          }}
-                          onClick={() => projectOpen(project.id, project.name)}
-                        >
-                          Project ID: {project.id}
-                          <br></br>
-                          <br></br>
-                        </Card.Text>
-                        {role === "0" || role === "4" ? (
-                          <div>
-                            <Edit
-                              className="custom-icon"
-                              onClick={() => editProject(project)}
-                            />
-                            <Delete
-                              className="custom-icon"
-                              onClick={() => deleteProject(project)}
-                            />
-                          </div>
-                        ) : (
-                          <></>
-                        )}
-                      </Card.Body>
-                    </Card> */}
                     <Card css={{ mw: "430px" }}>
                       <Card.Header>
                         <Text b>{project.name}</Text>
