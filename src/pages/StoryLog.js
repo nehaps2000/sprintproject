@@ -270,7 +270,7 @@ const StoryLog = () => {
               <Form.Label>Name</Form.Label>
               <input
                 name="name"
-                value={storyModal.name || " "}
+                value={storyModal.name || ""}
                 onChange={handleChange}
               ></input>
               <Form.Label>Project</Form.Label>

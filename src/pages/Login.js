@@ -31,7 +31,8 @@ const Login = () => {
       localStorage.setItem("role", decoded.role);
       localStorage.setItem("username", decoded.Name);
       localStorage.setItem("userId", decoded.EmpId);
-      
+      localStorage.setItem("resId", decoded.Id);
+
       Navigate("/project");
     } else {
       toast.error("wrong credentials !", {
@@ -81,17 +82,15 @@ const Login = () => {
               </form>
             </Col>
             <Col>
-            <div>
+              <div>
                 <div className="logoo">
                   <GadgEonLogo></GadgEonLogo>
                 </div>
                 <div className="branding">
-               < h1>Sprint Manager</h1>
+                  <h1>Sprint Manager</h1>
                 </div>
                 <ToastContainer />
-
-            </div> 
-             
+              </div>
             </Col>
           </Row>
         </div>
