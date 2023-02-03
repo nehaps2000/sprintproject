@@ -3,8 +3,9 @@ import api from "../utility/api";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import Spinner from "../components/Spinner";
+import { Card, Text, Input, Grid } from "@nextui-org/react";
 
 const ListedStory = () => {
   const params = useParams();
@@ -14,10 +15,13 @@ const ListedStory = () => {
   let endDate = localStorage.getItem("sprintEnd");
   const url = `/api/Story/GetAddedStories/${params.Id}`;
   const allnurl = `/api/Allocation/SearchAllocation/${projectId}`;
+  const pointsUrl = `/api/Point/SearchPoint/${params.Id}`;
   const Leaveurl = `/api/Leave/GetLeaves`;
   const [viewList, setViewList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [allocatedEmployees, setAllocatedEmployees] = useState([]);
+  const [pointModal, setPointModal] = useState({});
+  const [pointList, setPointList] = useState([]);
 
   const [leaveList, setLeaveList] = useState([]);
   useEffect(() => {
@@ -25,14 +29,37 @@ const ListedStory = () => {
       let response = await api("get", url);
       let allocationres = await api("get", allnurl);
       let leaveres = await api("get", Leaveurl);
+      let pointRes = await api("get", pointsUrl);
       setViewList(response);
       setAllocatedEmployees(allocationres);
       setLeaveList(leaveres);
+      setPointList(pointRes);
       setIsLoading(false);
     };
     apiCall();
   }, []);
   let role = localStorage.getItem("role");
+
+  const handleChange = ({ target: { name, value } }) => {
+    if (name === "points") {
+      setPointModal((prev) => {
+        return { ...prev, [name]: parseInt(value) };
+      });
+    }
+  };
+
+  const addPoints = (pointModal) => {
+    const addUrl = `/api/Point/AddPoint`;
+    const apiCall = async () => {
+      let response = await api("post", addUrl, pointModal);
+      if (response) {
+        let res = await api("get", addUrl);
+        setPointList(res);
+      }
+    };
+    apiCall();
+  };
+  console.log(viewList);
   return (
     <>
       <div className="card-header">
@@ -54,28 +81,56 @@ const ListedStory = () => {
 
             <Row>
               <Col>
-                <table className="table table-light">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>ID</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {viewList.length > 0 ? (
-                      viewList?.map((story) => {
-                        return (
-                          <tr key={story.name}>
-                            <td> {story.name}</td>
-                            <td> {story.id}</td>
-                          </tr>
-                        );
-                      })
-                    ) : (
-                      <td colSpan={2}>No records found</td>
-                    )}
-                  </tbody>
-                </table>
+                {viewList?.map((story, i) => {
+                  return (
+                    <Grid.Container gap={2}>
+                      <Card css={{ width: "100%" }}>
+                        <Card.Body css={{ width: "100%" }} key={i}>
+                          <Grid.Container>
+                            <Grid css={{ width: "70px" }}>
+                              <Text>{story.id}</Text>
+                              <Text b>{story.name}</Text>
+                            </Grid>
+                            <Grid>
+                              <Input
+                                size="xs"
+                                underlined
+                                css={{ marginLeft: "300px", width: "100px" }}
+                                labelPlaceholder="hours"
+                                type="number"
+                                min="0"
+                                max="8"
+                                name="points"
+                                onChange={(e)=>{
+                                  handleChange(e,story.id)
+                                }}
+                              ></Input>
+                            </Grid>
+                          </Grid.Container>
+                        </Card.Body>
+                      </Card>
+                    </Grid.Container>
+                  );
+                })}
+                {viewList.length > 0 ? (
+                  <>
+                    <br></br>
+                    <Button
+                      variant="secondary"
+                      onClick={() => {
+                        addPoints(pointModal);
+                      }}
+                    >
+                      Save all
+                    </Button>
+                  </>
+                ) : (
+                  <Card>
+                    <Card.Body>
+                      <Text>No records found</Text>
+                    </Card.Body>
+                  </Card>
+                )}
               </Col>
               <Col>
                 {role === "4" || role === "0" ? (
@@ -148,12 +203,7 @@ const ListedStory = () => {
                                 ...new Set(
                                   allocatedEmployees
                                     .filter(
-                                      ({
-                                        name,
-                                        teamName: allocationTeamName,
-                                      }) =>
-                                        name ===
-                                          localStorage.getItem("username") &&
+                                      ({ teamName: allocationTeamName }) =>
                                         allocationTeamName === teamName
                                     )
                                     .map(({ name }) => name)
