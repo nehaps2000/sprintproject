@@ -175,7 +175,7 @@ const Allocations = () => {
                     <th>EmployeeId</th>
                     <th>TeamId</th>
                     <th>TeamName</th>
-                    <th>Hours</th>
+                    {/* <th>Hours</th> */}
                     {role === "0" || role === "4" ? <th>Actions</th> : <></>}
                   </tr>
                 </thead>
@@ -187,10 +187,10 @@ const Allocations = () => {
                           <td>{allocation.id}</td>
                           <td>{allocation.projectId}</td>
                           <td> {allocation.name}</td>
-                          <td> {allocation.employeeId}</td>
+                          <td> {allocation.resourceId}</td>
                           <td> {allocation.teamId}</td>
                           <td> {allocation.teamName}</td>
-                          <td> {allocation.hoursPerDay}</td>
+                          {/* <td> {allocation.hoursPerDay}</td> */}
                           {role === "0" || role === "4" ? (
                             <td>
                               <span>
@@ -296,6 +296,8 @@ const Allocations = () => {
                 ref={hoursPerDay}
                 type="number"
                 onChange={handleChange2}
+                min="0"
+                max="8"
               ></input>
               <br></br>
 
