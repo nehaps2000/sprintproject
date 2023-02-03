@@ -326,8 +326,6 @@ const SprintSettings = () => {
                                   )}
                                 </div>
                               ) : (
-                                <>
-                                  {sprint.planningSprint === true ? (
                                     <div className="card-button">
                                       <Button
                                         variant="secondary"
@@ -343,10 +341,7 @@ const SprintSettings = () => {
                                         ViewStory
                                       </Button>
                                     </div>
-                                  ) : (
-                                    <></>
-                                  )}
-                                </>
+                                  
                               )}
                             </Row>
                           </Card.Footer>

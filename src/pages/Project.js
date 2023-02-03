@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import Edit from "../custom-icons/Edit";
 import Delete from "../custom-icons/Delete";
 import Add from "../custom-icons/Add";
-import { Card,Text } from "@nextui-org/react";
+import { Card, Text } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import api from "../utility/api";
 import "react-accessible-accordion/dist/fancy-example.css";
@@ -14,7 +14,10 @@ import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "../components/Spinner";
 
 const Project = () => {
-  const url = "/api/Project/Projects";
+  let empId = localStorage.getItem("resId");
+  let role = localStorage.getItem("role");
+  const adminUrl = "/api/Project/Projects";
+  const url = `/api/Project/UserProjects/${empId}`;
   const [projectList, setProjectList] = useState([]);
   const [projectModal, setProjectModal] = useState({});
   const [isEdit, setIsEdit] = useState(false);
@@ -25,13 +28,17 @@ const Project = () => {
 
   useEffect(() => {
     const apiCall = async () => {
-      let response = await api("get", url);
-      setProjectList(response);
+      if (role === "4") {
+        let response = await api("get", adminUrl);
+        setProjectList(response);
+      } else {
+        let response = await api("get", url);
+        setProjectList(response);
+      }
       setIsLoading(false);
     };
     apiCall();
-  }, [url]);
-  let role = localStorage.getItem("role");
+  }, [adminUrl]);
 
   const addOrEdit = (projectModal) => {
     const addurl = `/api/Project/addProject`;
@@ -40,7 +47,7 @@ const Project = () => {
       const apiCall = async () => {
         let response = await api("post", addurl, projectModal);
         if (response) {
-          let res = await api("get", url);
+          let res = await api("get", adminUrl);
           setProjectList(res);
         }
       };
@@ -49,7 +56,7 @@ const Project = () => {
       const updateurl = `/api/Project/UpdateProject/${projectModal.id}`;
       const apiCall = async () => {
         let response = await api("patch", updateurl, projectModal);
-        response = await api("get", url);
+        response = await api("get", adminUrl);
         setProjectList(response);
       };
       apiCall();
@@ -64,7 +71,7 @@ const Project = () => {
     const apiCall = async () => {
       let response = await api("delete", deleteurl);
       if (response) {
-        let res = await api("get", url);
+        let res = await api("get", adminUrl);
         setProjectList(res);
       }
     };
@@ -137,28 +144,30 @@ const Project = () => {
                         <Text b>{project.name}</Text>
                       </Card.Header>
                       <Card.Divider />
-                      <Card.Body css={{ py: "$10" }}  onClick={() => projectOpen(project.id, project.name)} className="custom-icon">
-                        <Text>
-                        Project ID: {project.id}
-                        </Text>
+                      <Card.Body
+                        css={{ py: "$10" }}
+                        onClick={() => projectOpen(project.id, project.name)}
+                        className="custom-icon"
+                      >
+                        <Text>Project ID: {project.id}</Text>
                       </Card.Body>
                       <Card.Divider />
                       <Card.Footer>
                         <Row justify="flex-end">
-                        {role === "0" || role === "4" ? (
-                          <div>
-                            <Edit
-                              className="custom-icon"
-                              onClick={() => editProject(project)}
-                            />
-                            <Delete
-                              className="custom-icon"
-                              onClick={() => deleteProject(project)}
-                            />
-                          </div>
-                        ) : (
-                          <></>
-                        )}
+                          {role === "0" || role === "4" ? (
+                            <div>
+                              <Edit
+                                className="custom-icon"
+                                onClick={() => editProject(project)}
+                              />
+                              <Delete
+                                className="custom-icon"
+                                onClick={() => deleteProject(project)}
+                              />
+                            </div>
+                          ) : (
+                            <></>
+                          )}
                         </Row>
                       </Card.Footer>
                     </Card>

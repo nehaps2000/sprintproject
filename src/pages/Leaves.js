@@ -173,7 +173,7 @@ const Leaves = () => {
         .find((sprint) => sprint.name === getdata)
         ?.endDate.toString()
         .split("T")[0];
-     
+
       let sum = 0;
       let employeeData = {};
 
@@ -324,6 +324,7 @@ const Leaves = () => {
                 name="leaveDate"
                 value={leaveModal.leaveDate}
                 onChange={handleChange}
+                disabled
               ></input>
               <Form.Label>Hours</Form.Label>
               <input
