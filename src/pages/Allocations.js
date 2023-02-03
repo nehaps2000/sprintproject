@@ -138,7 +138,7 @@ const Allocations = () => {
     setAllocationModal((prev) => ({
       ...prev,
       [name]: value,
-      employeeId: allEmployees.find((e) => e.name.trim() === value)?.employeeId,
+      resourceId: allEmployees.find((e) => e.name.trim() === value)?.id,
     }));
   };
 
@@ -187,7 +187,7 @@ const Allocations = () => {
                           <td>{allocation.id}</td>
                           <td>{allocation.projectId}</td>
                           <td> {allocation.name}</td>
-                          <td> {allocation.resourceId}</td>
+                          <td> {allocation.employeeId}</td>
                           <td> {allocation.teamId}</td>
                           <td> {allocation.teamName}</td>
                           {/* <td> {allocation.hoursPerDay}</td> */}
@@ -251,10 +251,10 @@ const Allocations = () => {
               </select>
 
               <br></br>
-              <Form.Label>EmployeeId</Form.Label>
+              <Form.Label>ResourseId</Form.Label>
               <input
-                name="employeeId"
-                value={allocationModal.employeeId || ""}
+                name="resourceId"
+                value={allocationModal.resourceId || ""}
                 onChange={handleChange}
               ></input>
               <br></br>
